@@ -45,8 +45,8 @@ export const Process: React.FC<ProcessProps> = ({ onOpenDetails }) => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
           
-          {/* Sticky Left Sidebar */}
-          <div className="lg:w-1/3 sticky top-24 self-start">
+          {/* Sidebar - Sticky removed */}
+          <div className="lg:w-1/3 self-start">
             <span className="text-xs font-semibold tracking-wider uppercase text-wood-500">Process</span>
             <h2 className="text-4xl md:text-5xl font-serif italic mt-3 mb-6 text-wood-900">How it works, <br />step by step.</h2>
             <p className="text-wood-600 mb-8 text-sm leading-relaxed">
