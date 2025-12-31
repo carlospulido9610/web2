@@ -9,7 +9,6 @@ export const Hero: React.FC = () => {
         <img 
           src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=2560&auto=format&fit=crop" 
           alt="Modern Concrete Living Room" 
-          // Adjusted image opacity to 70% to help text readability
           className="w-full h-full object-cover opacity-70"
         />
         {/* Gradient Overlay */}
