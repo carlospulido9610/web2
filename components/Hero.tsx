@@ -9,13 +9,10 @@ export const Hero: React.FC = () => {
         <img 
           src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=2560&auto=format&fit=crop" 
           alt="Modern Concrete Living Room" 
-          // Adjusted image opacity to 70% (was 80%) to help text readability
+          // Adjusted image opacity to 70% to help text readability
           className="w-full h-full object-cover opacity-70"
         />
-        {/* Gradient Overlay - Increased opacity slightly per request */}
-        {/* Top: 80% opacity (was 70%) */}
-        {/* Middle: 60% opacity (was 40%) */}
-        {/* Bottom: Solid transition to next section */}
+        {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-wood-50/80 via-wood-50/60 to-wood-50"></div>
         {/* Light texture blend for grain */}
         <div className="absolute inset-0 bg-wood-50/20 mix-blend-overlay"></div>
@@ -25,16 +22,16 @@ export const Hero: React.FC = () => {
         {/* Main Title - Dark Text */}
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-medium mb-6 leading-[1.1] text-wood-900 drop-shadow-sm max-w-5xl">
           Raval is a Room <br className="hidden md:block" />
-          <span className="italic text-wood-500 font-light">Transformation Company</span>
+          <span className="italic text-wood-600 font-light">Transformation Company</span>
         </h1>
         
-        {/* Subtitle - Muted Dark Text */}
-        <h2 className="text-xl md:text-3xl font-serif text-wood-600 mb-8 font-light tracking-wide max-w-3xl">
+        {/* Subtitle - Darker Text (Changed from wood-600 to wood-800) */}
+        <h2 className="text-xl md:text-3xl font-serif text-wood-800 mb-8 font-light tracking-wide max-w-3xl">
           Built around custom built-ins & media walls.
         </h2>
         
-        {/* Description - Dark Text */}
-        <p className="text-base md:text-lg text-wood-800 max-w-2xl mx-auto mb-12 font-medium leading-relaxed opacity-90">
+        {/* Description - Darkest Text (Changed from wood-800 to wood-900 and removed opacity) */}
+        <p className="text-base md:text-lg text-wood-900 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
           We help you decide what truly works for your home, your personal taste, and how you plan to use the property over time.
         </p>
         
