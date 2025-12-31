@@ -24,12 +24,12 @@ export const Hero: React.FC = () => {
           <span className="italic text-wood-600 font-light">Transformation Company</span>
         </h1>
         
-        {/* Subtitle - Darker Text (Changed from wood-600 to wood-800) */}
+        {/* Subtitle - Darker Text for better contrast */}
         <h2 className="text-xl md:text-3xl font-serif text-wood-800 mb-8 font-light tracking-wide max-w-3xl">
           Built around custom built-ins & media walls.
         </h2>
         
-        {/* Description - Darkest Text (Changed from wood-800 to wood-900 and removed opacity) */}
+        {/* Description - Darkest Text for best readability */}
         <p className="text-base md:text-lg text-wood-900 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
           We help you decide what truly works for your home, your personal taste, and how you plan to use the property over time.
         </p>
