@@ -49,7 +49,7 @@ export const Process: React.FC = () => {
               We've streamlined the renovation experience to be predictable, clean, and professional.
             </p>
             <a href="#faq" className="inline-flex items-center text-sm font-medium text-wood-900 border-b border-wood-300 pb-1 hover:border-wood-900 transition-colors">
-              Read FAQ <ArrowRight size={16} className="ml-2" />
+              View the full process and FAQ <ArrowRight size={16} className="ml-2" />
             </a>
           </div>
 
