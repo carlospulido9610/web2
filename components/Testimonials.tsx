@@ -39,6 +39,7 @@ export const Testimonials: React.FC = () => {
   const [isDown, setIsDown] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!sliderRef.current) return;
@@ -61,6 +62,13 @@ export const Testimonials: React.FC = () => {
     const x = e.pageX - sliderRef.current.offsetLeft;
     const walk = (x - startX) * 1.5; // Scroll speed
     sliderRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    // Hide hand animation if user swipes significantly
+    if (!hasInteracted && e.currentTarget.scrollLeft > 20) {
+      setHasInteracted(true);
+    }
   };
 
   return (
@@ -88,7 +96,7 @@ export const Testimonials: React.FC = () => {
       <div className="w-full relative">
         
         {/* Animated Swipe Hint (Mobile Only) */}
-        <div className="md:hidden absolute bottom-32 right-8 z-20 pointer-events-none flex flex-col items-center gap-2 opacity-80 mix-blend-difference text-white">
+        <div className={`md:hidden absolute bottom-32 right-8 z-20 pointer-events-none flex flex-col items-center gap-2 mix-blend-difference text-white transition-opacity duration-700 ${hasInteracted ? 'opacity-0' : 'opacity-80'}`}>
           <Hand className="w-8 h-8 animate-swipe-hand" />
           <span className="text-[10px] font-bold uppercase tracking-widest">Swipe</span>
         </div>
@@ -100,6 +108,7 @@ export const Testimonials: React.FC = () => {
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
+          onScroll={handleScroll}
           className={`flex overflow-x-auto gap-0 md:gap-8 px-0 md:px-12 pb-0 md:pb-12 scrollbar-hide cursor-grab active:cursor-grabbing ${
             isDown ? '' : 'snap-x snap-mandatory'
           }`}

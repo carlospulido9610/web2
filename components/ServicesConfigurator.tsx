@@ -79,6 +79,7 @@ const MODELS_DATA: Record<CategoryId, ModelItem[]> = {
 export const ServicesConfigurator: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryId>('media-wall');
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [hasInteracted, setHasInteracted] = useState(false);
   
   // Drag to scroll logic
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -114,6 +115,11 @@ export const ServicesConfigurator: React.FC = () => {
     const { scrollLeft, scrollWidth, clientWidth } = e.currentTarget;
     const progress = (scrollLeft / (scrollWidth - clientWidth)) * 100;
     setScrollProgress(progress);
+
+    // Hide hand animation if user swipes significantly
+    if (!hasInteracted && scrollLeft > 20) {
+      setHasInteracted(true);
+    }
   };
 
   return (
@@ -162,7 +168,7 @@ export const ServicesConfigurator: React.FC = () => {
         <div className="relative -mx-6 md:mx-0">
           
           {/* Animated Swipe Hint (Mobile Only) */}
-          <div className="md:hidden absolute bottom-32 right-8 z-20 pointer-events-none flex flex-col items-center gap-2 opacity-80 mix-blend-difference text-white">
+          <div className={`md:hidden absolute bottom-32 right-8 z-20 pointer-events-none flex flex-col items-center gap-2 mix-blend-difference text-white transition-opacity duration-700 ${hasInteracted ? 'opacity-0' : 'opacity-80'}`}>
             <Hand className="w-8 h-8 animate-swipe-hand" />
             <span className="text-[10px] font-bold uppercase tracking-widest">Swipe</span>
           </div>
