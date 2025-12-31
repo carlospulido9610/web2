@@ -18,7 +18,7 @@ const MODELS_DATA: Record<CategoryId, ModelItem[]> = {
       name: 'The Floating Oak',
       price: 4500,
       description: 'Minimalist floating console with integrated LED lighting and acoustic slat backing.',
-      image: 'https://images.unsplash.com/photo-1556020685-ae79c95edfbc?auto=format&fit=crop&q=80&w=1200'
+      image: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?auto=format&fit=crop&q=80&w=1200'
     },
     {
       id: 'mw-2',
@@ -41,7 +41,7 @@ const MODELS_DATA: Record<CategoryId, ModelItem[]> = {
       name: 'Modern Linear',
       price: 3800,
       description: 'Sleek panoramic electric fireplace insert with micro-cement finish surround.',
-      image: 'https://images.unsplash.com/photo-1510627489930-0c1b0dc58e85?auto=format&fit=crop&q=80&w=1200'
+      image: 'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&q=80&w=1200'
     },
     {
       id: 'fp-2',
@@ -64,7 +64,7 @@ const MODELS_DATA: Record<CategoryId, ModelItem[]> = {
       name: 'The Cathedral',
       price: 8500,
       description: 'Grand scale joinery designed specifically for double-height voids.',
-      image: 'https://images.unsplash.com/photo-1600566752355-35792bedcfe1?auto=format&fit=crop&q=80&w=1200'
+      image: 'https://images.unsplash.com/photo-1600210491369-e753d80a41f3?auto=format&fit=crop&q=80&w=1200'
     },
     {
       id: 'hc-2',
