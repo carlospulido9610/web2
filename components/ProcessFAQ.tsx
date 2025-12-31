@@ -321,66 +321,66 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
     <div className="bg-wood-50 min-h-screen animate-fade-in-up">
       
       {/* --- HERO SECTION --- */}
-      <div className="bg-wood-900 text-wood-50 pt-32 pb-20 px-6">
+      <div className="bg-wood-900 text-wood-50 pt-24 pb-12 md:pt-32 md:pb-20 px-6">
         <div className="max-w-7xl mx-auto">
           <button 
             onClick={onBack}
-            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-wood-400 hover:text-white transition-colors mb-8"
+            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-wood-400 hover:text-white transition-colors mb-6 md:mb-8"
           >
             <ArrowLeft size={16} />
             Back to Home
           </button>
           
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-serif mb-6">Process & <span className="italic text-wood-300">Frequently Asked Questions</span></h1>
-            <p className="text-wood-200 text-lg font-light max-w-2xl leading-relaxed">
+            <h1 className="text-3xl md:text-6xl font-serif mb-4 md:mb-6">Process & <span className="italic text-wood-300">Frequently Asked Questions</span></h1>
+            <p className="text-wood-200 text-base md:text-lg font-light max-w-2xl leading-relaxed">
               Transparency is the foundation of our business. Here is a detailed look at our workflow and answers to everything you need to know.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-20">
+      <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
         
         {/* --- PART 1: PROCESS (Vertical Detailed Layout) --- */}
-        <div className="mb-32">
-          <h3 className="text-2xl font-serif text-wood-900 flex items-center gap-3 mb-12">
+        <div className="mb-20 md:mb-32">
+          <h3 className="text-xl md:text-2xl font-serif text-wood-900 flex items-center gap-3 mb-8 md:mb-12">
             <FileText className="text-wood-400" />
             Detailed Workflow
           </h3>
           
-          <div className="space-y-16">
+          <div className="space-y-8 md:space-y-16">
             {DETAILED_STEPS.map((step, index) => (
-              <div key={step.number} className="relative flex gap-8">
+              <div key={step.number} className="relative flex gap-4 md:gap-8">
                 
                 {/* Number Column */}
                 <div className="flex flex-col items-center">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-wood-900 text-wood-50 font-serif text-xl z-10">
+                  <div className="flex items-center justify-center w-8 h-8 md:w-12 md:h-12 rounded-full bg-wood-900 text-wood-50 font-serif text-sm md:text-xl z-10 shrink-0">
                     {step.number}
                   </div>
                   {/* Line connector */}
                   {index !== DETAILED_STEPS.length - 1 && (
-                    <div className="w-px h-full bg-wood-300 my-4"></div>
+                    <div className="w-px h-full bg-wood-300 my-2 md:my-4"></div>
                   )}
                 </div>
 
                 {/* Content Column */}
                 <div className="pb-4 w-full">
-                  <h4 className="text-3xl font-serif text-wood-900 mb-4">{step.title}</h4>
+                  <h4 className="text-xl md:text-3xl font-serif text-wood-900 mb-2 md:mb-4 leading-tight">{step.title}</h4>
                   
                   {step.description && (
-                    <p className="text-wood-600 text-lg font-light leading-relaxed max-w-3xl mb-6">
+                    <p className="text-wood-600 text-sm md:text-lg font-light leading-relaxed max-w-3xl mb-4 md:mb-6">
                       {step.description}
                     </p>
                   )}
 
                   {/* Sub Options (Step 1 Special Layout) */}
                   {step.subOptions && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 mt-4 md:mt-6">
                       {step.subOptions.map((opt, i) => (
-                        <div key={i} className="bg-white p-6 border border-wood-200 rounded-sm shadow-sm hover:shadow-md transition-shadow">
-                          <h5 className="font-bold text-wood-900 mb-3 text-sm uppercase tracking-wide">{opt.title}</h5>
-                          <p className="text-sm text-wood-600 leading-relaxed">{opt.content}</p>
+                        <div key={i} className="bg-white p-4 md:p-6 border border-wood-200 rounded-sm shadow-sm hover:shadow-md transition-shadow">
+                          <h5 className="font-bold text-wood-900 mb-2 md:mb-3 text-xs md:text-sm uppercase tracking-wide">{opt.title}</h5>
+                          <p className="text-xs md:text-sm text-wood-600 leading-relaxed">{opt.content}</p>
                         </div>
                       ))}
                     </div>
@@ -388,11 +388,11 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
 
                   {/* Lists (Step 2 Special Layout) */}
                   {step.listItems && (
-                    <div className="bg-wood-100/50 p-6 rounded-sm border border-wood-200 max-w-2xl">
-                      <p className="text-xs font-bold uppercase tracking-widest text-wood-500 mb-4">What's included in the quote:</p>
-                      <ul className="space-y-3">
+                    <div className="bg-wood-100/50 p-4 md:p-6 rounded-sm border border-wood-200 max-w-2xl mt-2 md:mt-0">
+                      <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-wood-500 mb-3 md:mb-4">What's included in the quote:</p>
+                      <ul className="space-y-2 md:space-y-3">
                         {step.listItems.map((item, i) => (
-                          <li key={i} className="flex items-start gap-3 text-wood-800 text-sm">
+                          <li key={i} className="flex items-start gap-3 text-wood-800 text-xs md:text-sm">
                             <CheckCircle2 size={16} className="shrink-0 text-wood-400 mt-0.5" />
                             {item}
                           </li>
@@ -403,7 +403,7 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
 
                   {/* Footer Text */}
                   {step.footer && (
-                    <div className="mt-4 p-4 bg-wood-50 border-l-2 border-wood-400 text-wood-700 text-sm italic">
+                    <div className="mt-3 md:mt-4 p-3 md:p-4 bg-wood-50 border-l-2 border-wood-400 text-wood-700 text-xs md:text-sm italic">
                       {step.footer}
                     </div>
                   )}
@@ -413,13 +413,13 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
           </div>
 
           {/* Guarantee Box */}
-          <div className="bg-wood-900 text-wood-100 p-8 md:p-12 rounded-sm mt-20 flex flex-col md:flex-row gap-8 items-center border border-wood-800">
-             <div className="shrink-0 p-4 bg-wood-800 rounded-full text-wood-300">
-               <ShieldCheck size={32} />
+          <div className="bg-wood-900 text-wood-100 p-6 md:p-12 rounded-sm mt-12 md:mt-20 flex flex-col md:flex-row gap-6 md:gap-8 items-center border border-wood-800">
+             <div className="shrink-0 p-3 md:p-4 bg-wood-800 rounded-full text-wood-300">
+               <ShieldCheck size={28} className="md:w-8 md:h-8" />
              </div>
              <div>
-                <h4 className="font-serif text-2xl text-wood-50 mb-3">Our Guarantee</h4>
-                <p className="text-wood-300 leading-relaxed max-w-3xl font-light">
+                <h4 className="font-serif text-xl md:text-2xl text-wood-50 mb-2 md:mb-3">Our Guarantee</h4>
+                <p className="text-wood-300 text-sm md:text-base leading-relaxed max-w-3xl font-light">
                   We guarantee our joinery for 10 years against structural defects. Hardware (hinges, drawer slides) carries a lifetime warranty from the manufacturer (Blum or Hettich).
                 </p>
              </div>
@@ -428,13 +428,13 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
 
 
         {/* --- PART 2: FAQ SECTION --- */}
-        <div id="faq" className="scroll-mt-24 pt-12 border-t border-wood-200">
-           <h3 className="text-3xl font-serif text-wood-900 flex items-center gap-3 mb-12">
+        <div id="faq" className="scroll-mt-24 pt-8 md:pt-12 border-t border-wood-200">
+           <h3 className="text-2xl md:text-3xl font-serif text-wood-900 flex items-center gap-3 mb-8 md:mb-12">
             <HelpCircle className="text-wood-400" />
             Common Questions
           </h3>
 
-          <div className="flex flex-col lg:flex-row gap-12">
+          <div className="flex flex-col lg:flex-row gap-8 md:gap-12">
             
             {/* Left: Sticky Categories */}
             <div className="lg:w-1/4">
@@ -443,7 +443,7 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
                   <button
                     key={cat.id}
                     onClick={() => handleTabChange(cat.id)}
-                    className={`shrink-0 text-left px-5 py-3 rounded-sm text-xs font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-between group ${
+                    className={`shrink-0 text-left px-4 py-2 md:px-5 md:py-3 rounded-sm text-xs font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-between group ${
                       activeTab === cat.id
                         ? 'bg-wood-900 text-wood-50 shadow-md transform scale-105 lg:translate-x-2'
                         : 'bg-white text-wood-400 hover:bg-wood-50 hover:text-wood-900 border border-wood-100'
@@ -468,13 +468,13 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
                     >
                       <button 
                         onClick={() => handleToggleFaq(index)}
-                        className="w-full flex items-start justify-between p-6 text-left focus:outline-none"
+                        className="w-full flex items-start justify-between p-4 md:p-6 text-left focus:outline-none"
                       >
-                        <span className={`font-medium pr-8 text-base md:text-lg leading-snug transition-colors ${isOpen ? 'text-wood-900' : 'text-wood-700'}`}>
+                        <span className={`font-medium pr-4 md:pr-8 text-sm md:text-base lg:text-lg leading-snug transition-colors ${isOpen ? 'text-wood-900' : 'text-wood-700'}`}>
                           {faq.question}
                         </span>
                         <div className={`shrink-0 mt-1 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-                          {isOpen ? <Minus size={20} className="text-wood-900" /> : <Plus size={20} className="text-wood-400" />}
+                          {isOpen ? <Minus size={18} className="text-wood-900 md:w-5 md:h-5" /> : <Plus size={18} className="text-wood-400 md:w-5 md:h-5" />}
                         </div>
                       </button>
                       
@@ -484,7 +484,7 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
                         }`}
                       >
                         <div className="overflow-hidden">
-                          <div className="px-6 pb-8 pt-0 text-sm md:text-base text-wood-600 leading-relaxed font-light">
+                          <div className="px-4 md:px-6 pb-6 md:pb-8 pt-0 text-xs md:text-base text-wood-600 leading-relaxed font-light">
                             {faq.answer}
                           </div>
                         </div>

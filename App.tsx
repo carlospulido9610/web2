@@ -20,7 +20,7 @@ function App() {
   }, [currentView]);
 
   return (
-    <main className="w-full overflow-hidden">
+    <main className="w-full min-h-screen relative">
       {/* Global noise texture overlay */}
       <div className="fixed inset-0 z-0 pointer-events-none bg-noise opacity-40 mix-blend-overlay"></div>
       

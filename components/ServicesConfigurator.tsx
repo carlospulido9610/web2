@@ -80,12 +80,31 @@ export const ServicesConfigurator: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryId>('media-wall');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   
   // Drag to scroll logic
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDown, setIsDown] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+
+  // Handle Category Change
+  const handleCategoryChange = (catId: CategoryId) => {
+    if (activeCategory === catId) return;
+    
+    setIsAnimating(true);
+    
+    // Slight delay to allow fade out, then switch data and reset scroll
+    setTimeout(() => {
+      setActiveCategory(catId);
+      if (sliderRef.current) {
+        sliderRef.current.scrollLeft = 0;
+        setScrollProgress(0);
+      }
+      // Fade back in
+      setTimeout(() => setIsAnimating(false), 50);
+    }, 200);
+  };
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!sliderRef.current) return;
@@ -123,49 +142,49 @@ export const ServicesConfigurator: React.FC = () => {
   };
 
   return (
-    <section id="models" className="py-24 bg-wood-50 relative z-10 scroll-mt-32 overflow-hidden">
+    <section id="models" className="py-24 bg-wood-50 relative z-10 scroll-mt-20">
+      
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         
-        {/* Header */}
-        <div className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="max-w-3xl">
-            <span className="text-xs font-semibold tracking-wider uppercase text-wood-500 mb-2 block">The Collection</span>
-            <h2 className="text-5xl md:text-7xl font-serif text-wood-900 mb-6">Signature Models</h2>
-            <p className="text-wood-600 text-lg font-light leading-relaxed max-w-xl">
-              Architectural grade joinery designed for modern living. Browse our curated configurations, each adaptable to your specific dimensions and material preferences.
-            </p>
-          </div>
-          
-          <div className="hidden md:flex items-center gap-2 text-wood-400 text-sm pb-2">
-            <SlidersHorizontal size={16} />
-            <span>Swipe to explore</span>
-          </div>
+        {/* Header Text */}
+        <div className="mb-8">
+          <span className="text-xs font-semibold tracking-wider uppercase text-wood-500 mb-2 block">The Collection</span>
+          <h2 className="text-4xl md:text-6xl font-serif text-wood-900 mb-4">Signature Models</h2>
+          <p className="text-wood-600 text-base md:text-lg font-light leading-relaxed max-w-xl">
+            Architectural grade joinery. Browse our curated configurations, each adaptable to your specific dimensions.
+          </p>
         </div>
 
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap gap-3 mb-12 overflow-x-auto pb-4 md:pb-0 scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0">
-          {[
-            { id: 'fireplace', label: 'Fireplaces' },
-            { id: 'media-wall', label: 'Media Walls' },
-            { id: 'high-ceiling', label: 'High Ceiling' }
-          ].map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id as CategoryId)}
-              className={`whitespace-nowrap px-8 py-4 rounded-sm text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${
-                activeCategory === cat.id
-                  ? 'bg-wood-900 text-wood-50 border-wood-900 shadow-lg'
-                  : 'bg-transparent text-wood-900 border-wood-200 hover:border-wood-900 hover:bg-wood-100'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+        {/* 
+            MOVED FILTERS HERE 
+            Sticky container that sits below the text but sticks to top when scrolling.
+            Adjusted top value to clear the main navigation.
+        */}
+        <div className="sticky top-[72px] md:top-[96px] z-30 bg-wood-50/95 backdrop-blur-sm -mx-6 px-6 md:mx-0 md:px-0 py-4 mb-8 transition-all border-y border-wood-100/50 md:border-none md:bg-wood-50">
+           <div className="flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide pb-1">
+            {[
+              { id: 'fireplace', label: 'Fireplaces' },
+              { id: 'media-wall', label: 'Media Walls' },
+              { id: 'high-ceiling', label: 'High Ceiling' }
+            ].map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => handleCategoryChange(cat.id as CategoryId)}
+                className={`whitespace-nowrap px-6 py-3 rounded-sm text-[11px] md:text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${
+                  activeCategory === cat.id
+                    ? 'bg-wood-900 text-wood-50 border-wood-900 shadow-sm'
+                    : 'bg-white text-wood-500 border-wood-200 hover:border-wood-900 hover:text-wood-900 hover:bg-wood-100'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Carousel Container */}
         {/* Mobile: -mx-6 for full bleed. gap-0 for seamless story feel. */}
-        <div className="relative -mx-6 md:mx-0">
+        <div className="relative -mx-6 md:mx-0 min-h-[500px]">
           
           {/* Animated Swipe Hint (Mobile Only) */}
           <div className={`md:hidden absolute bottom-32 right-8 z-20 pointer-events-none flex flex-col items-center gap-2 mix-blend-difference text-white transition-opacity duration-700 ${hasInteracted ? 'opacity-0' : 'opacity-80'}`}>
@@ -180,7 +199,9 @@ export const ServicesConfigurator: React.FC = () => {
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
             onScroll={handleScroll}
-            className={`flex overflow-x-auto gap-0 md:gap-8 pb-0 md:pb-12 px-0 md:px-0 scrollbar-hide cursor-grab active:cursor-grabbing ${
+            className={`flex overflow-x-auto gap-0 md:gap-8 pb-0 md:pb-12 px-0 md:px-0 scrollbar-hide cursor-grab active:cursor-grabbing transition-opacity duration-300 ${
+              isAnimating ? 'opacity-0' : 'opacity-100'
+            } ${
               isDown ? '' : 'snap-x snap-mandatory' // Disable snap while dragging for smoothness
             }`}
           >
@@ -191,7 +212,7 @@ export const ServicesConfigurator: React.FC = () => {
                 // Immersive Mobile: w-[100vw] (Full Width), h-[75vh] (Taller), No gaps.
                 className="snap-center shrink-0 w-[100vw] md:w-[450px] lg:w-[500px] select-none"
               >
-                <div className="group relative h-[75vh] md:h-[600px] w-full bg-wood-200 md:rounded-sm overflow-hidden shadow-sm md:shadow-xl transition-shadow hover:shadow-2xl pointer-events-none md:pointer-events-auto">
+                <div className="group relative h-[70vh] md:h-[600px] w-full bg-wood-200 md:rounded-sm overflow-hidden shadow-sm md:shadow-xl transition-shadow hover:shadow-2xl pointer-events-none md:pointer-events-auto">
                   
                   {/* Background Image with Ken Burns Effect */}
                   <img 
@@ -232,7 +253,7 @@ export const ServicesConfigurator: React.FC = () => {
           </div>
           
           {/* Mobile Progress Bar (Visual Indicator) */}
-          <div className="md:hidden px-6 mt-6">
+          <div className={`md:hidden px-6 mt-6 transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
             <div className="w-full h-0.5 bg-wood-200 rounded-full overflow-hidden">
                <div 
                  className="h-full bg-wood-900 transition-all duration-300 ease-out"
