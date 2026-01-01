@@ -10,6 +10,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  // Handle Scroll Effect for Navbar transparency
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -17,6 +18,22 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Handle Body Scroll Lock when Mobile Menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      // Optional: Prevent iOS rubber-banding if needed, 
+      // but overflow: hidden usually suffices for the visual bug.
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    // Cleanup function to reset overflow when component unmounts
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -52,20 +69,21 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-wood-50/95 backdrop-blur-md border-b border-wood-200 py-3 shadow-sm' : 'bg-transparent py-6 md:py-8'}`}>
+    // Increased z-index to z-[100] to be absolutely sure it sits above all content
+    <nav className={`fixed top-0 w-full z-[100] transition-all duration-500 ${scrolled ? 'bg-wood-50/95 backdrop-blur-md border-b border-wood-200 py-3 shadow-sm' : 'bg-transparent py-6 md:py-8'}`}>
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex items-center justify-between">
         
-        {/* Logo - Always Dark for Light Theme */}
+        {/* Logo - Always visible and clickable */}
         <button 
           onClick={onNavigateHome}
-          className="relative z-50 group flex items-end gap-1"
+          className="relative z-[110] group flex items-end gap-1"
         >
           <span className="text-4xl md:text-5xl font-serif font-medium tracking-tighter transition-colors duration-300 leading-none text-wood-900">
             RAVAL
           </span>
         </button>
 
-        {/* Desktop Menu - Conditional based on view */}
+        {/* Desktop Menu - Hidden on Mobile */}
         <div className="hidden md:flex items-center gap-10">
           {isHome ? (
             <>
@@ -110,17 +128,17 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
           )}
         </div>
 
-        {/* Mobile Menu Button - Always Dark */}
+        {/* Mobile Menu Button - Z-Index 110 to stay above the overlay */}
         {isHome ? (
           <button 
-            className="md:hidden relative z-50 p-2 transition-colors text-wood-900"
+            className="md:hidden relative z-[110] p-2 transition-colors text-wood-900"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         ) : (
            <button 
-            className="md:hidden relative z-50 p-2 text-wood-900"
+            className="md:hidden relative z-[110] p-2 text-wood-900"
             onClick={onNavigateHome}
           >
             <ArrowLeft size={24} />
@@ -130,7 +148,10 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
 
       {/* Mobile Menu Overlay */}
       {isHome && (
-        <div className={`fixed inset-0 z-40 bg-wood-50 flex flex-col justify-center items-center gap-8 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div 
+            className={`fixed inset-0 z-[100] bg-wood-50 flex flex-col justify-center items-center gap-8 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+            style={{ height: '100dvh' }} // Use dynamic viewport height to fix mobile browser bar issues
+        >
           {navLinks.map((link) => (
             <a 
               key={link.name} 

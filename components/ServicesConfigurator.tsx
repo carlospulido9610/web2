@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { ArrowRight, SlidersHorizontal, ArrowUpRight, Hand } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, ChevronDown, Check } from 'lucide-react';
 
 type CategoryId = 'media-wall' | 'fireplace' | 'high-ceiling';
 
@@ -76,35 +76,32 @@ const MODELS_DATA: Record<CategoryId, ModelItem[]> = {
   ]
 };
 
-export const ServicesConfigurator: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<CategoryId>('media-wall');
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [hasInteracted, setHasInteracted] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-  
-  // Drag to scroll logic
+const SECTIONS = [
+  { 
+    id: 'media-wall', 
+    label: 'Media Walls', 
+    description: 'Integrated entertainment centers designed to conceal wires and display what matters.' 
+  },
+  { 
+    id: 'fireplace', 
+    label: 'Fireplaces', 
+    description: 'Warmth meets modern architecture. Electric inserts with stone, wood, or micro-cement finishes.' 
+  },
+  { 
+    id: 'high-ceiling', 
+    label: 'High Ceiling', 
+    description: 'Dramatic verticality. Custom engineering for double-height living spaces.' 
+  }
+];
+
+// --- Sub-Component: Carousel Only ---
+const ModelCarousel: React.FC<{
+  models: ModelItem[];
+}> = ({ models }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDown, setIsDown] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-
-  // Handle Category Change
-  const handleCategoryChange = (catId: CategoryId) => {
-    if (activeCategory === catId) return;
-    
-    setIsAnimating(true);
-    
-    // Slight delay to allow fade out, then switch data and reset scroll
-    setTimeout(() => {
-      setActiveCategory(catId);
-      if (sliderRef.current) {
-        sliderRef.current.scrollLeft = 0;
-        setScrollProgress(0);
-      }
-      // Fade back in
-      setTimeout(() => setIsAnimating(false), 50);
-    }, 200);
-  };
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!sliderRef.current) return;
@@ -125,150 +122,161 @@ export const ServicesConfigurator: React.FC = () => {
     if (!isDown || !sliderRef.current) return;
     e.preventDefault();
     const x = e.pageX - sliderRef.current.offsetLeft;
-    const walk = (x - startX) * 1.5; // Scroll-fast multiplier
+    const walk = (x - startX) * 1.5;
     sliderRef.current.scrollLeft = scrollLeft - walk;
   };
 
-  // Calculate scroll progress for the bar
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const { scrollLeft, scrollWidth, clientWidth } = e.currentTarget;
-    const progress = (scrollLeft / (scrollWidth - clientWidth)) * 100;
-    setScrollProgress(progress);
+  return (
+    <div className="relative -mx-6 md:mx-0 animate-fade-in-up">
+      {/* Desktop Hint */}
+      <div className="hidden md:flex justify-end mb-4 px-1">
+         <div className="flex items-center gap-2 text-wood-400 text-xs font-bold uppercase tracking-widest">
+            <span>Drag to explore</span>
+            <ArrowRight size={14} />
+         </div>
+      </div>
 
-    // Hide hand animation if user swipes significantly
-    if (!hasInteracted && scrollLeft > 20) {
-      setHasInteracted(true);
-    }
-  };
+      <div 
+        ref={sliderRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        className={`flex overflow-x-auto gap-0 md:gap-8 pb-8 px-0 md:px-0 scrollbar-hide cursor-grab active:cursor-grabbing ${
+          isDown ? '' : 'snap-x snap-mandatory'
+        }`}
+      >
+        {models.map((model) => (
+          <div 
+            key={model.id}
+            className="snap-center shrink-0 w-[100vw] md:w-[450px] lg:w-[500px] select-none"
+          >
+            <div className="group relative h-[65vh] md:h-[600px] w-full bg-wood-200 md:rounded-sm overflow-hidden shadow-sm md:shadow-xl transition-shadow hover:shadow-2xl pointer-events-none md:pointer-events-auto border-r border-wood-50/10 md:border-none">
+              
+              {/* Background Image */}
+              <img 
+                src={model.image} 
+                alt={model.name} 
+                className="absolute inset-0 w-full h-full object-cover md:group-hover:scale-105 transition-transform duration-1000 pointer-events-none"
+              />
+              
+              {/* Overlay Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-wood-900 via-wood-900/40 to-transparent opacity-80 md:opacity-90"></div>
+
+              {/* Price Tag */}
+              <div className="absolute top-6 right-6 md:top-8 md:right-8 bg-wood-50/90 backdrop-blur-md px-4 py-2 md:px-5 md:py-3 rounded-sm shadow-lg z-10">
+                <span className="block text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-wood-500 mb-0.5">Starting at</span>
+                <span className="font-serif text-lg md:text-2xl text-wood-900">${model.price.toLocaleString()}</span>
+              </div>
+
+              {/* Content */}
+              <div className="absolute bottom-0 left-0 w-full p-8 md:p-10 flex flex-col items-start z-10">
+                <h4 className="text-3xl md:text-4xl font-serif text-wood-50 mb-3">{model.name}</h4>
+                <p className="text-wood-200 text-sm font-light leading-relaxed mb-8 max-w-md line-clamp-2 md:line-clamp-none">
+                  {model.description}
+                </p>
+                
+                <a 
+                  href="#contact"
+                  className="w-full md:w-auto px-6 py-4 bg-wood-50 text-wood-900 text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors flex items-center justify-center gap-3 rounded-sm pointer-events-auto"
+                >
+                  Customize
+                  <ArrowUpRight size={14} />
+                </a>
+              </div>
+
+            </div>
+          </div>
+        ))}
+        
+        {/* Spacer for right edge scrolling on Desktop */}
+        <div className="hidden md:block w-1 shrink-0"></div>
+      </div>
+    </div>
+  );
+};
+
+
+// --- Main Component ---
+export const ServicesConfigurator: React.FC = () => {
+  const [activeCategory, setActiveCategory] = useState<CategoryId>('media-wall');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const currentSection = SECTIONS.find(s => s.id === activeCategory) || SECTIONS[0];
 
   return (
     <section id="models" className="py-24 bg-wood-50 relative z-10 scroll-mt-20">
-      
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         
-        {/* Header Text */}
-        <div className="mb-8">
-          <span className="text-xs font-semibold tracking-wider uppercase text-wood-500 mb-2 block">The Collection</span>
-          <h2 className="text-4xl md:text-6xl font-serif text-wood-900 mb-4">Signature Models</h2>
-          <p className="text-wood-600 text-base md:text-lg font-light leading-relaxed max-w-xl">
-            Architectural grade joinery. Browse our curated configurations, each adaptable to your specific dimensions.
-          </p>
-        </div>
-
-        {/* 
-            MOVED FILTERS HERE 
-            Sticky container that sits below the text but sticks to top when scrolling.
-            Adjusted top value to clear the main navigation.
-        */}
-        <div className="sticky top-[72px] md:top-[96px] z-30 bg-wood-50/95 backdrop-blur-sm -mx-6 px-6 md:mx-0 md:px-0 py-4 mb-8 transition-all border-y border-wood-100/50 md:border-none md:bg-wood-50">
-           <div className="flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide pb-1">
-            {[
-              { id: 'fireplace', label: 'Fireplaces' },
-              { id: 'media-wall', label: 'Media Walls' },
-              { id: 'high-ceiling', label: 'High Ceiling' }
-            ].map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => handleCategoryChange(cat.id as CategoryId)}
-                className={`whitespace-nowrap px-6 py-3 rounded-sm text-[11px] md:text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${
-                  activeCategory === cat.id
-                    ? 'bg-wood-900 text-wood-50 border-wood-900 shadow-sm'
-                    : 'bg-white text-wood-500 border-wood-200 hover:border-wood-900 hover:text-wood-900 hover:bg-wood-100'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Carousel Container */}
-        {/* Mobile: -mx-6 for full bleed. gap-0 for seamless story feel. */}
-        <div className="relative -mx-6 md:mx-0 min-h-[500px]">
-          
-          {/* Animated Swipe Hint (Mobile Only) */}
-          <div className={`md:hidden absolute bottom-32 right-8 z-20 pointer-events-none flex flex-col items-center gap-2 mix-blend-difference text-white transition-opacity duration-700 ${hasInteracted ? 'opacity-0' : 'opacity-80'}`}>
-            <Hand className="w-8 h-8 animate-swipe-hand" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">Swipe</span>
-          </div>
-
-          <div 
-            ref={sliderRef}
-            onMouseDown={handleMouseDown}
-            onMouseLeave={handleMouseLeave}
-            onMouseUp={handleMouseUp}
-            onMouseMove={handleMouseMove}
-            onScroll={handleScroll}
-            className={`flex overflow-x-auto gap-0 md:gap-8 pb-0 md:pb-12 px-0 md:px-0 scrollbar-hide cursor-grab active:cursor-grabbing transition-opacity duration-300 ${
-              isAnimating ? 'opacity-0' : 'opacity-100'
-            } ${
-              isDown ? '' : 'snap-x snap-mandatory' // Disable snap while dragging for smoothness
-            }`}
-          >
+        {/* Header Section */}
+        <div className="mb-12">
+            <span className="text-xs font-semibold tracking-wider uppercase text-wood-500 mb-3 block">The Collection</span>
             
-            {MODELS_DATA[activeCategory].map((model) => (
-              <div 
-                key={model.id}
-                // Immersive Mobile: w-[100vw] (Full Width), h-[75vh] (Taller), No gaps.
-                className="snap-center shrink-0 w-[100vw] md:w-[450px] lg:w-[500px] select-none"
-              >
-                <div className="group relative h-[70vh] md:h-[600px] w-full bg-wood-200 md:rounded-sm overflow-hidden shadow-sm md:shadow-xl transition-shadow hover:shadow-2xl pointer-events-none md:pointer-events-auto">
-                  
-                  {/* Background Image with Ken Burns Effect */}
-                  <img 
-                    src={model.image} 
-                    alt={model.name} 
-                    className="absolute inset-0 w-full h-full object-cover animate-ken-burns pointer-events-none"
-                  />
-                  
-                  {/* Overlay Gradient - Darker at bottom for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-wood-900 via-wood-900/40 to-transparent opacity-90"></div>
-
-                  {/* Price Tag (Corner) */}
-                  <div className="absolute top-6 right-6 md:top-8 md:right-8 bg-wood-50/90 backdrop-blur-md px-5 py-3 rounded-sm shadow-lg z-10">
-                    <span className="block text-[10px] font-bold uppercase tracking-widest text-wood-500 mb-0.5">Starting at</span>
-                    <span className="font-serif text-xl md:text-2xl text-wood-900">${model.price.toLocaleString()}</span>
-                  </div>
-
-                  {/* Content (Bottom) */}
-                  <div className="absolute bottom-0 left-0 w-full p-8 md:p-10 flex flex-col items-start z-10">
-                    <h3 className="text-4xl md:text-4xl font-serif text-wood-50 mb-3">{model.name}</h3>
-                    <p className="text-wood-200 text-sm font-light leading-relaxed mb-8 max-w-md line-clamp-2 md:line-clamp-none">
-                      {model.description}
-                    </p>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+                <div>
+                    <h2 className="text-5xl md:text-7xl font-serif text-wood-900 mb-6 leading-none">
+                        Signature Models
+                    </h2>
                     
-                    <a 
-                      href="#contact"
-                      className="w-full md:w-auto px-8 py-4 bg-wood-50 text-wood-900 text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors flex items-center justify-center gap-3 rounded-sm pointer-events-auto"
-                    >
-                      Customize and quote
-                      <ArrowUpRight size={16} />
-                    </a>
-                  </div>
+                    {/* Minimalist Dropdown Selector */}
+                    <div className="relative inline-block text-left z-30">
+                        <button 
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className="group inline-flex items-center gap-3 text-xl md:text-2xl font-serif italic text-wood-600 hover:text-wood-900 transition-colors"
+                        >
+                            Viewing collection: 
+                            <span className="relative">
+                                <span className="not-italic font-sans font-bold uppercase tracking-widest text-xs md:text-sm border-b-2 border-wood-200 pb-1 group-hover:border-wood-900 transition-colors">
+                                    {currentSection.label}
+                                </span>
+                            </span>
+                            <ChevronDown size={20} className={`transition-transform duration-300 text-wood-400 group-hover:text-wood-900 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                        </button>
 
+                        {/* Dropdown Menu */}
+                        {isDropdownOpen && (
+                            <>
+                                <div className="fixed inset-0 z-10" onClick={() => setIsDropdownOpen(false)}></div>
+                                <div className="absolute left-0 mt-4 w-72 bg-white border border-wood-100 shadow-2xl rounded-sm z-20 animate-fade-in-up origin-top-left">
+                                    <div className="p-2">
+                                        {SECTIONS.map((section) => (
+                                            <button
+                                                key={section.id}
+                                                onClick={() => {
+                                                    setActiveCategory(section.id as CategoryId);
+                                                    setIsDropdownOpen(false);
+                                                }}
+                                                className={`w-full text-left px-5 py-4 text-xs font-bold uppercase tracking-widest flex items-center justify-between group transition-colors rounded-sm ${
+                                                    activeCategory === section.id 
+                                                    ? 'bg-wood-100 text-wood-900' 
+                                                    : 'hover:bg-wood-50 text-wood-500 hover:text-wood-900'
+                                                }`}
+                                            >
+                                                {section.label}
+                                                {activeCategory === section.id && <Check size={16} className="text-wood-900" />}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
-              </div>
-            ))}
-            
-          </div>
-          
-          {/* Mobile Progress Bar (Visual Indicator) */}
-          <div className={`md:hidden px-6 mt-6 transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
-            <div className="w-full h-0.5 bg-wood-200 rounded-full overflow-hidden">
-               <div 
-                 className="h-full bg-wood-900 transition-all duration-300 ease-out"
-                 style={{ width: `${Math.max(10, scrollProgress)}%` }} // Min width 10% visibility
-               ></div>
+
+                {/* Description of Current Section */}
+                <div className="max-w-md">
+                     <div key={activeCategory} className="animate-fade-in-up">
+                        <p className="text-wood-600 text-sm md:text-base font-light leading-relaxed border-l-2 border-wood-200 pl-4 md:pl-6">
+                            {currentSection.description}
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div className="flex justify-between items-center mt-2">
-                <span className="text-[10px] uppercase tracking-widest text-wood-400 font-bold">
-                    {activeCategory.replace('-', ' ')}
-                </span>
-                <span className="text-[10px] uppercase tracking-widest text-wood-400 flex items-center gap-1">
-                    Swipe to explore <ArrowRight size={10} />
-                </span>
-            </div>
-          </div>
+        </div>
+
+        {/* Dynamic Carousel Area */}
+        <div key={activeCategory}>
+             <ModelCarousel models={MODELS_DATA[activeCategory]} />
         </div>
 
       </div>
