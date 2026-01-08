@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { ArrowRight, ArrowUpRight, ChevronDown, Check } from 'lucide-react';
+import { ArrowRight, ChevronDown, Check, ArrowUpRight } from 'lucide-react';
 
 type CategoryId = 'media-wall' | 'fireplace' | 'high-ceiling';
 
@@ -8,7 +8,7 @@ interface ModelItem {
   name: string;
   price: number;
   image: string;
-  description: string;
+  description: string; 
 }
 
 const MODELS_DATA: Record<CategoryId, ModelItem[]> = {
@@ -142,47 +142,54 @@ const ModelCarousel: React.FC<{
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
-        className={`flex overflow-x-auto gap-0 md:gap-8 pb-8 px-0 md:px-0 scrollbar-hide cursor-grab active:cursor-grabbing ${
+        className={`flex overflow-x-auto gap-6 md:gap-8 pb-8 px-6 md:px-0 scrollbar-hide cursor-grab active:cursor-grabbing ${
           isDown ? '' : 'snap-x snap-mandatory'
         }`}
       >
         {models.map((model) => (
           <div 
             key={model.id}
-            className="snap-center shrink-0 w-[100vw] md:w-[450px] lg:w-[500px] select-none"
+            className="snap-center shrink-0 w-[90vw] md:w-[550px] lg:w-[600px] select-none"
           >
-            <div className="group relative h-[65vh] md:h-[600px] w-full bg-wood-200 md:rounded-sm overflow-hidden shadow-sm md:shadow-xl transition-shadow hover:shadow-2xl pointer-events-none md:pointer-events-auto border-r border-wood-50/10 md:border-none">
+            {/* Card Container - Taller and simpler */}
+            <div className="group relative h-[650px] w-full bg-wood-200 rounded-sm overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
               
               {/* Background Image */}
               <img 
                 src={model.image} 
                 alt={model.name} 
-                className="absolute inset-0 w-full h-full object-cover md:group-hover:scale-105 transition-transform duration-1000 pointer-events-none"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
               />
               
-              {/* Overlay Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-wood-900 via-wood-900/40 to-transparent opacity-80 md:opacity-90"></div>
+              {/* Overlay Gradient - Darker at bottom for white text */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
-              {/* Price Tag */}
-              <div className="absolute top-6 right-6 md:top-8 md:right-8 bg-wood-50/90 backdrop-blur-md px-4 py-2 md:px-5 md:py-3 rounded-sm shadow-lg z-10">
-                <span className="block text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-wood-500 mb-0.5">Starting at</span>
-                <span className="font-serif text-lg md:text-2xl text-wood-900">${model.price.toLocaleString()}</span>
+              {/* Price Tag (Top Right) - Solid Paper Style */}
+              <div className="absolute top-8 right-8 bg-wood-50 px-5 py-4 shadow-xl rounded-sm text-center min-w-[120px]">
+                <span className="block text-[10px] font-bold uppercase tracking-widest text-wood-500 mb-1">Starting at</span>
+                <span className="block font-serif text-3xl text-wood-900">${model.price}</span>
               </div>
 
-              {/* Content */}
-              <div className="absolute bottom-0 left-0 w-full p-8 md:p-10 flex flex-col items-start z-10">
-                <h4 className="text-3xl md:text-4xl font-serif text-wood-50 mb-3">{model.name}</h4>
-                <p className="text-wood-200 text-sm font-light leading-relaxed mb-8 max-w-md line-clamp-2 md:line-clamp-none">
+              {/* Content Area - Bottom Left */}
+              <div className="absolute bottom-0 left-0 w-full p-8 md:p-12 flex flex-col items-start z-10">
+                
+                <h3 className="text-4xl md:text-5xl font-serif text-white mb-3 shadow-sm leading-tight">
+                  {model.name}
+                </h3>
+                
+                <p className="text-wood-100 text-base font-light leading-relaxed mb-8 max-w-sm drop-shadow-md opacity-90">
                   {model.description}
                 </p>
                 
+                {/* Rectangular White Button */}
                 <a 
                   href="#contact"
-                  className="w-full md:w-auto px-6 py-4 bg-wood-50 text-wood-900 text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors flex items-center justify-center gap-3 rounded-sm pointer-events-auto"
+                  className="bg-wood-50 text-wood-900 px-6 py-4 text-xs font-bold uppercase tracking-[0.15em] hover:bg-white transition-colors flex items-center gap-3 rounded-sm shadow-xl group/btn"
                 >
-                  Customize
-                  <ArrowUpRight size={14} />
+                  Customize 
+                  <ArrowUpRight size={16} className="text-wood-900 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                 </a>
+
               </div>
 
             </div>

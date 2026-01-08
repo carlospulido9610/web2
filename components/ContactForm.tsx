@@ -129,7 +129,7 @@ export const ContactForm: React.FC = () => {
         <button 
           onClick={() => setBookingStep('details')}
           disabled={!selectedDate || !selectedTime}
-          className={`w-full py-4 mt-8 text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2
+          className={`w-full py-3.5 mt-8 text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2
             ${selectedDate && selectedTime 
               ? 'bg-wood-900 text-wood-50 hover:bg-wood-800' 
               : 'bg-wood-200 text-wood-400 cursor-not-allowed'}
@@ -275,7 +275,7 @@ export const ContactForm: React.FC = () => {
                     ></textarea>
                   </div>
 
-                  <button type="submit" className="w-full py-5 bg-wood-900 text-wood-50 text-xs font-bold uppercase tracking-widest hover:bg-wood-800 transition-colors mt-2 flex items-center justify-center gap-4 group">
+                  <button type="submit" className="w-full py-3.5 bg-wood-900 text-wood-50 text-xs font-bold uppercase tracking-widest hover:bg-wood-800 transition-colors mt-2 flex items-center justify-center gap-4 group">
                     Send Request
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform text-wood-300" />
                   </button>
@@ -329,7 +329,7 @@ export const ContactForm: React.FC = () => {
                             <input required type="tel" className="w-full bg-white border border-wood-300 p-3 text-wood-900 focus:outline-none focus:border-wood-900" />
                           </div>
                           
-                          <button type="submit" className="w-full py-4 bg-wood-900 text-wood-50 text-xs font-bold uppercase tracking-widest hover:bg-wood-800 transition-colors mt-auto flex items-center justify-center gap-2">
+                          <button type="submit" className="w-full py-3.5 bg-wood-900 text-wood-50 text-xs font-bold uppercase tracking-widest hover:bg-wood-800 transition-colors mt-auto flex items-center justify-center gap-2">
                             Confirm Appointment
                           </button>
                       </form>
