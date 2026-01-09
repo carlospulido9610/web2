@@ -20,36 +20,27 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Main Content Wrapper - Full Height */}
-      {/* Layout: flex-col. 
-          Mobile: pt-24 pb-8 to space out content. 
-          Desktop: justify-center to center content group vertically. */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-full flex flex-col items-center pt-24 pb-8 md:justify-center md:py-0 md:pt-0">
+      {/* Layout: Changed to justify-center to center everything vertically, removed excessive top padding dependency */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-full flex flex-col items-center justify-center pt-24 pb-8 md:pt-0">
         
         {/* TOP SECTION: Text Group 
-            Mobile: flex-1 takes all space, pushing buttons to bottom.
-            Desktop: md:flex-none allows it to shrink to fit content so it stays with buttons in center. */}
-        <div className="flex-1 md:flex-none flex flex-col justify-center items-center text-center animate-fade-in-up max-w-4xl mx-auto w-full">
-            {/* Top Label - Company Definition */}
-            <div className="mb-4 md:mb-6 backdrop-blur-md bg-white/10 px-4 py-1.5 rounded-full border border-white/20 shadow-lg">
-            <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-wood-50">
-                Raval is a Room Transformation Company
-            </span>
-            </div>
-
-            {/* Main Heading */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-medium mb-4 md:mb-6 leading-[1.1] text-white drop-shadow-2xl">
+            Changed: Removed flex-1 so it doesn't push buttons to the bottom edge. */}
+        <div className="flex-none flex flex-col justify-center items-center text-center animate-fade-in-up max-w-4xl mx-auto w-full">
+            
+            {/* Main Heading - Period removed */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-medium mb-6 leading-[1.1] text-white drop-shadow-2xl">
             Built around custom <br />
-            built-ins & media walls.
+            built-ins & media walls
             </h1>
 
-            {/* Subtext */}
-            <p className="text-sm md:text-lg font-medium text-wood-100/90 leading-relaxed max-w-2xl mx-auto drop-shadow-md tracking-wide">
-            We help you decide what truly works for your home, your personal taste, and how you plan to use the property over time.
+            {/* Sub-Description Text - Margin reduced to bring buttons closer (mb-6) */}
+            <p className="text-wood-100 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto mb-6 drop-shadow-lg px-4 opacity-90">
+                We help you decide what truly works for your home, your personal taste, and how you plan to use the property over time.
             </p>
         </div>
 
-        {/* BOTTOM SECTION: Hero Actions - Anchored at bottom with shrink-0 */}
-        <div className="w-full max-w-[380px] md:max-w-none md:w-auto shrink-0 flex flex-col md:flex-row gap-3 md:gap-6 animate-fade-in-up md:mt-10 items-center">
+        {/* BOTTOM SECTION: Hero Actions - Centered with the text group */}
+        <div className="w-full max-w-[380px] md:max-w-none md:w-auto shrink-0 flex flex-col md:flex-row gap-3 md:gap-6 animate-fade-in-up items-center">
             
             {/* Primary Action - Dark Wood Texture */}
             <a 

@@ -142,17 +142,17 @@ const ModelCarousel: React.FC<{
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
-        className={`flex overflow-x-auto gap-6 md:gap-8 pb-8 px-6 md:px-0 scrollbar-hide cursor-grab active:cursor-grabbing ${
+        className={`flex overflow-x-auto gap-0 md:gap-8 pb-0 md:pb-8 px-0 md:px-0 scrollbar-hide cursor-grab active:cursor-grabbing ${
           isDown ? '' : 'snap-x snap-mandatory'
         }`}
       >
         {models.map((model) => (
           <div 
             key={model.id}
-            className="snap-center shrink-0 w-[90vw] md:w-[550px] lg:w-[600px] select-none"
+            className="snap-center shrink-0 w-[100vw] md:w-[550px] lg:w-[600px] select-none"
           >
-            {/* Card Container - Taller and simpler */}
-            <div className="group relative h-[650px] w-full bg-wood-200 rounded-sm overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+            {/* Card Container - Immersive on mobile (80vh, no padding) */}
+            <div className="group relative h-[80vh] md:h-[650px] w-full bg-wood-200 md:rounded-sm overflow-hidden shadow-none md:shadow-lg hover:shadow-2xl transition-all duration-500">
               
               {/* Background Image */}
               <img 
@@ -165,28 +165,30 @@ const ModelCarousel: React.FC<{
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
               {/* Price Tag (Top Right) - Solid Paper Style */}
-              <div className="absolute top-8 right-8 bg-wood-50 px-5 py-4 shadow-xl rounded-sm text-center min-w-[120px]">
+              <div className="absolute top-6 right-6 md:top-8 md:right-8 bg-wood-50 px-4 py-3 md:px-5 md:py-4 shadow-xl rounded-sm text-center min-w-[100px] md:min-w-[120px]">
                 <span className="block text-[10px] font-bold uppercase tracking-widest text-wood-500 mb-1">Starting at</span>
-                <span className="block font-serif text-3xl text-wood-900">${model.price}</span>
+                <span className="block font-serif text-2xl md:text-3xl text-wood-900">${model.price}</span>
               </div>
 
               {/* Content Area - Bottom Left */}
-              <div className="absolute bottom-0 left-0 w-full p-8 md:p-12 flex flex-col items-start z-10">
+              <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 flex flex-col items-start z-10">
                 
-                <h3 className="text-4xl md:text-5xl font-serif text-white mb-3 shadow-sm leading-tight">
+                {/* Title visible on mobile again */}
+                <h3 className="block text-3xl md:text-5xl font-serif text-white mb-3 shadow-sm leading-tight">
                   {model.name}
                 </h3>
                 
-                <p className="text-wood-100 text-base font-light leading-relaxed mb-8 max-w-sm drop-shadow-md opacity-90">
+                {/* Description visible on mobile again */}
+                <p className="block text-wood-100 text-sm md:text-base font-light leading-relaxed mb-6 md:mb-8 max-w-sm drop-shadow-md opacity-90">
                   {model.description}
                 </p>
                 
                 {/* Rectangular White Button */}
                 <a 
                   href="#contact"
-                  className="bg-wood-50 text-wood-900 px-6 py-4 text-xs font-bold uppercase tracking-[0.15em] hover:bg-white transition-colors flex items-center gap-3 rounded-sm shadow-xl group/btn"
+                  className="w-full bg-wood-50 text-wood-900 px-6 py-4 text-xs font-bold uppercase tracking-[0.15em] hover:bg-white transition-colors flex items-center justify-center gap-3 rounded-sm shadow-xl group/btn"
                 >
-                  Customize 
+                  Customize and Quote
                   <ArrowUpRight size={16} className="text-wood-900 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                 </a>
 
@@ -212,7 +214,7 @@ export const ServicesConfigurator: React.FC = () => {
   const currentSection = SECTIONS.find(s => s.id === activeCategory) || SECTIONS[0];
 
   return (
-    <section id="models" className="py-24 bg-wood-50 relative z-10 scroll-mt-20">
+    <section id="models" className="py-12 md:py-24 bg-wood-50 relative z-10 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         
         {/* Header Section */}
@@ -267,15 +269,6 @@ export const ServicesConfigurator: React.FC = () => {
                                 </div>
                             </>
                         )}
-                    </div>
-                </div>
-
-                {/* Description of Current Section */}
-                <div className="max-w-md">
-                     <div key={activeCategory} className="animate-fade-in-up">
-                        <p className="text-wood-600 text-sm md:text-base font-light leading-relaxed border-l-2 border-wood-200 pl-4 md:pl-6">
-                            {currentSection.description}
-                        </p>
                     </div>
                 </div>
             </div>
