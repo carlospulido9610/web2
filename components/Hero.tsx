@@ -12,40 +12,42 @@ export const Hero: React.FC = () => {
           className="w-full h-full object-cover"
         />
         {/* Gradient Overlay: 
-            Top: Darker to ensure the white header text pops against ceiling/lights.
+            Top: Darker (from-black/60) to ensure the white header text pops against ceiling/lights.
             Middle: Semi-transparent to reveal the joinery detail.
-            Bottom: Very dark to anchor the buttons.
+            Bottom: Very dark (to-black/95) to anchor the buttons.
         */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/95"></div>
       </div>
 
-      {/* Main Content Wrapper - Full Height */}
-      {/* Layout: Changed to justify-center to center everything vertically, removed excessive top padding dependency */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-full flex flex-col items-center justify-center pt-24 pb-8 md:pt-0">
+      {/* Main Content Wrapper - Full Height 
+          Mobile: Increased pb to 72 (from 56) to shift optical center higher up.
+      */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-full flex flex-col items-center justify-center pt-0 pb-72 md:pt-0 md:pb-0">
         
         {/* TOP SECTION: Text Group 
-            Changed: Removed flex-1 so it doesn't push buttons to the bottom edge. */}
-        <div className="flex-none flex flex-col justify-center items-center text-center animate-fade-in-up max-w-4xl mx-auto w-full">
+            Desktop: Shifted up via negative margin (-mt-32)
+        */}
+        <div className="flex-none flex flex-col justify-center items-center text-center animate-fade-in-up max-w-5xl mx-auto w-full md:-mt-32">
             
-            {/* Main Heading - Period removed */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-medium mb-6 leading-[1.1] text-white drop-shadow-2xl">
-            Built around custom <br />
-            built-ins & media walls
+            {/* Main Heading */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-medium leading-[1.1] text-white drop-shadow-2xl">
+            Custom Media Walls <br />
+            & Built-In Rooms
             </h1>
 
-            {/* Sub-Description Text - Margin reduced to bring buttons closer (mb-6) */}
-            <p className="text-wood-100 text-base md:text-lg font-light leading-relaxed max-w-2xl mx-auto mb-6 drop-shadow-lg px-4 opacity-90">
-                We help you decide what truly works for your home, your personal taste, and how you plan to use the property over time.
-            </p>
+            {/* Slogan REMOVED */}
         </div>
 
-        {/* BOTTOM SECTION: Hero Actions - Centered with the text group */}
-        <div className="w-full max-w-[380px] md:max-w-none md:w-auto shrink-0 flex flex-col md:flex-row gap-3 md:gap-6 animate-fade-in-up items-center">
+        {/* BOTTOM SECTION: Hero Actions 
+            Mobile: Reduced top margin (mt-4) to reduce gap.
+            Desktop: Pushed down via margin (mt-48) relative to center.
+        */}
+        <div className="w-full max-w-[380px] md:max-w-none md:w-auto shrink-0 flex flex-col md:flex-row gap-2 md:gap-1 animate-fade-in-up mt-4 md:mt-48 items-center">
             
-            {/* Primary Action - Dark Wood Texture (wood-900) */}
+            {/* Primary Action - Dark Wood Texture */}
             <a 
               href="#models" 
-              className="w-full md:w-[340px] md:h-[104px] shrink-0 bg-wood-900 text-wood-50 px-6 py-3 rounded-sm shadow-2xl border border-white/10 hover:bg-wood-800 transition-all group text-center relative overflow-hidden flex flex-col justify-center"
+              className="w-full md:w-[340px] md:h-[104px] shrink-0 bg-[#1F1B18] text-wood-50 px-6 py-3 rounded-sm shadow-2xl border border-white/10 hover:bg-[#2C2622] transition-all group text-center relative overflow-hidden flex flex-col justify-center"
             >
               <div className="relative z-10 flex flex-col items-center gap-0.5 md:gap-1">
                 <div className="flex items-center gap-2">
@@ -59,23 +61,23 @@ export const Hero: React.FC = () => {
             </a>
 
             {/* Separator - Visible only on Mobile */}
-            <div className="flex md:hidden items-center gap-4 w-full px-8 opacity-100 py-2">
-                <div className="h-px bg-wood-200/50 flex-1 box-shadow-sm"></div>
-                <span className="text-wood-50 text-lg font-serif italic tracking-wide drop-shadow-md">Not sure?</span>
-                <div className="h-px bg-wood-200/50 flex-1 box-shadow-sm"></div>
+            <div className="flex md:hidden items-center gap-4 w-full px-8 opacity-80 py-0">
+                <div className="h-px bg-wood-200/30 flex-1 box-shadow-sm"></div>
+                <span className="text-wood-100 text-xs font-serif italic drop-shadow-md">Not sure?</span>
+                <div className="h-px bg-wood-200/30 flex-1 box-shadow-sm"></div>
             </div>
 
-            {/* Secondary Action - Light Stone/Paper Texture (wood-200) */}
+            {/* Secondary Action - Light Stone/Paper Texture */}
             <a 
               href="#contact" 
-              className="w-full md:w-[340px] md:h-[104px] shrink-0 bg-wood-200 text-wood-900 px-6 py-3 rounded-sm shadow-xl hover:bg-wood-100 transition-all group text-center relative flex flex-col justify-center"
+              className="w-full md:w-[340px] md:h-[104px] shrink-0 bg-[#EBE7DF] text-[#2A2622] px-6 py-3 rounded-sm shadow-xl hover:bg-[#F5F2EB] transition-all group text-center relative flex flex-col justify-center"
             >
                <div className="flex flex-col items-center gap-0.5 md:gap-1">
                 <div className="flex items-center gap-2">
                   <span className="font-serif text-xl md:text-2xl leading-none tracking-wide">Get Design Guidance</span>
-                  <ArrowRight size={18} className="text-wood-600 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={18} className="text-[#5C554F] group-hover:translate-x-1 transition-transform" />
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-wood-500 leading-tight">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B5D52] leading-tight">
                   Book a showroom or in-home consultation.
                 </span>
               </div>
