@@ -95,10 +95,10 @@ export const Testimonials: React.FC = () => {
       {/* Carousel Container (Full Width / Edge to Edge) */}
       <div className="w-full relative">
         
-        {/* Animated Swipe Hint (Mobile Only) */}
-        <div className={`md:hidden absolute bottom-32 right-8 z-20 pointer-events-none flex flex-col items-center gap-2 mix-blend-difference text-white transition-opacity duration-700 ${hasInteracted ? 'opacity-0' : 'opacity-80'}`}>
-          <Hand className="w-8 h-8 animate-swipe-hand" />
-          <span className="text-[10px] font-bold uppercase tracking-widest">Swipe</span>
+        {/* Animated Swipe Hint (Mobile Only) - Updated to match Models section style */}
+        <div className={`md:hidden absolute top-1/2 right-6 -translate-y-1/2 z-20 pointer-events-none flex flex-col items-center gap-2 text-white/90 transition-opacity duration-700 ${hasInteracted ? 'opacity-0' : 'opacity-100'}`}>
+          <Hand className="w-8 h-8 animate-swipe-hand drop-shadow-lg" />
+          <span className="text-[10px] font-bold uppercase tracking-widest drop-shadow-md">Swipe</span>
         </div>
 
         {/* Mobile: Removed padding (px-0) and gaps (gap-0) for immersive feel */}

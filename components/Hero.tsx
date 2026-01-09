@@ -12,9 +12,9 @@ export const Hero: React.FC = () => {
           className="w-full h-full object-cover"
         />
         {/* Gradient Overlay: 
-            Top: Darker (from-black/60) to ensure the white header text pops against ceiling/lights.
+            Top: Darker to ensure the white header text pops against ceiling/lights.
             Middle: Semi-transparent to reveal the joinery detail.
-            Bottom: Very dark (to-black/95) to anchor the buttons.
+            Bottom: Very dark to anchor the buttons.
         */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/95"></div>
       </div>
@@ -42,10 +42,10 @@ export const Hero: React.FC = () => {
         {/* BOTTOM SECTION: Hero Actions - Centered with the text group */}
         <div className="w-full max-w-[380px] md:max-w-none md:w-auto shrink-0 flex flex-col md:flex-row gap-3 md:gap-6 animate-fade-in-up items-center">
             
-            {/* Primary Action - Dark Wood Texture */}
+            {/* Primary Action - Dark Wood Texture (wood-900) */}
             <a 
               href="#models" 
-              className="w-full md:w-[340px] md:h-[104px] shrink-0 bg-[#1F1B18] text-wood-50 px-6 py-3 rounded-sm shadow-2xl border border-white/10 hover:bg-[#2C2622] transition-all group text-center relative overflow-hidden flex flex-col justify-center"
+              className="w-full md:w-[340px] md:h-[104px] shrink-0 bg-wood-900 text-wood-50 px-6 py-3 rounded-sm shadow-2xl border border-white/10 hover:bg-wood-800 transition-all group text-center relative overflow-hidden flex flex-col justify-center"
             >
               <div className="relative z-10 flex flex-col items-center gap-0.5 md:gap-1">
                 <div className="flex items-center gap-2">
@@ -65,17 +65,17 @@ export const Hero: React.FC = () => {
                 <div className="h-px bg-wood-200/30 flex-1 box-shadow-sm"></div>
             </div>
 
-            {/* Secondary Action - Light Stone/Paper Texture */}
+            {/* Secondary Action - Light Stone/Paper Texture (wood-200) */}
             <a 
               href="#contact" 
-              className="w-full md:w-[340px] md:h-[104px] shrink-0 bg-[#EBE7DF] text-[#2A2622] px-6 py-3 rounded-sm shadow-xl hover:bg-[#F5F2EB] transition-all group text-center relative flex flex-col justify-center"
+              className="w-full md:w-[340px] md:h-[104px] shrink-0 bg-wood-200 text-wood-900 px-6 py-3 rounded-sm shadow-xl hover:bg-wood-100 transition-all group text-center relative flex flex-col justify-center"
             >
                <div className="flex flex-col items-center gap-0.5 md:gap-1">
                 <div className="flex items-center gap-2">
                   <span className="font-serif text-xl md:text-2xl leading-none tracking-wide">Get Design Guidance</span>
-                  <ArrowRight size={18} className="text-[#5C554F] group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={18} className="text-wood-600 group-hover:translate-x-1 transition-transform" />
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B5D52] leading-tight">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-wood-500 leading-tight">
                   Book a showroom or in-home consultation.
                 </span>
               </div>

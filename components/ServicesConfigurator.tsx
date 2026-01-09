@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { ArrowRight, ChevronDown, Check, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ChevronDown, Check, ArrowUpRight, Hand } from 'lucide-react';
 
 type CategoryId = 'media-wall' | 'fireplace' | 'high-ceiling';
 
@@ -102,6 +102,7 @@ const ModelCarousel: React.FC<{
   const [isDown, setIsDown] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!sliderRef.current) return;
@@ -126,6 +127,13 @@ const ModelCarousel: React.FC<{
     sliderRef.current.scrollLeft = scrollLeft - walk;
   };
 
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    // Hide hand animation if user swipes significantly (more than 20px)
+    if (!hasInteracted && e.currentTarget.scrollLeft > 20) {
+      setHasInteracted(true);
+    }
+  };
+
   return (
     <div className="relative -mx-6 md:mx-0 animate-fade-in-up">
       {/* Desktop Hint */}
@@ -136,12 +144,19 @@ const ModelCarousel: React.FC<{
          </div>
       </div>
 
+      {/* Mobile Animated Swipe Hint */}
+      <div className={`md:hidden absolute top-1/2 right-6 -translate-y-1/2 z-20 pointer-events-none flex flex-col items-center gap-2 text-white/90 transition-opacity duration-700 ${hasInteracted ? 'opacity-0' : 'opacity-100'}`}>
+          <Hand className="w-8 h-8 animate-swipe-hand drop-shadow-lg" />
+          <span className="text-[10px] font-bold uppercase tracking-widest drop-shadow-md">Swipe</span>
+      </div>
+
       <div 
         ref={sliderRef}
         onMouseDown={handleMouseDown}
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
+        onScroll={handleScroll}
         className={`flex overflow-x-auto gap-0 md:gap-8 pb-0 md:pb-8 px-0 md:px-0 scrollbar-hide cursor-grab active:cursor-grabbing ${
           isDown ? '' : 'snap-x snap-mandatory'
         }`}
