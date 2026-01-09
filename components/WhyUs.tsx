@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Store, Hammer, UserCheck, Receipt, Box, Gem, Plus, Minus } from 'lucide-react';
 
@@ -50,19 +51,16 @@ export const WhyUs: React.FC = () => {
   return (
     <section id="why-us" className="py-20 bg-wood-50 relative z-10 scroll-mt-32">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-        
-        {/* Header */}
         <div className="mb-16 text-center max-w-4xl mx-auto">
           <span className="text-xs font-bold tracking-[0.2em] uppercase text-wood-400 mb-4 block">Our Values</span>
-          <h2 className="text-4xl md:text-7xl font-serif text-wood-900 mb-6 leading-[0.9]">
-            Why homeowners <span className="italic text-wood-500">trust us.</span>
+          <h2 className="text-4xl md:text-7xl font-extrabold text-wood-900 mb-6 leading-[0.9] tracking-tighter uppercase">
+            Why homeowners <span className="italic font-medium text-wood-500 lowercase">trust us.</span>
           </h2>
-          <p className="text-lg md:text-xl text-wood-600 font-light font-serif italic leading-relaxed max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-wood-600 font-medium leading-relaxed max-w-2xl mx-auto opacity-80">
             Renovating shouldn't be a gamble. We eliminate the risks.
           </p>
         </div>
 
-        {/* Compact Interactive Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {reasons.map((item, index) => {
             const isActive = activeIndex === index;
@@ -78,18 +76,15 @@ export const WhyUs: React.FC = () => {
                     : 'bg-white border-wood-200 hover:border-wood-400'
                 }`}
               >
-                  {/* Card Header (Always Visible) */}
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
                       <div className={`p-2.5 rounded-sm transition-colors duration-300 ${isActive ? 'bg-wood-800 text-wood-50' : 'bg-wood-100 text-wood-900'}`}>
-                        <Icon size={20} strokeWidth={1.5} />
+                        <Icon size={20} strokeWidth={2} />
                       </div>
-                      <h3 className={`text-xl font-serif leading-none transition-colors duration-300 ${isActive ? 'text-wood-50' : 'text-wood-900'}`}>
+                      <h3 className={`text-xl font-bold leading-none tracking-tight transition-colors duration-300 uppercase ${isActive ? 'text-wood-50' : 'text-wood-900'}`}>
                         {item.title}
                       </h3>
                     </div>
-                    
-                    {/* Toggle Icon */}
                     <div className={`transition-transform duration-300 ${isActive ? 'rotate-180' : 'rotate-0'}`}>
                        {isActive ? (
                          <Minus size={18} className="text-wood-400" />
@@ -99,13 +94,12 @@ export const WhyUs: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Expandable Content */}
                   <div className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isActive ? 'grid-rows-[1fr] pt-4' : 'grid-rows-[0fr] pt-0'}`}>
                     <div className="overflow-hidden">
-                      <p className={`text-[10px] font-bold uppercase tracking-widest mb-2 ${isActive ? 'text-wood-400' : 'text-wood-500'}`}>
+                      <p className={`text-[10px] font-black uppercase tracking-widest mb-2 ${isActive ? 'text-wood-400' : 'text-wood-500'}`}>
                         {item.subtitle}
                       </p>
-                      <p className={`text-sm leading-relaxed ${isActive ? 'text-wood-200' : 'text-wood-600'}`}>
+                      <p className={`text-sm leading-relaxed font-medium ${isActive ? 'text-wood-200' : 'text-wood-600'}`}>
                         {item.content}
                       </p>
                     </div>

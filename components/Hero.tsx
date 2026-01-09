@@ -1,98 +1,81 @@
+
 import React from 'react';
 import { ArrowRight, ArrowDown } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   return (
     <header className="relative w-full h-[100dvh] min-h-[700px] overflow-hidden bg-wood-900 text-wood-50">
-      {/* Background Image - Updated to a frontal, symmetrical luxury wood media wall */}
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img 
           src="https://images.unsplash.com/photo-1615529182904-14819c35db37?q=80&w=2560&auto=format&fit=crop" 
           alt="Luxury Media Wall with Built-ins" 
           className="w-full h-full object-cover"
         />
-        {/* Gradient Overlay: 
-            Top: Darker (from-black/60) to ensure the white header text pops against ceiling/lights.
-            Middle: Semi-transparent to reveal the joinery detail.
-            Bottom: Very dark (to-black/95) to anchor the buttons.
-        */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/95"></div>
+        <div className="absolute inset-0 bg-black/45"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
       </div>
 
-      {/* Main Content Wrapper - Full Height 
-          Mobile: Increased pb from 72 to 80 to shift content further up.
-      */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-full flex flex-col items-center justify-center pt-0 pb-80 md:pt-0 md:pb-0">
+      {/* Main Content Wrapper */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-full flex flex-col pt-12 pb-10 items-center justify-between">
         
-        {/* TOP SECTION: Text Group 
-            Desktop: Shifted up via negative margin (-mt-32)
-        */}
-        <div className="flex-none flex flex-col justify-center items-center text-center animate-fade-in-up max-w-5xl mx-auto w-full md:-mt-32">
-            
-            {/* Main Heading */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-medium leading-[1.1] text-white drop-shadow-2xl">
-            Custom Media Walls <br />
-            & Built-In Rooms
+        {/* TOP CONTENT: Textos - Eslogan aumentado para mejor sinergia */}
+        <div className="flex flex-col items-center text-center animate-fade-in-up mt-10 md:mt-14">
+            <h1 className="text-[34px] md:text-6xl lg:text-[76px] font-extrabold leading-[0.9] text-white tracking-tighter drop-shadow-sm mb-5 uppercase">
+              Custom Media Walls <br className="hidden md:block" />
+              <span className="text-white/95">& Built-In Rooms</span>
             </h1>
-
-            {/* Slogan REMOVED */}
+            <p className="text-[15px] md:text-xl font-semibold text-wood-50 tracking-tight opacity-100 max-w-lg leading-snug">
+              Designed to move beyond builder-grade
+            </p>
         </div>
 
-        {/* BOTTOM SECTION: Hero Actions 
-            Mobile: Reduced gap to gap-1 to bring buttons closer.
-            Desktop: Pushed down via margin (mt-48) relative to center.
-        */}
-        <div className="w-full max-w-[380px] md:max-w-none md:w-auto shrink-0 flex flex-col md:flex-row gap-1 md:gap-1 animate-fade-in-up mt-4 md:mt-48 items-center">
+        {/* BOTTOM CONTENT: Botones compactos y de tamaño idéntico */}
+        <div className="w-full max-w-[420px] flex flex-col items-center animate-fade-in-up mb-4">
             
-            {/* Primary Action - Dark Wood Texture */}
-            <a 
-              href="#models" 
-              className="w-full md:w-[340px] md:h-[104px] shrink-0 bg-[#1F1B18] text-wood-50 px-6 py-3 rounded-sm shadow-2xl border border-white/10 hover:bg-[#2C2622] transition-all group text-center relative overflow-hidden flex flex-col justify-center"
-            >
-              <div className="relative z-10 flex flex-col items-center gap-0.5 md:gap-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-serif text-xl md:text-2xl leading-none tracking-wide">Choose Your Design</span>
-                  <ArrowRight size={18} className="text-wood-300 group-hover:translate-x-1 transition-transform" />
-                </div>
-                <span className="text-[10px] font-medium text-wood-400 uppercase tracking-widest leading-tight">
-                  Adjust size, TV and layout. See pricing instantly.
-                </span>
-              </div>
-            </a>
+            <div className="w-full flex flex-col gap-0 items-center">
+                {/* Botón Principal (Negro) */}
+                <a 
+                  href="#models" 
+                  className="w-full bg-[#141210] text-white px-8 py-4 md:py-5 border border-white/10 hover:bg-[#1f1d1b] transition-all group flex flex-col items-center justify-center rounded-sm text-center shadow-2xl"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-base md:text-lg font-black uppercase tracking-tight">Choose Your Design</span>
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                  <span className="text-[8px] md:text-[9px] font-bold text-wood-400 uppercase tracking-[0.1em] mt-0.5 whitespace-nowrap">
+                    Adjust size, TV and layout. See pricing instantly
+                  </span>
+                </a>
 
-            {/* Separator - Visible only on Mobile 
-                Increased visibility of lines and opacity.
-            */}
-            <div className="flex md:hidden items-center gap-4 w-full px-8 opacity-90 py-1">
-                <div className="h-px bg-white/40 flex-1 box-shadow-sm"></div>
-                <span className="text-wood-100 text-xs font-serif italic drop-shadow-md">Not sure?</span>
-                <div className="h-px bg-white/40 flex-1 box-shadow-sm"></div>
+                {/* Separador con texto "NOT SURE?" */}
+                <div className="flex items-center justify-center py-1.5 w-full">
+                    <div className="h-px bg-white/20 flex-1"></div>
+                    <span className="text-white/50 text-[8px] font-black uppercase tracking-[0.3em] px-4">Not sure?</span>
+                    <div className="h-px bg-white/20 flex-1"></div>
+                </div>
+
+                {/* Botón Secundario (Beige) */}
+                <a 
+                  href="#contact" 
+                  className="w-full bg-[#E8E4DB] text-[#141210] px-8 py-4 md:py-5 hover:bg-[#F2EEE4] transition-all group flex flex-col items-center justify-center rounded-sm text-center shadow-2xl"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-base md:text-lg font-black uppercase tracking-tight">Get Design Guidance</span>
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                  <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.1em] text-[#6B5D52] mt-0.5 whitespace-nowrap">
+                    Book a showroom or in-home consultation
+                  </span>
+                </a>
             </div>
+        </div>
 
-            {/* Secondary Action - Light Stone/Paper Texture */}
-            <a 
-              href="#contact" 
-              className="w-full md:w-[340px] md:h-[104px] shrink-0 bg-[#EBE7DF] text-[#2A2622] px-6 py-3 rounded-sm shadow-xl hover:bg-[#F5F2EB] transition-all group text-center relative flex flex-col justify-center"
-            >
-               <div className="flex flex-col items-center gap-0.5 md:gap-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-serif text-xl md:text-2xl leading-none tracking-wide">Get Design Guidance</span>
-                  <ArrowRight size={18} className="text-[#5C554F] group-hover:translate-x-1 transition-transform" />
-                </div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B5D52] leading-tight">
-                  Book a showroom or in-home consultation.
-                </span>
-              </div>
-            </a>
-
+        {/* Floating Arrow */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 animate-bounce text-white/30 hidden md:block">
+            <ArrowDown size={18} />
         </div>
       </div>
-
-      {/* Scroll Indicator - Hidden on mobile, visible on desktop */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 animate-bounce text-wood-200 opacity-70 hidden md:block">
-        <ArrowDown size={24} />
-      </div>
-
     </header>
   );
 };
