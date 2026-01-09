@@ -34,7 +34,7 @@ export const Hero: React.FC = () => {
             </h1>
 
             {/* Sub-Description Text - Margin reduced to bring buttons closer (mb-6) */}
-            <p className="text-wood-100 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto mb-6 drop-shadow-lg px-4 opacity-90">
+            <p className="text-wood-100 text-base md:text-lg font-light leading-relaxed max-w-2xl mx-auto mb-6 drop-shadow-lg px-4 opacity-90">
                 We help you decide what truly works for your home, your personal taste, and how you plan to use the property over time.
             </p>
         </div>
@@ -59,10 +59,10 @@ export const Hero: React.FC = () => {
             </a>
 
             {/* Separator - Visible only on Mobile */}
-            <div className="flex md:hidden items-center gap-4 w-full px-8 opacity-80 py-0">
-                <div className="h-px bg-wood-200/30 flex-1 box-shadow-sm"></div>
-                <span className="text-wood-100 text-xs font-serif italic drop-shadow-md">Not sure?</span>
-                <div className="h-px bg-wood-200/30 flex-1 box-shadow-sm"></div>
+            <div className="flex md:hidden items-center gap-4 w-full px-8 opacity-100 py-2">
+                <div className="h-px bg-wood-200/50 flex-1 box-shadow-sm"></div>
+                <span className="text-wood-50 text-lg font-serif italic tracking-wide drop-shadow-md">Not sure?</span>
+                <div className="h-px bg-wood-200/50 flex-1 box-shadow-sm"></div>
             </div>
 
             {/* Secondary Action - Light Stone/Paper Texture (wood-200) */}
