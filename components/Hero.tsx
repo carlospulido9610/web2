@@ -20,9 +20,9 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Main Content Wrapper - Full Height 
-          Mobile: Increased pb to 72 (from 56) to shift optical center higher up.
+          Mobile: Increased pb from 72 to 80 to shift content further up.
       */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-full flex flex-col items-center justify-center pt-0 pb-72 md:pt-0 md:pb-0">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-full flex flex-col items-center justify-center pt-0 pb-80 md:pt-0 md:pb-0">
         
         {/* TOP SECTION: Text Group 
             Desktop: Shifted up via negative margin (-mt-32)
@@ -39,10 +39,10 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* BOTTOM SECTION: Hero Actions 
-            Mobile: Reduced top margin (mt-4) to reduce gap.
+            Mobile: Reduced gap to gap-1 to bring buttons closer.
             Desktop: Pushed down via margin (mt-48) relative to center.
         */}
-        <div className="w-full max-w-[380px] md:max-w-none md:w-auto shrink-0 flex flex-col md:flex-row gap-2 md:gap-1 animate-fade-in-up mt-4 md:mt-48 items-center">
+        <div className="w-full max-w-[380px] md:max-w-none md:w-auto shrink-0 flex flex-col md:flex-row gap-1 md:gap-1 animate-fade-in-up mt-4 md:mt-48 items-center">
             
             {/* Primary Action - Dark Wood Texture */}
             <a 
@@ -60,11 +60,13 @@ export const Hero: React.FC = () => {
               </div>
             </a>
 
-            {/* Separator - Visible only on Mobile */}
-            <div className="flex md:hidden items-center gap-4 w-full px-8 opacity-80 py-0">
-                <div className="h-px bg-wood-200/30 flex-1 box-shadow-sm"></div>
+            {/* Separator - Visible only on Mobile 
+                Increased visibility of lines and opacity.
+            */}
+            <div className="flex md:hidden items-center gap-4 w-full px-8 opacity-90 py-1">
+                <div className="h-px bg-white/40 flex-1 box-shadow-sm"></div>
                 <span className="text-wood-100 text-xs font-serif italic drop-shadow-md">Not sure?</span>
-                <div className="h-px bg-wood-200/30 flex-1 box-shadow-sm"></div>
+                <div className="h-px bg-white/40 flex-1 box-shadow-sm"></div>
             </div>
 
             {/* Secondary Action - Light Stone/Paper Texture */}
