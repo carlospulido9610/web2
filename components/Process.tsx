@@ -41,15 +41,15 @@ interface ProcessProps {
 
 export const Process: React.FC<ProcessProps> = ({ onOpenDetails }) => {
   return (
-    <section id="process" className="py-24 bg-wood-100 scroll-mt-32">
+    <section id="process" className="py-12 md:py-24 bg-wood-100 scroll-mt-32">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+        <div className="flex flex-col lg:flex-row gap-10 md:gap-16 lg:gap-24">
           
           {/* Sidebar - Sticky removed */}
           <div className="lg:w-1/3 self-start">
             <span className="text-xs font-semibold tracking-wider uppercase text-wood-500">Process</span>
-            <h2 className="text-4xl md:text-5xl font-serif italic mt-3 mb-6 text-wood-900">How it works, <br />step by step.</h2>
-            <p className="text-wood-600 mb-8 text-sm leading-relaxed">
+            <h2 className="text-4xl md:text-5xl font-serif italic mt-3 mb-4 md:mb-6 text-wood-900">How it works, <br />step by step.</h2>
+            <p className="text-wood-600 mb-6 md:mb-8 text-sm leading-relaxed">
               We've streamlined the renovation experience to be predictable, clean, and professional.
             </p>
             <button 
@@ -62,15 +62,15 @@ export const Process: React.FC<ProcessProps> = ({ onOpenDetails }) => {
           </div>
 
           {/* Steps List */}
-          <div className="lg:w-2/3 space-y-12">
+          <div className="lg:w-2/3 space-y-8 md:space-y-12">
             {steps.map((step, index) => (
-              <div key={step.number} className={`relative pl-12 ${index !== steps.length - 1 ? 'border-l border-wood-300' : ''} pb-4`}>
+              <div key={step.number} className={`relative pl-12 ${index !== steps.length - 1 ? 'border-l border-wood-300' : ''} pb-2 md:pb-4`}>
                 <span className={`absolute -left-3 top-0 w-6 h-6 rounded-full border flex items-center justify-center text-[10px] font-semibold ${
                   index === steps.length - 1 ? 'bg-wood-900 border-wood-900 text-wood-50' : 'bg-wood-50 border-wood-300 text-wood-600'
                 }`}>
                   {step.number}
                 </span>
-                <h3 className="text-xl font-semibold tracking-tight mb-2 text-wood-900">{step.title}</h3>
+                <h3 className="text-lg md:text-xl font-semibold tracking-tight mb-2 text-wood-900">{step.title}</h3>
                 <p className="text-wood-600 text-sm leading-relaxed max-w-lg">{step.content}</p>
               </div>
             ))}
