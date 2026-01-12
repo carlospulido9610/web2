@@ -8,17 +8,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Instrument Serif', 'serif'],
+                        // Títulos y UI: Red Hat Display
+                        sans: ['Red Hat Display', 'sans-serif'],
+                        // Párrafos e información: Manrope
+                        info: ['Manrope', 'sans-serif'],
                         manrope: ['Manrope', 'sans-serif'],
-                        // Añadimos canela a la configuración de Tailwind
                         canela: ['Canela', 'serif'],
                     },
                     colors: {
@@ -51,11 +52,8 @@
         }
     </script>
     <style>
-        /* IMPLEMENTACIÓN DE FUENTE LOCAL */
         @font-face {
             font-family: 'Canela';
-            /* Asegúrate de que el archivo esté en la misma carpeta que el index.html */
-            /* Si tu archivo tiene otro nombre, cámbialo aquí abajo */
             src: url('./Canela-Regular.woff2') format('woff2'),
                  url('./Canela-Regular.woff') format('woff');
             font-weight: normal;
@@ -64,22 +62,24 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Manrope', sans-serif;
             -webkit-font-smoothing: antialiased;
         }
         
+        /* Headers y elementos de UI específicos usan Red Hat */
+        h1, h2, h3, h4, h5, h6, button, nav a {
+            font-family: 'Red Hat Display', sans-serif;
+        }
+
         .font-canela {
             font-family: 'Canela', serif !important;
         }
 
-        /* Uso selectivo de Serif: Solo para títulos artísticos */
         .editorial-serif { 
-            font-family: 'Instrument Serif', serif !important;
+            font-family: 'Red Hat Display', sans-serif !important;
             font-style: italic;
             font-weight: 400 !important;
         }
-
-        .font-manrope { font-family: 'Manrope', sans-serif !important; }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #FAF9F6; }

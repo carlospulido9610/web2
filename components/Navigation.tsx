@@ -52,17 +52,17 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
     <nav className={`fixed top-0 w-full z-[100] transition-all duration-500 ${scrolled ? 'bg-wood-50/98 backdrop-blur-md border-b border-wood-200 py-3 shadow-sm' : 'bg-transparent py-6 md:py-8'}`}>
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex items-center justify-between">
         
-        {/* Logo - Instrument Serif limpio, sin font-bold para evitar faux-bold */}
+        {/* Logo - Usando Canela explícitamente */}
         <button 
           onClick={onNavigateHome}
           className="relative z-[110] flex items-center"
         >
-          <span className={`text-3xl md:text-4xl font-serif italic tracking-tight transition-colors duration-300 leading-none ${isOpen ? 'text-wood-900' : textColorClass}`}>
+          <span className={`text-3xl md:text-4xl font-canela tracking-tight transition-colors duration-300 leading-none ${isOpen ? 'text-wood-900' : textColorClass}`}>
             RAVAL
           </span>
         </button>
 
-        {/* Desktop Menu */}
+        {/* Desktop Menu - Todo en Red Hat Display (font-sans) */}
         <div className="hidden md:flex items-center gap-10">
           {isHome ? (
             <>
@@ -119,7 +119,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
             key={link.name} 
             href={link.href}
             onClick={(e) => handleNavClick(e, link.href)} 
-            className="text-5xl font-serif italic text-wood-900 hover:text-wood-500 transition-colors tracking-tight"
+            className="text-5xl font-sans font-black italic text-wood-900 hover:text-wood-500 transition-colors tracking-tight uppercase"
           >
             {link.name}
           </a>

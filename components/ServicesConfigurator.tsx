@@ -116,14 +116,14 @@ const ModelCarousel: React.FC<{ models: ModelItem[] }> = ({ models }) => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/10 to-transparent"></div>
               
               <div className="absolute top-6 right-6 bg-white px-5 py-4 rounded-none shadow-xl text-center min-w-[140px] z-20">
-                <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-wood-400 mb-0.5 font-sans">Starting at</span>
-                <span className="block text-3xl font-black text-wood-900 tracking-tighter font-sans">${model.price}</span>
+                <span className="block text-[10px] font-sans font-black uppercase tracking-[0.2em] text-wood-400 mb-0.5">Starting at</span>
+                <span className="block text-3xl font-sans font-black text-wood-900 tracking-tighter">${model.price}</span>
               </div>
 
               <div className="absolute bottom-0 left-0 w-full p-8 md:p-10 z-10">
-                <h3 className="text-3xl md:text-5xl font-black uppercase text-white mb-2 leading-[0.9] tracking-tighter font-sans">{model.name}</h3>
-                <p className="text-wood-100 text-xs md:text-sm font-medium mb-6 opacity-80 font-sans max-w-xs">{model.description}</p>
-                <button className="bg-white text-wood-900 px-6 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-wood-100 transition-colors font-sans flex items-center gap-2">
+                <h3 className="text-3xl md:text-5xl font-sans font-black uppercase text-white mb-2 leading-[0.9] tracking-tighter">{model.name}</h3>
+                <p className="text-wood-100 text-xs md:text-sm font-info font-medium mb-6 opacity-80 max-w-xs">{model.description}</p>
+                <button className="bg-white text-wood-900 px-6 py-3 text-[10px] font-sans font-black uppercase tracking-widest hover:bg-wood-100 transition-colors flex items-center gap-2">
                    Configure now <ArrowUpRight size={14} />
                 </button>
               </div>
@@ -139,39 +139,40 @@ export const ServicesConfigurator: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryId>('media-wall');
 
   return (
-    <section id="models" className="py-20 bg-wood-50 scroll-mt-32">
-      <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
+    <section id="models" className="pt-8 pb-16 bg-wood-50 scroll-mt-32 overflow-x-hidden">
+      <div className="max-w-screen-2xl mx-auto">
         
-        {/* HEADER SECTION - Tightened bottom margin */}
-        <div className="mb-0">
-          <h2 className="text-[52px] md:text-[120px] font-black text-wood-900 leading-[0.85] tracking-tight uppercase font-sans mb-8">
-            Signature <br className="hidden md:block" /> Models
+        {/* Título con padding responsivo */}
+        <div className="px-6 md:px-12 pt-6 mb-6">
+          <h2 className="text-5xl md:text-7xl font-sans font-black text-wood-900 leading-[0.9] tracking-tight uppercase mb-4">
+            Signature <br /> <span className="editorial-serif lowercase normal-case font-normal text-wood-400">models.</span>
           </h2>
+        </div>
 
-          {/* FULL WIDTH NAVIGATION - Removed bottom margin to eliminate space before image */}
-          <div className="w-full mb-0 -mx-6 md:mx-0">
-            <div className="flex w-[100vw] md:w-full border-y md:border border-wood-200 bg-white shadow-sm overflow-hidden">
-              {SECTIONS.map((section) => (
-                <button
-                  key={section.id}
-                  onClick={() => setActiveCategory(section.id)}
-                  className={`flex-1 px-1 md:px-4 py-6 text-[8px] sm:text-[9px] md:text-[11px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] font-sans transition-all border-r border-wood-200 last:border-r-0 text-center whitespace-normal flex items-center justify-center
-                    ${activeCategory === section.id 
-                      ? 'bg-wood-900 text-white border-wood-900' 
-                      : 'bg-white text-wood-400 hover:bg-wood-50 hover:text-wood-600'
-                    }`}
-                >
-                  {section.label}
-                </button>
-              ))}
-            </div>
+        {/* Barra de Navegación - Eliminamos padding lateral en móvil para pegar a bordes */}
+        <div className="w-full mb-0 px-0 md:px-12">
+          <div className="grid grid-cols-4 w-full border-y md:border border-wood-200 bg-white shadow-sm overflow-hidden">
+            {SECTIONS.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => setActiveCategory(section.id)}
+                className={`px-1 py-6 text-[7px] sm:text-[9px] md:text-[11px] font-sans font-black uppercase tracking-tight sm:tracking-widest transition-all border-r border-wood-200 last:border-r-0 text-center flex items-center justify-center min-w-0
+                  ${activeCategory === section.id 
+                    ? 'bg-wood-900 text-white border-wood-900' 
+                    : 'bg-white text-wood-400 hover:bg-wood-50 hover:text-wood-600'
+                  }`}
+              >
+                <span className="truncate w-full leading-tight">{section.label}</span>
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* CAROUSEL - Content starts immediately after tabs */}
-        <ModelCarousel models={MODELS_DATA[activeCategory]} />
+        {/* Carrusel con su padding negativo propio para permitir swipe infinito visual */}
+        <div className="px-6 md:px-12">
+          <ModelCarousel models={MODELS_DATA[activeCategory]} />
+        </div>
         
-        {/* Footer elements removed as per request */}
       </div>
     </section>
   );

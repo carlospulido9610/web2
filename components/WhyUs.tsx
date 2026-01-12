@@ -46,11 +46,10 @@ export const WhyUs: React.FC = () => {
   ];
 
   return (
-    <section id="why-us" className="py-24 bg-wood-50 relative z-10 scroll-mt-32">
+    <section id="why-us" className="pt-0 pb-12 bg-wood-50 relative z-10 scroll-mt-32">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-        <div className="mb-16">
-          <span className="text-xs font-bold tracking-[0.2em] uppercase text-wood-400 mb-4 block font-sans">Our Values</span>
-          <h2 className="text-6xl md:text-8xl font-black text-wood-900 mb-6 leading-[0.85] tracking-tighter uppercase font-sans">
+        <div className="-mt-4 pt-0 mb-4">
+          <h2 className="text-5xl md:text-7xl font-sans font-black text-wood-900 mb-2 leading-[0.9] tracking-tighter uppercase">
             Why homeowners <br /> <span className="editorial-serif lowercase normal-case font-normal text-wood-400">trust us.</span>
           </h2>
         </div>
@@ -72,7 +71,7 @@ export const WhyUs: React.FC = () => {
                       <div className={`w-10 h-10 flex items-center justify-center rounded-sm transition-colors ${isActive ? 'bg-wood-800 text-wood-50' : 'bg-wood-100 text-wood-900'}`}>
                         <Icon size={20} strokeWidth={1.5} />
                       </div>
-                      <h3 className={`text-xl font-bold uppercase tracking-tight font-sans transition-colors ${isActive ? 'text-wood-50' : 'text-wood-900'}`}>
+                      <h3 className={`text-xl font-sans font-black uppercase tracking-tight transition-colors ${isActive ? 'text-wood-50' : 'text-wood-900'}`}>
                         {item.title}
                       </h3>
                     </div>
@@ -82,10 +81,10 @@ export const WhyUs: React.FC = () => {
                   </div>
                   <div className={`grid transition-[grid-template-rows] duration-500 ease-out ${isActive ? 'grid-rows-[1fr] pt-6' : 'grid-rows-[0fr] pt-0'}`}>
                     <div className="overflow-hidden">
-                      <p className={`text-[10px] font-black uppercase tracking-widest mb-2 font-sans ${isActive ? 'text-wood-400' : 'text-wood-500'}`}>
+                      <p className={`text-[10px] font-sans font-black uppercase tracking-widest mb-2 ${isActive ? 'text-wood-400' : 'text-wood-500'}`}>
                         {item.subtitle}
                       </p>
-                      <p className={`text-sm leading-relaxed font-sans ${isActive ? 'text-wood-200' : 'text-wood-600'}`}>
+                      <p className={`text-sm leading-relaxed font-info font-medium ${isActive ? 'text-wood-200' : 'text-wood-600'}`}>
                         {item.content}
                       </p>
                     </div>

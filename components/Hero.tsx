@@ -16,12 +16,11 @@ export const Hero: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-full flex flex-col pt-12 pb-10 items-center justify-between">
         <div className="flex flex-col items-center text-center animate-fade-in-up mt-10 md:mt-14">
-            {/* Aplicamos font-canela al titular principal */}
-            <h1 className="text-[40px] md:text-7xl lg:text-[90px] font-canela text-white leading-[1] mb-6 tracking-tight">
+            <h1 className="text-[40px] md:text-7xl lg:text-[90px] font-sans font-black text-white leading-[1] mb-6 tracking-tight uppercase">
               Custom Media Walls <br className="hidden md:block" />
-              <span className="editorial-serif lowercase text-wood-200">& Built-In Rooms</span>
+              <span className="editorial-serif lowercase text-wood-200">& built-in rooms</span>
             </h1>
-            <p className="text-[15px] md:text-xl font-medium text-wood-100 tracking-wide opacity-90 max-w-lg leading-snug font-sans">
+            <p className="text-[15px] md:text-xl font-info font-medium text-wood-100 tracking-wide opacity-90 max-w-lg leading-snug">
               Designed to move beyond builder-grade
             </p>
         </div>
@@ -30,24 +29,24 @@ export const Hero: React.FC = () => {
             <div className="w-full flex flex-col gap-0 items-center">
                 <a href="#models" className="w-full bg-[#141210] text-white px-8 py-4 md:py-5 border border-white/10 hover:bg-[#1f1d1b] transition-all group flex flex-col items-center justify-center rounded-sm text-center shadow-2xl">
                   <div className="flex items-center gap-3">
-                    <span className="text-base md:text-lg font-bold uppercase tracking-widest font-manrope">Choose Your Design</span>
+                    <span className="text-base md:text-lg font-sans font-black uppercase tracking-widest">Choose Your Design</span>
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </div>
-                  <span className="text-[9px] font-medium text-wood-400 uppercase tracking-widest mt-1 font-sans">Adjust size, TV and layout. See pricing instantly</span>
+                  <span className="text-[9px] font-info font-bold text-wood-400 uppercase tracking-widest mt-1">Adjust size, TV and layout. See pricing instantly</span>
                 </a>
 
                 <div className="flex items-center justify-center py-2 w-full">
                     <div className="h-px bg-white/20 flex-1"></div>
-                    <span className="text-white/50 text-[9px] font-bold uppercase tracking-[0.25em] px-4 font-sans">Not sure?</span>
+                    <span className="text-white/50 text-[9px] font-sans font-black uppercase tracking-[0.25em] px-4">Not sure?</span>
                     <div className="h-px bg-white/20 flex-1"></div>
                 </div>
 
                 <a href="#contact" className="w-full bg-[#E8E4DB] text-[#141210] px-8 py-4 md:py-5 hover:bg-[#F2EEE4] transition-all group flex flex-col items-center justify-center rounded-sm text-center shadow-2xl">
                   <div className="flex items-center gap-3">
-                    <span className="text-base md:text-lg font-bold uppercase tracking-widest font-manrope">Get Design Guidance</span>
+                    <span className="text-base md:text-lg font-sans font-black uppercase tracking-widest">Get Design Guidance</span>
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </div>
-                  <span className="text-[9px] font-medium uppercase tracking-widest text-[#6B5D52] mt-1 font-sans">Book a showroom or in-home consultation</span>
+                  <span className="text-[9px] font-info font-bold uppercase tracking-widest text-[#6B5D52] mt-1">Book a showroom or in-home consultation</span>
                 </a>
             </div>
         </div>

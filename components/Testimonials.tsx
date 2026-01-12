@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { Play, ArrowRight, Quote, Hand } from 'lucide-react';
 import { Review } from '../types';
@@ -34,7 +35,6 @@ const REVIEWS: Review[] = [
 ];
 
 export const Testimonials: React.FC = () => {
-  // Drag to scroll logic
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDown, setIsDown] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -48,24 +48,15 @@ export const Testimonials: React.FC = () => {
     setScrollLeft(sliderRef.current.scrollLeft);
   };
 
-  const handleMouseLeave = () => {
-    setIsDown(false);
-  };
-
-  const handleMouseUp = () => {
-    setIsDown(false);
-  };
-
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDown || !sliderRef.current) return;
     e.preventDefault();
     const x = e.pageX - sliderRef.current.offsetLeft;
-    const walk = (x - startX) * 1.5; // Scroll speed
+    const walk = (x - startX) * 1.5;
     sliderRef.current.scrollLeft = scrollLeft - walk;
   };
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    // Hide hand animation if user swipes significantly
     if (!hasInteracted && e.currentTarget.scrollLeft > 20) {
       setHasInteracted(true);
     }
@@ -73,102 +64,66 @@ export const Testimonials: React.FC = () => {
 
   return (
     <section id="reviews" className="py-12 md:py-24 bg-wood-50 relative overflow-hidden border-t border-wood-200 scroll-mt-32">
-      
-      {/* Header Container (Centered) */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 mb-8 md:mb-16">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
-            <span className="text-xs font-semibold tracking-wider uppercase text-wood-500 block mb-2">Validation</span>
-            <h2 className="text-5xl md:text-7xl font-serif text-wood-900 leading-[0.9]">
+            <span className="text-xs font-bold tracking-wider uppercase text-wood-400 block mb-2 font-sans">Validation</span>
+            <h2 className="text-5xl md:text-7xl font-sans font-black text-wood-900 uppercase leading-[0.9] tracking-tighter">
               Real Homes. <br className="md:hidden" />
-              <span className="italic text-wood-400">Real Results.</span>
+              <span className="editorial-serif lowercase normal-case font-normal text-wood-400">Real Results.</span>
             </h2>
           </div>
-          
-          <div className="hidden md:flex items-center gap-2 text-wood-400 text-sm pb-2">
+          <div className="hidden md:flex items-center gap-2 text-wood-400 text-sm pb-2 font-sans font-bold uppercase tracking-widest">
             <ArrowRight size={16} />
-            <span>Drag to see more stories</span>
+            <span>Drag stories</span>
           </div>
         </div>
       </div>
 
-      {/* Carousel Container (Full Width / Edge to Edge) */}
       <div className="w-full relative">
-        
-        {/* Animated Swipe Hint (Mobile Only) - Updated to match Models section style */}
         <div className={`md:hidden absolute top-1/2 right-6 -translate-y-1/2 z-20 pointer-events-none flex flex-col items-center gap-2 text-white/90 transition-opacity duration-700 ${hasInteracted ? 'opacity-0' : 'opacity-100'}`}>
           <Hand className="w-8 h-8 animate-swipe-hand drop-shadow-lg" />
-          <span className="text-[10px] font-bold uppercase tracking-widest drop-shadow-md">Swipe</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest drop-shadow-md font-sans">Swipe</span>
         </div>
 
-        {/* Mobile: Removed padding (px-0) and gaps (gap-0) for immersive feel */}
         <div 
           ref={sliderRef}
           onMouseDown={handleMouseDown}
-          onMouseLeave={handleMouseLeave}
-          onMouseUp={handleMouseUp}
+          onMouseLeave={() => setIsDown(false)}
+          onMouseUp={() => setIsDown(false)}
           onMouseMove={handleMouseMove}
           onScroll={handleScroll}
-          className={`flex overflow-x-auto gap-0 md:gap-8 px-0 md:px-12 pb-0 md:pb-12 scrollbar-hide cursor-grab active:cursor-grabbing ${
-            isDown ? '' : 'snap-x snap-mandatory'
-          }`}
+          className={`flex overflow-x-auto gap-0 md:gap-8 px-0 md:px-12 pb-0 md:pb-12 scrollbar-hide cursor-grab active:cursor-grabbing ${isDown ? '' : 'snap-x snap-mandatory'}`}
         >
           {REVIEWS.map((review) => (
-            <div 
-              key={review.id} 
-              // Mobile: w-[100vw] (Full screen width) | Desktop: 700px (Cinematic wide cards)
-              className="snap-center shrink-0 w-[100vw] md:w-[700px] select-none"
-            >
-              {/* Mobile: h-[80vh] and removed rounding for true 'Story' feel */}
-              <div className="group relative h-[80vh] md:h-[600px] w-full md:rounded-sm overflow-hidden bg-wood-200 shadow-none md:shadow-lg hover:shadow-2xl transition-all duration-500">
-                
-                {/* Image with Ken Burns animation */}
-                <img 
-                  src={review.videoThumbnail} 
-                  alt={review.name} 
-                  className="absolute inset-0 w-full h-full object-cover animate-ken-burns pointer-events-none"
-                />
-                
-                {/* Dark Gradient Overlay */}
+            <div key={review.id} className="snap-center shrink-0 w-[100vw] md:w-[700px] select-none">
+              <div className="group relative h-[80vh] md:h-[600px] w-full md:rounded-sm overflow-hidden bg-wood-200 shadow-none md:shadow-lg transition-all duration-500">
+                <img src={review.videoThumbnail} alt={review.name} className="absolute inset-0 w-full h-full object-cover animate-ken-burns pointer-events-none" />
                 <div className="absolute inset-0 bg-gradient-to-t from-wood-900 via-wood-900/20 to-transparent opacity-90 md:opacity-70"></div>
-
-                {/* Play Button (Center) */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-20 h-20 rounded-full bg-wood-50/10 backdrop-blur-md border border-wood-50/20 flex items-center justify-center text-wood-50 transition-all duration-300 transform scale-90 md:scale-100 group-hover:scale-110 group-hover:bg-wood-50/20">
+                  <div className="w-20 h-20 rounded-full bg-wood-50/10 backdrop-blur-md border border-wood-50/20 flex items-center justify-center text-wood-50 transition-all scale-90 md:scale-100 group-hover:scale-110">
                     <Play fill="currentColor" size={28} className="ml-1 opacity-90" />
                   </div>
                 </div>
-
-                {/* Content (Bottom) */}
                 <div className="absolute bottom-0 left-0 w-full p-8 md:p-12 flex flex-col items-start text-left z-10">
                   <Quote className="text-wood-300 mb-6 opacity-80" size={40} />
-                  
-                  <p className="text-2xl md:text-4xl font-serif text-wood-50 leading-tight mb-8 md:max-w-lg">
+                  <p className="text-2xl md:text-4xl font-sans font-bold text-wood-50 leading-tight mb-8 md:max-w-lg tracking-tight">
                     "{review.quote}"
                   </p>
-                  
                   <div className="flex items-center gap-4">
                     <div className="h-px w-8 bg-wood-400"></div>
                     <div className="flex flex-col">
-                      <span className="text-xs font-bold text-wood-50 uppercase tracking-widest">
-                        {review.name}
-                      </span>
-                      <span className="text-xs text-wood-300 mt-1">
-                        {review.role}
-                      </span>
+                      <span className="text-xs font-bold text-wood-50 uppercase tracking-widest font-sans">{review.name}</span>
+                      <span className="text-xs text-wood-300 mt-1 font-sans font-medium uppercase tracking-wider">{review.role}</span>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           ))}
-          
-          {/* Spacer for right edge scrolling on Desktop only */}
           <div className="hidden md:block w-12 shrink-0"></div>
         </div>
       </div>
-
     </section>
   );
 };
