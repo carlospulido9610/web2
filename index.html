@@ -8,19 +8,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        // Títulos Principales y Branding: Canela
+                        // Títulos Principales: Canela
                         serif: ['Canela', 'serif'],
                         canela: ['Canela', 'serif'],
-                        // UI, Botones y Etiquetas: Red Hat Display
-                        sans: ['Red Hat Display', 'sans-serif'],
-                        // Párrafos e información: Manrope
+                        // UI, Botones, Etiquetas e Información: Manrope
+                        sans: ['Manrope', 'sans-serif'],
                         info: ['Manrope', 'sans-serif'],
                         manrope: ['Manrope', 'sans-serif'],
                     },
@@ -68,14 +67,14 @@
             -webkit-font-smoothing: antialiased;
         }
         
-        /* Los encabezados ahora usan Canela para una estética Premium */
+        /* Encabezados sofisticados con Canela */
         h1, h2, h3 {
             font-family: 'Canela', serif !important;
         }
         
-        /* h4, h5, h6 y botones mantienen Red Hat para claridad y aspecto técnico */
-        h4, h5, h6, button, nav a {
-            font-family: 'Red Hat Display', sans-serif;
+        /* Botones y UI con Manrope para claridad */
+        button, nav a, label, input, textarea {
+            font-family: 'Manrope', sans-serif !important;
         }
 
         .font-canela {

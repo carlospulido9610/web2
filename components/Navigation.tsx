@@ -52,7 +52,6 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
     <nav className={`fixed top-0 w-full z-[100] transition-all duration-500 ${scrolled ? 'bg-wood-50/98 backdrop-blur-md border-b border-wood-200 py-3 shadow-sm' : 'bg-transparent py-6 md:py-8'}`}>
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex items-center justify-between">
         
-        {/* Logo - Usando Canela explícitamente */}
         <button 
           onClick={onNavigateHome}
           className="relative z-[110] flex items-center"
@@ -62,7 +61,6 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
           </span>
         </button>
 
-        {/* Desktop Menu - Todo en Red Hat Display (font-sans) */}
         <div className="hidden md:flex items-center gap-10">
           {isHome ? (
             <>
@@ -72,7 +70,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
                     key={link.name} 
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className={`text-[10px] font-bold uppercase tracking-[0.2em] font-sans transition-all ${textColorClass} opacity-80 hover:opacity-100 ${hoverColorClass}`}
+                    className={`text-[10px] font-extrabold uppercase tracking-[0.2em] font-manrope transition-all ${textColorClass} opacity-80 hover:opacity-100 ${hoverColorClass}`}
                   >
                     {link.name}
                   </a>
@@ -82,7 +80,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
               <a 
                 href="#contact" 
                 onClick={(e) => handleNavClick(e, '#contact')}
-                className={`px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] font-sans transition-all rounded-sm border ${scrolled 
+                className={`px-6 py-2.5 text-[10px] font-extrabold uppercase tracking-[0.2em] font-manrope transition-all rounded-sm border ${scrolled 
                     ? 'bg-wood-900 text-wood-50 border-wood-900 hover:bg-wood-800' 
                     : 'bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white hover:text-wood-900'}`}
               >
@@ -92,7 +90,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
           ) : (
             <button 
               onClick={onNavigateHome}
-              className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] font-sans transition-colors ${textColorClass} ${hoverColorClass}`}
+              className={`flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.2em] font-manrope transition-colors ${textColorClass} ${hoverColorClass}`}
             >
               <ArrowLeft size={14} />
               Back to Home
@@ -100,7 +98,6 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
           )}
         </div>
 
-        {/* Mobile Menu Button */}
         <button 
           className={`md:hidden relative z-[110] p-2 transition-colors ${isOpen ? 'text-wood-900' : textColorClass}`}
           onClick={() => setIsOpen(!isOpen)}
@@ -109,7 +106,6 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
       <div 
           className={`fixed inset-0 z-[100] bg-wood-50 flex flex-col justify-center items-center gap-10 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
           style={{ height: '100dvh' }}
@@ -119,7 +115,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
             key={link.name} 
             href={link.href}
             onClick={(e) => handleNavClick(e, link.href)} 
-            className="text-5xl font-sans font-black italic text-wood-900 hover:text-wood-500 transition-colors tracking-tight uppercase"
+            className="text-5xl font-manrope font-black italic text-wood-900 hover:text-wood-500 transition-colors tracking-tight uppercase"
           >
             {link.name}
           </a>
@@ -127,7 +123,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
         <a 
           href="#contact"
           onClick={(e) => handleNavClick(e, '#contact')}
-          className="mt-8 px-10 py-5 bg-wood-900 text-wood-50 text-xs font-bold uppercase tracking-[0.3em] rounded-sm font-sans"
+          className="mt-8 px-10 py-5 bg-wood-900 text-wood-50 text-xs font-black uppercase tracking-[0.3em] rounded-sm font-manrope"
         >
           Work with Us
         </a>

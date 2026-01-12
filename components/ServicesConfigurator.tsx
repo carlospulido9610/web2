@@ -116,14 +116,14 @@ const ModelCarousel: React.FC<{ models: ModelItem[] }> = ({ models }) => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/10 to-transparent"></div>
               
               <div className="absolute top-6 right-6 bg-white px-5 py-4 rounded-none shadow-xl text-center min-w-[140px] z-20">
-                <span className="block text-[10px] font-sans font-black uppercase tracking-[0.2em] text-wood-400 mb-0.5">Starting at</span>
-                <span className="block text-3xl font-sans font-black text-wood-900 tracking-tighter">${model.price}</span>
+                <span className="block text-[10px] font-manrope font-black uppercase tracking-[0.2em] text-wood-400 mb-0.5">Starting at</span>
+                <span className="block text-3xl font-manrope font-black text-wood-900 tracking-tighter">${model.price}</span>
               </div>
 
               <div className="absolute bottom-0 left-0 w-full p-8 md:p-10 z-10">
                 <h3 className="text-3xl md:text-5xl font-canela text-white mb-2 leading-[0.9] tracking-tight">{model.name}</h3>
-                <p className="text-wood-100 text-xs md:text-sm font-info font-medium mb-6 opacity-80 max-w-xs">{model.description}</p>
-                <button className="bg-white text-wood-900 px-6 py-3 text-[10px] font-sans font-black uppercase tracking-widest hover:bg-wood-100 transition-colors flex items-center gap-2">
+                <p className="text-wood-100 text-xs md:text-sm font-manrope font-medium mb-6 opacity-80 max-w-xs">{model.description}</p>
+                <button className="bg-white text-wood-900 px-6 py-3 text-[10px] font-manrope font-black uppercase tracking-widest hover:bg-wood-100 transition-colors flex items-center gap-2">
                    Configure now <ArrowUpRight size={14} />
                 </button>
               </div>
@@ -148,14 +148,13 @@ export const ServicesConfigurator: React.FC = () => {
           </h2>
         </div>
 
-        {/* Barra de Navegación Ajustada */}
         <div className="w-full mb-0 px-0 md:px-12">
           <div className="grid grid-cols-4 w-full border-y md:border border-wood-200 bg-white shadow-sm overflow-hidden">
             {SECTIONS.map((section) => (
               <button
                 key={section.id}
                 onClick={() => setActiveCategory(section.id)}
-                className={`px-0 py-6 text-[9px] sm:text-[10px] md:text-[11px] font-sans font-black uppercase tracking-tighter sm:tracking-widest transition-all border-r border-wood-200 last:border-r-0 text-center flex items-center justify-center min-w-0
+                className={`px-0 py-6 text-[9px] sm:text-[10px] md:text-[11px] font-manrope font-black uppercase tracking-tighter sm:tracking-widest transition-all border-r border-wood-200 last:border-r-0 text-center flex items-center justify-center min-w-0
                   ${activeCategory === section.id 
                     ? 'bg-wood-900 text-white border-wood-900' 
                     : 'bg-white text-wood-400 hover:bg-wood-50 hover:text-wood-600'

@@ -20,7 +20,7 @@ export const Hero: React.FC = () => {
               Custom Media Walls <br className="hidden md:block" />
               <span className="font-canela text-white uppercase not-italic"> & built-in rooms</span>
             </h1>
-            <p className="text-[15px] md:text-xl font-info font-medium text-wood-100 tracking-wide opacity-90 max-w-lg leading-snug">
+            <p className="text-[15px] md:text-xl font-manrope font-medium text-wood-100 tracking-wide opacity-90 max-w-lg leading-snug">
               Designed to move beyond builder-grade
             </p>
         </div>
@@ -29,24 +29,24 @@ export const Hero: React.FC = () => {
             <div className="w-full flex flex-col gap-0 items-center">
                 <a href="#models" className="w-full bg-[#141210] text-white px-6 py-4 md:py-5 border border-white/10 hover:bg-[#1f1d1b] transition-all group flex flex-col items-center justify-center rounded-sm text-center shadow-2xl">
                   <div className="flex items-center gap-3">
-                    <span className="text-base md:text-lg font-sans font-black uppercase tracking-widest">Choose Your Design</span>
+                    <span className="text-base md:text-lg font-manrope font-black uppercase tracking-widest">Choose Your Design</span>
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </div>
-                  <span className="text-[9px] font-info font-bold text-wood-400 uppercase tracking-widest mt-1 whitespace-nowrap">Adjust size, TV and layout. See pricing instantly</span>
+                  <span className="text-[9px] font-manrope font-bold text-wood-400 uppercase tracking-widest mt-1 whitespace-nowrap">Adjust size, TV and layout. See pricing instantly</span>
                 </a>
 
                 <div className="flex items-center justify-center py-2 w-full">
                     <div className="h-px bg-white/20 flex-1"></div>
-                    <span className="text-white/50 text-[9px] font-sans font-black uppercase tracking-[0.25em] px-4">Not sure?</span>
+                    <span className="text-white/50 text-[9px] font-manrope font-black uppercase tracking-[0.25em] px-4">Not sure?</span>
                     <div className="h-px bg-white/20 flex-1"></div>
                 </div>
 
                 <a href="#contact" className="w-full bg-[#E8E4DB] text-[#141210] px-6 py-4 md:py-5 hover:bg-[#F2EEE4] transition-all group flex flex-col items-center justify-center rounded-sm text-center shadow-2xl">
                   <div className="flex items-center gap-3">
-                    <span className="text-base md:text-lg font-sans font-black uppercase tracking-widest">Get Design Guidance</span>
+                    <span className="text-base md:text-lg font-manrope font-black uppercase tracking-widest">Get Design Guidance</span>
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </div>
-                  <span className="text-[9px] font-info font-bold uppercase tracking-widest text-[#6B5D52] mt-1 whitespace-nowrap">Book a showroom or in-home consultation</span>
+                  <span className="text-[9px] font-manrope font-bold uppercase tracking-widest text-[#6B5D52] mt-1 whitespace-nowrap">Book a showroom or in-home consultation</span>
                 </a>
             </div>
         </div>
