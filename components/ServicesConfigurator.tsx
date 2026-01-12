@@ -121,7 +121,7 @@ const ModelCarousel: React.FC<{ models: ModelItem[] }> = ({ models }) => {
               </div>
 
               <div className="absolute bottom-0 left-0 w-full p-8 md:p-10 z-10">
-                <h3 className="text-3xl md:text-5xl font-sans font-black uppercase text-white mb-2 leading-[0.9] tracking-tighter">{model.name}</h3>
+                <h3 className="text-3xl md:text-5xl font-canela text-white mb-2 leading-[0.9] tracking-tight">{model.name}</h3>
                 <p className="text-wood-100 text-xs md:text-sm font-info font-medium mb-6 opacity-80 max-w-xs">{model.description}</p>
                 <button className="bg-white text-wood-900 px-6 py-3 text-[10px] font-sans font-black uppercase tracking-widest hover:bg-wood-100 transition-colors flex items-center gap-2">
                    Configure now <ArrowUpRight size={14} />
@@ -143,7 +143,7 @@ export const ServicesConfigurator: React.FC = () => {
       <div className="max-w-screen-2xl mx-auto">
         
         <div className="px-6 md:px-12 pt-6 mb-6">
-          <h2 className="text-5xl md:text-7xl font-sans font-black text-wood-900 leading-[0.9] tracking-tight uppercase mb-4">
+          <h2 className="text-5xl md:text-7xl font-canela text-wood-900 leading-[0.9] tracking-tight mb-4">
             Signature <br /> <span className="editorial-serif lowercase normal-case font-normal text-wood-400">models.</span>
           </h2>
         </div>

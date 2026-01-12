@@ -19,7 +19,6 @@ export const ContactForm: React.FC = () => {
 
   const changeMonth = (offset: number) => {
     const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + offset, 1);
-    // Fix: Using the Date constructor instead of calling newDate() as a function
     const todayMonthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     if (newDate < todayMonthStart) return;
     setCurrentDate(newDate);
@@ -93,12 +92,12 @@ export const ContactForm: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="bg-wood-900 text-wood-50 py-32 border-t border-wood-800 scroll-mt-32">
+    <section id="contact" className="bg-wood-900 text-wood-50 pt-12 pb-32 border-t border-wood-800 scroll-mt-32">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div className="flex flex-col justify-center pr-0 lg:pr-12">
             <span className="block text-xs font-sans font-black tracking-[0.2em] uppercase mb-6 text-wood-400">Contact</span>
-            <h2 className="text-5xl md:text-7xl font-sans font-black leading-[0.9] mb-8 text-wood-100 uppercase tracking-tighter">
+            <h2 className="text-5xl md:text-7xl font-canela leading-[0.9] mb-8 text-wood-100 uppercase tracking-tighter">
               Let's create <br /> <span className="editorial-serif lowercase normal-case font-normal text-wood-300">together.</span>
             </h2>
             <p className="text-wood-400 mb-16 max-w-md text-lg leading-relaxed font-info font-medium opacity-80">

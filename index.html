@@ -15,12 +15,14 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        // Títulos y UI: Red Hat Display
+                        // Títulos Principales y Branding: Canela
+                        serif: ['Canela', 'serif'],
+                        canela: ['Canela', 'serif'],
+                        // UI, Botones y Etiquetas: Red Hat Display
                         sans: ['Red Hat Display', 'sans-serif'],
                         // Párrafos e información: Manrope
                         info: ['Manrope', 'sans-serif'],
                         manrope: ['Manrope', 'sans-serif'],
-                        canela: ['Canela', 'serif'],
                     },
                     colors: {
                         wood: {
@@ -66,8 +68,13 @@
             -webkit-font-smoothing: antialiased;
         }
         
-        /* Headers y elementos de UI específicos usan Red Hat */
-        h1, h2, h3, h4, h5, h6, button, nav a {
+        /* Los encabezados ahora usan Canela para una estética Premium */
+        h1, h2, h3 {
+            font-family: 'Canela', serif !important;
+        }
+        
+        /* h4, h5, h6 y botones mantienen Red Hat para claridad y aspecto técnico */
+        h4, h5, h6, button, nav a {
             font-family: 'Red Hat Display', sans-serif;
         }
 
@@ -76,7 +83,7 @@
         }
 
         .editorial-serif { 
-            font-family: 'Red Hat Display', sans-serif !important;
+            font-family: 'Canela', serif !important;
             font-style: italic;
             font-weight: 400 !important;
         }

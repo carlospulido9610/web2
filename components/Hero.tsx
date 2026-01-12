@@ -16,9 +16,9 @@ export const Hero: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-full flex flex-col pt-12 pb-10 items-center justify-between">
         <div className="flex flex-col items-center text-center animate-fade-in-up mt-10 md:mt-14">
-            <h1 className="text-[40px] md:text-7xl lg:text-[90px] font-sans font-black text-white leading-[1] mb-6 tracking-tight uppercase">
+            <h1 className="text-[42px] md:text-7xl lg:text-[92px] font-canela text-white leading-[1] mb-6 tracking-tight">
               Custom Media Walls <br className="hidden md:block" />
-              <span className="editorial-serif lowercase text-wood-200">& built-in rooms</span>
+              <span className="editorial-serif lowercase text-wood-200"> & built-in rooms</span>
             </h1>
             <p className="text-[15px] md:text-xl font-info font-medium text-wood-100 tracking-wide opacity-90 max-w-lg leading-snug">
               Designed to move beyond builder-grade
