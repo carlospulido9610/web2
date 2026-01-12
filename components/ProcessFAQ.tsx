@@ -92,12 +92,12 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
     <div className="bg-wood-50 min-h-screen">
       <div className="bg-wood-900 text-white pt-32 pb-20 px-6">
         <div className="max-w-7xl mx-auto">
-          <button onClick={onBack} className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] text-wood-400 hover:text-white transition-colors mb-12">
+          <button onClick={onBack} className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] font-sans text-wood-400 hover:text-white transition-colors mb-12">
             <ArrowLeft size={16} /> Back to Home
           </button>
           <div className="max-w-4xl">
-            <h1 className="text-5xl md:text-8xl font-extrabold mb-8 tracking-tighter leading-[0.85] uppercase">Process & FAQ</h1>
-            <p className="text-wood-200 text-lg md:text-xl font-medium max-w-2xl leading-relaxed opacity-80">
+            <h1 className="text-6xl md:text-8xl font-serif italic mb-8 tracking-tight leading-[0.9]">Process & FAQ</h1>
+            <p className="text-wood-200 text-lg md:text-xl font-medium max-w-2xl leading-relaxed opacity-80 font-sans">
               Transparency is our foundation. Detailed workflow and answers to every technical question.
             </p>
           </div>
@@ -106,7 +106,7 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
 
       <div className="max-w-7xl mx-auto px-6 py-24">
         <div className="mb-32">
-          <h3 className="text-xs font-bold uppercase tracking-[0.4em] text-wood-400 mb-16 flex items-center gap-4">
+          <h3 className="text-xs font-bold uppercase tracking-[0.4em] text-wood-400 mb-16 flex items-center gap-4 font-sans">
             <div className="h-px w-8 bg-wood-300"></div> Detailed Workflow
           </h3>
           <div className="space-y-16">
@@ -114,17 +114,17 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
               <div key={step.number} className="flex flex-col md:flex-row gap-8 md:gap-16 border-l-2 border-wood-100 pl-8 relative">
                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-wood-900"></div>
                 <div className="md:w-1/4">
-                  <span className="text-6xl font-extrabold text-wood-100 leading-none">0{step.number}</span>
+                  <span className="text-6xl font-serif italic text-wood-100 leading-none">0{step.number}</span>
                 </div>
                 <div className="md:w-3/4">
-                  <h4 className="text-2xl md:text-4xl font-extrabold text-wood-900 mb-6 uppercase tracking-tighter">{step.title}</h4>
-                  {step.description && <p className="text-wood-600 text-lg font-medium leading-relaxed mb-8">{step.description}</p>}
+                  <h4 className="text-3xl md:text-4xl font-serif italic text-wood-900 mb-6 tracking-tight">{step.title}</h4>
+                  {step.description && <p className="text-wood-600 text-lg font-medium leading-relaxed mb-8 font-sans">{step.description}</p>}
                   {step.subOptions && (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       {step.subOptions.map((opt, i) => (
                         <div key={i} className="bg-white p-6 border border-wood-100 rounded-sm">
-                          <h5 className="font-bold text-xs uppercase tracking-widest text-wood-900 mb-2">{opt.title}</h5>
-                          <p className="text-sm text-wood-500 leading-relaxed">{opt.content}</p>
+                          <h5 className="font-bold text-xs uppercase tracking-widest text-wood-900 mb-2 font-sans">{opt.title}</h5>
+                          <p className="text-sm text-wood-500 leading-relaxed font-sans">{opt.content}</p>
                         </div>
                       ))}
                     </div>
@@ -136,14 +136,14 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
         </div>
 
         <div className="pt-24 border-t border-wood-200">
-           <h3 className="text-xs font-bold uppercase tracking-[0.4em] text-wood-400 mb-16 flex items-center gap-4">
+           <h3 className="text-xs font-bold uppercase tracking-[0.4em] text-wood-400 mb-16 flex items-center gap-4 font-sans">
              <div className="h-px w-8 bg-wood-300"></div> Common Questions
            </h3>
            <div className="flex flex-col lg:flex-row gap-12">
              <div className="lg:w-1/4 flex lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide">
                {FAQ_DATA.map((cat) => (
                  <button key={cat.id} onClick={() => setActiveTab(cat.id)}
-                   className={`shrink-0 text-left px-6 py-4 text-[10px] font-extrabold uppercase tracking-[0.3em] transition-all rounded-sm ${activeTab === cat.id ? 'bg-wood-900 text-white shadow-xl' : 'bg-white text-wood-400 border border-wood-100 hover:text-wood-900'}`}>
+                   className={`shrink-0 text-left px-6 py-4 text-[10px] font-extrabold uppercase tracking-[0.3em] font-sans transition-all rounded-sm ${activeTab === cat.id ? 'bg-wood-900 text-white shadow-xl' : 'bg-white text-wood-400 border border-wood-100 hover:text-wood-900'}`}>
                    {cat.title}
                  </button>
                ))}
@@ -155,12 +155,12 @@ export const ProcessFAQ: React.FC<ProcessFAQProps> = ({ onBack }) => {
                    return (
                      <div key={index}>
                        <button onClick={() => setOpenFaqIndex(isOpen ? null : index)} className="w-full flex items-center justify-between p-8 text-left group">
-                         <span className="font-extrabold text-wood-900 uppercase text-sm md:text-base tracking-tight">{faq.question}</span>
+                         <span className="font-bold text-wood-900 uppercase text-sm md:text-base tracking-tight font-sans">{faq.question}</span>
                          <div className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
                            {isOpen ? <Minus size={20} className="text-wood-900" /> : <Plus size={20} className="text-wood-300 group-hover:text-wood-900" />}
                          </div>
                        </button>
-                       {isOpen && <div className="px-8 pb-8 text-wood-500 text-base leading-relaxed font-medium animate-fade-in-up">{faq.answer}</div>}
+                       {isOpen && <div className="px-8 pb-8 text-wood-500 text-base leading-relaxed font-medium animate-fade-in-up font-sans">{faq.answer}</div>}
                      </div>
                    );
                  })}

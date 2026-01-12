@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -16,7 +16,10 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        serif: ['Inter', 'sans-serif'],
+                        serif: ['Instrument Serif', 'serif'],
+                        manrope: ['Manrope', 'sans-serif'],
+                        // Añadimos canela a la configuración de Tailwind
+                        canela: ['Canela', 'serif'],
                     },
                     colors: {
                         wood: {
@@ -32,56 +35,70 @@
                             900: '#1F1915',
                         }
                     },
-                    backgroundImage: {
-                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.04%22/%3E%3C/svg%3E')",
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'ken-burns': 'kenBurns 20s ease-out infinite alternate',
+                        'swipe-hand': 'swipeHand 2.5s infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        /* INTER CORE STYLING - CONSISTENCIA TOTAL */
-        * {
-            font-family: 'Inter', sans-serif !important;
+        /* IMPLEMENTACIÓN DE FUENTE LOCAL */
+        @font-face {
+            font-family: 'Canela';
+            /* Asegúrate de que el archivo esté en la misma carpeta que el index.html */
+            /* Si tu archivo tiene otro nombre, cámbialo aquí abajo */
+            src: url('./Canela-Regular.woff2') format('woff2'),
+                 url('./Canela-Regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
         
-        h1, h2, h3, h4, .font-serif { 
-            font-family: 'Inter', sans-serif !important;
-            letter-spacing: -0.05em !important; /* Tracking ultra-cerrado para look premium */
-            font-weight: 800;
+        .font-canela {
+            font-family: 'Canela', serif !important;
         }
 
-        p, span, label, input, textarea, button {
-            letter-spacing: -0.02em;
-            font-weight: 500;
+        /* Uso selectivo de Serif: Solo para títulos artísticos */
+        .editorial-serif { 
+            font-family: 'Instrument Serif', serif !important;
+            font-style: italic;
+            font-weight: 400 !important;
         }
 
-        .italic {
-            font-style: italic !important;
-        }
+        .font-manrope { font-family: 'Manrope', sans-serif !important; }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #FAF9F6; }
         ::-webkit-scrollbar-thumb { background: #D4C5B0; border-radius: 3px; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 <script type="importmap">
 {
   "imports": {
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
     "vite": "https://esm.sh/vite@^7.3.1",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
     "react/": "https://esm.sh/react@^19.2.3/",
     "react": "https://esm.sh/react@^19.2.3"
   }
 }
 </script>
 </head>
-<body class="antialiased bg-wood-50 text-wood-900 selection:bg-wood-900 selection:text-wood-50 relative">
+<body class="antialiased bg-wood-50 text-wood-900 relative">
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
 </body>
