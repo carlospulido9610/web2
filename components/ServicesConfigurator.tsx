@@ -142,33 +142,33 @@ export const ServicesConfigurator: React.FC = () => {
     <section id="models" className="pt-8 pb-16 bg-wood-50 scroll-mt-32 overflow-x-hidden">
       <div className="max-w-screen-2xl mx-auto">
         
-        {/* Título con padding responsivo */}
         <div className="px-6 md:px-12 pt-6 mb-6">
           <h2 className="text-5xl md:text-7xl font-sans font-black text-wood-900 leading-[0.9] tracking-tight uppercase mb-4">
             Signature <br /> <span className="editorial-serif lowercase normal-case font-normal text-wood-400">models.</span>
           </h2>
         </div>
 
-        {/* Barra de Navegación - Eliminamos padding lateral en móvil para pegar a bordes */}
+        {/* Barra de Navegación Ajustada */}
         <div className="w-full mb-0 px-0 md:px-12">
           <div className="grid grid-cols-4 w-full border-y md:border border-wood-200 bg-white shadow-sm overflow-hidden">
             {SECTIONS.map((section) => (
               <button
                 key={section.id}
                 onClick={() => setActiveCategory(section.id)}
-                className={`px-1 py-6 text-[7px] sm:text-[9px] md:text-[11px] font-sans font-black uppercase tracking-tight sm:tracking-widest transition-all border-r border-wood-200 last:border-r-0 text-center flex items-center justify-center min-w-0
+                className={`px-0 py-6 text-[9px] sm:text-[10px] md:text-[11px] font-sans font-black uppercase tracking-tighter sm:tracking-widest transition-all border-r border-wood-200 last:border-r-0 text-center flex items-center justify-center min-w-0
                   ${activeCategory === section.id 
                     ? 'bg-wood-900 text-white border-wood-900' 
                     : 'bg-white text-wood-400 hover:bg-wood-50 hover:text-wood-600'
                   }`}
               >
-                <span className="truncate w-full leading-tight">{section.label}</span>
+                <span className="w-full leading-[1.1] px-0.5 break-words">
+                  {section.label}
+                </span>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Carrusel con su padding negativo propio para permitir swipe infinito visual */}
         <div className="px-6 md:px-12">
           <ModelCarousel models={MODELS_DATA[activeCategory]} />
         </div>
