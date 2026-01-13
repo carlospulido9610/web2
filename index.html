@@ -15,12 +15,8 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        // Títulos Principales: Canela
-                        serif: ['Canela', 'serif'],
-                        canela: ['Canela', 'serif'],
-                        // UI, Botones, Etiquetas e Información: Manrope
+                        canale: ['Canale', 'serif'],
                         sans: ['Manrope', 'sans-serif'],
-                        info: ['Manrope', 'sans-serif'],
                         manrope: ['Manrope', 'sans-serif'],
                     },
                     colors: {
@@ -54,42 +50,52 @@
     </script>
     <style>
         @font-face {
-            font-family: 'Canela';
-            src: url('./Canela-Regular.woff2') format('woff2'),
-                 url('./Canela-Regular.woff') format('woff');
+            font-family: 'Canale';
+            src: url('./Canale.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
         }
 
         body {
-            font-family: 'Manrope', sans-serif;
+            font-family: 'Manrope', sans-serif !important;
             -webkit-font-smoothing: antialiased;
+            background-color: #FAF9F6;
         }
         
-        /* Encabezados sofisticados con Canela */
-        h1, h2, h3 {
-            font-family: 'Canela', serif !important;
+        /* UNIFICACIÓN TOTAL DE TÍTULOS */
+        h1, h2, h3, h4, h5, h6, .font-canale {
+            font-family: 'Canale', serif !important;
+            font-weight: 400 !important; /* Canale suele ser una fuente de peso único */
+            text-transform: uppercase !important;
+            letter-spacing: -0.02em !important; /* Ajuste para que se vea elegante y no 'rota' */
+            line-height: 0.9 !important;
         }
         
-        /* Botones y UI con Manrope para claridad */
-        button, nav a, label, input, textarea {
+        /* El texto 'secondary' ahora es la misma fuente pero con opacidad/color, no otra familia */
+        .secondary-heading, .font-canale.opacity-60, .font-canale.text-wood-400 {
+            font-family: 'Canale', serif !important;
+            font-weight: 400 !important;
+            text-transform: uppercase !important;
+        }
+
+        p, span:not(.font-canale), button, a, label, input, textarea, .font-manrope {
             font-family: 'Manrope', sans-serif !important;
         }
 
-        .font-canela {
-            font-family: 'Canela', serif !important;
-        }
-
-        .editorial-serif { 
-            font-family: 'Canela', serif !important;
-            font-style: italic;
-            font-weight: 400 !important;
-        }
-
+        /* Scrollbar styles default */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #FAF9F6; }
         ::-webkit-scrollbar-thumb { background: #D4C5B0; border-radius: 3px; }
+
+        /* Utility to hide scrollbar explicitly where requested */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
     </style>
 <script type="importmap">
 {

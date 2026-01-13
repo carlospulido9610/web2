@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { Play, ArrowRight, Quote, Hand } from 'lucide-react';
+import { Play, ArrowRight, Hand } from 'lucide-react';
 import { Review } from '../types';
 
 const REVIEWS: Review[] = [
@@ -63,17 +63,15 @@ export const Testimonials: React.FC = () => {
   };
 
   return (
-    <section id="reviews" className="py-12 md:py-24 bg-wood-50 relative overflow-hidden border-t border-wood-200 scroll-mt-32">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 mb-8 md:mb-16">
+    <section id="reviews" className="py-10 md:py-16 bg-wood-50 relative overflow-hidden border-t border-wood-200 scroll-mt-32">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 mb-8 md:mb-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
-            <span className="text-xs font-bold tracking-wider uppercase text-wood-400 block mb-2 font-sans">Validation</span>
-            <h2 className="text-5xl md:text-7xl font-sans font-black text-wood-900 uppercase leading-[0.9] tracking-tighter">
-              Real Homes. <br className="md:hidden" />
-              <span className="editorial-serif lowercase normal-case font-normal text-wood-400">Real Results.</span>
+            <h2 className="text-5xl md:text-7xl font-canale text-wood-900 uppercase leading-[0.9] tracking-tighter">
+              Reviews
             </h2>
           </div>
-          <div className="hidden md:flex items-center gap-2 text-wood-400 text-sm pb-2 font-sans font-bold uppercase tracking-widest">
+          <div className="hidden md:flex items-center gap-2 text-wood-400 text-[10px] pb-2 font-manrope font-black uppercase tracking-widest">
             <ArrowRight size={16} />
             <span>Drag stories</span>
           </div>
@@ -83,7 +81,7 @@ export const Testimonials: React.FC = () => {
       <div className="w-full relative">
         <div className={`md:hidden absolute top-1/2 right-6 -translate-y-1/2 z-20 pointer-events-none flex flex-col items-center gap-2 text-white/90 transition-opacity duration-700 ${hasInteracted ? 'opacity-0' : 'opacity-100'}`}>
           <Hand className="w-8 h-8 animate-swipe-hand drop-shadow-lg" />
-          <span className="text-[10px] font-bold uppercase tracking-widest drop-shadow-md font-sans">Swipe</span>
+          <span className="text-[10px] font-manrope font-black uppercase tracking-widest drop-shadow-md">Swipe</span>
         </div>
 
         <div 
@@ -103,19 +101,6 @@ export const Testimonials: React.FC = () => {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-20 h-20 rounded-full bg-wood-50/10 backdrop-blur-md border border-wood-50/20 flex items-center justify-center text-wood-50 transition-all scale-90 md:scale-100 group-hover:scale-110">
                     <Play fill="currentColor" size={28} className="ml-1 opacity-90" />
-                  </div>
-                </div>
-                <div className="absolute bottom-0 left-0 w-full p-8 md:p-12 flex flex-col items-start text-left z-10">
-                  <Quote className="text-wood-300 mb-6 opacity-80" size={40} />
-                  <p className="text-2xl md:text-4xl font-sans font-bold text-wood-50 leading-tight mb-8 md:max-w-lg tracking-tight">
-                    "{review.quote}"
-                  </p>
-                  <div className="flex items-center gap-4">
-                    <div className="h-px w-8 bg-wood-400"></div>
-                    <div className="flex flex-col">
-                      <span className="text-xs font-bold text-wood-50 uppercase tracking-widest font-sans">{review.name}</span>
-                      <span className="text-xs text-wood-300 mt-1 font-sans font-medium uppercase tracking-wider">{review.role}</span>
-                    </div>
                   </div>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, ArrowRight, Calendar, ChevronLeft, ChevronRight, Clock, CheckCircle2 } from 'lucide-react';
+import { MapPin, Phone, Mail, ArrowRight, ChevronLeft, ChevronRight, Clock, CheckCircle2 } from 'lucide-react';
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -37,7 +37,7 @@ export const ContactForm: React.FC = () => {
     return (
       <div className="animate-fade-in-up font-manrope">
         <div className="flex items-center justify-between mb-6">
-          <h4 className="font-black text-xl text-wood-900 uppercase tracking-tight">
+          <h4 className="font-canale text-xl text-wood-900 uppercase tracking-tight">
             {MONTHS[month]} {year}
           </h4>
           <div className="flex gap-2">
@@ -51,7 +51,7 @@ export const ContactForm: React.FC = () => {
         </div>
         <div className="grid grid-cols-7 gap-1 mb-2">
           {DAYS.map(d => (
-            <div key={d} className="text-center text-[10px] uppercase font-bold text-wood-400 py-1">
+            <div key={d} className="text-center text-[10px] uppercase font-bold text-wood-400 py-1 font-manrope">
               {d}
             </div>
           ))}
@@ -92,16 +92,15 @@ export const ContactForm: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="bg-wood-900 text-wood-50 pt-12 pb-32 border-t border-wood-800 scroll-mt-32">
+    <section id="contact" className="bg-wood-900 text-wood-50 py-10 md:py-16 border-t border-wood-800 scroll-mt-32">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="flex flex-col justify-center pr-0 lg:pr-12">
-            <span className="block text-xs font-manrope font-black tracking-[0.2em] uppercase mb-6 text-wood-400">Contact</span>
-            <h2 className="text-5xl md:text-7xl font-canela leading-[0.9] mb-8 text-wood-100 uppercase tracking-tighter">
-              Let's create <br /> <span className="editorial-serif lowercase normal-case font-normal text-wood-300">together.</span>
+            <h2 className="text-5xl md:text-7xl font-canale leading-[0.9] mb-6 text-wood-100 uppercase tracking-tighter">
+              Ready to <br /> <span className="font-canale text-wood-400 opacity-60">start?</span>
             </h2>
-            <p className="text-wood-400 mb-16 max-w-md text-lg leading-relaxed font-manrope font-medium opacity-80">
-              Have a vision for your new space? Book a showroom visit or write to us directly. We'd love to meet and measure your space.
+            <p className="text-wood-400 mb-10 max-w-md text-lg leading-relaxed font-manrope font-medium opacity-80">
+              Visit the showroom, send us your project details, or book an in-home visit. We can provide pricing remotely or schedule a visit to measure your space.
             </p>
             <div className="space-y-10">
               {[ {icon: MapPin, title: 'Workshop Address', desc: '8074 Shoal Creek Blvd, Suite 204\nAustin, TX 78757'},
@@ -112,7 +111,7 @@ export const ContactForm: React.FC = () => {
                     <item.icon size={20} strokeWidth={1.5} />
                   </div>
                   <div>
-                    <h4 className="text-lg font-manrope font-black text-wood-100 mb-1 uppercase tracking-tight">{item.title}</h4>
+                    <h4 className="text-lg font-canale text-wood-100 mb-1 uppercase tracking-tight">{item.title}</h4>
                     <p className="text-wood-400 font-manrope text-sm font-medium leading-relaxed whitespace-pre-line opacity-80">{item.desc}</p>
                   </div>
                 </div>
@@ -131,7 +130,7 @@ export const ContactForm: React.FC = () => {
             </div>
             {mode === 'message' ? (
               <div className="animate-fade-in-up">
-                <h3 className="text-3xl font-manrope font-black text-wood-900 mb-6 uppercase tracking-tight">Send inquiry</h3>
+                <h3 className="text-4xl font-canale text-wood-900 mb-6 uppercase tracking-tight">Send inquiry</h3>
                 <form className="space-y-6" onSubmit={e => e.preventDefault()}>
                   <div className="grid grid-cols-2 gap-6">
                     {['Name', 'Phone'].map(l => (
@@ -156,14 +155,14 @@ export const ContactForm: React.FC = () => {
               </div>
             ) : (
               <div className="flex-1 flex flex-col relative z-10">
-                {bookingStep === 'date' && (<><h3 className="text-3xl font-manrope font-black text-wood-900 mb-6 uppercase tracking-tight">Select date</h3>{renderCalendar()}</>)}
+                {bookingStep === 'date' && (<><h3 className="text-4xl font-canale text-wood-900 mb-6 uppercase tracking-tight">Select date</h3>{renderCalendar()}</>)}
                 {bookingStep === 'details' && (
                   <div className="animate-fade-in-up">
                     <div className="flex items-center gap-2 mb-6">
                       <button onClick={() => setBookingStep('date')} className="text-wood-500 hover:text-wood-900"><ChevronLeft size={24} /></button>
-                      <h3 className="text-2xl font-manrope font-black text-wood-900 uppercase">Confirm</h3>
+                      <h3 className="text-2xl font-canale text-wood-900 uppercase">Confirm</h3>
                     </div>
-                    <form onSubmit={e => { e.preventDefault(); setBookingStep('success'); }} className="space-y-4">
+                    <form onSubmit={e => { e.preventDefault(); setBookingStep('success'); }} className="space-y-4 font-manrope">
                       {['Full Name', 'Email', 'Phone'].map(l => (
                         <div key={l}>
                           <label className="text-[10px] font-manrope font-black uppercase tracking-widest text-wood-500 block mb-2">{l}</label>
@@ -177,7 +176,7 @@ export const ContactForm: React.FC = () => {
                 {bookingStep === 'success' && (
                   <div className="animate-fade-in-up flex-1 flex flex-col items-center justify-center text-center">
                     <CheckCircle2 size={60} className="text-wood-900 mb-6" />
-                    <h3 className="text-3xl font-manrope font-black text-wood-900 mb-4 uppercase">Confirmed!</h3>
+                    <h3 className="text-4xl font-canale text-wood-900 mb-4 uppercase">Confirmed!</h3>
                     <p className="text-wood-600 font-manrope font-bold mb-8">We've sent a confirmation email.</p>
                     <button onClick={() => {setMode('message'); setBookingStep('date');}} className="text-[10px] font-manrope font-black uppercase tracking-widest border-b-2 border-wood-900 pb-1">Close</button>
                   </div>
