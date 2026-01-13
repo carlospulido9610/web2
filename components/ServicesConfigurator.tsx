@@ -81,10 +81,10 @@ const ModelCarousel: React.FC<{ models: ModelItem[] }> = ({ models }) => {
               <img src={model.image} alt={model.name} className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/10 to-transparent"></div>
               
-              {/* PRICE BOX - UPDATED TO CANALE */}
-              <div className="absolute top-6 right-6 bg-white px-5 py-4 text-center min-w-[140px] z-20 shadow-xl border-none">
-                <span className="block text-[9px] font-manrope font-black uppercase tracking-[0.2em] text-wood-400 mb-0.5">Starting at</span>
-                <span className="block text-4xl font-canale text-wood-900 leading-none tracking-tight">
+              {/* PRICE BOX - REDUCED SIZE BY ~20% */}
+              <div className="absolute top-5 right-5 bg-white px-4 py-3 text-center min-w-[115px] z-20 shadow-xl border-none">
+                <span className="block text-[8px] font-manrope font-black uppercase tracking-[0.2em] text-wood-400 mb-0.5">Starting at</span>
+                <span className="block text-3xl font-canale text-wood-900 leading-none tracking-tight">
                   ${model.price}
                 </span>
               </div>
@@ -114,4 +114,23 @@ export const ServicesConfigurator: React.FC = () => {
         </h2>
         
         <div className="flex border border-wood-200 bg-white -mx-6 md:mx-0 mb-0 overflow-x-auto scrollbar-hide">
-          {SECTIONS.
+          {SECTIONS.map((s) => (
+            <button 
+              key={s.id} 
+              onClick={() => setActiveCategory(s.id)}
+              className={`flex-1 min-w-0 py-5 px-1 md:py-6 md:px-4 text-[8px] sm:text-[9px] md:text-[10px] font-manrope font-black uppercase tracking-[0.1em] md:tracking-[0.15em] border-r border-wood-200 last:border-r-0 transition-all ${
+                activeCategory === s.id 
+                ? 'bg-wood-900 text-white' 
+                : 'text-wood-400 hover:text-wood-600 hover:bg-wood-50'
+              }`}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+
+        <ModelCarousel models={MODELS_DATA[activeCategory]} />
+      </div>
+    </section>
+  );
+};
