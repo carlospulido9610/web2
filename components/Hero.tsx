@@ -25,7 +25,7 @@ export const Hero: React.FC = () => {
             <div className="w-full flex flex-col gap-0 items-center">
                 <a href="#models" className="w-full bg-[#141210] text-white px-4 py-4 md:py-5 border border-white/10 hover:bg-[#1f1d1b] transition-all group flex flex-col items-center justify-center rounded-sm text-center">
                   <div className="flex items-center gap-3">
-                    <span className="text-[14px] md:text-[16px] font-manrope font-black uppercase tracking-widest">Choose Your Design</span>
+                    <span className="text-[18px] md:text-[22px] font-canale uppercase tracking-tight">Choose Your Design</span>
                     <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </div>
                   <span className="text-[8px] md:text-[9px] font-manrope font-bold text-wood-400 uppercase tracking-widest mt-1 whitespace-nowrap">Adjust size, TV and layout. See pricing instantly</span>
@@ -39,7 +39,7 @@ export const Hero: React.FC = () => {
 
                 <a href="#contact" className="w-full bg-[#E8E4DB] text-[#141210] px-4 py-4 md:py-5 hover:bg-[#F2EEE4] transition-all group flex flex-col items-center justify-center rounded-sm text-center">
                   <div className="flex items-center gap-3">
-                    <span className="text-[14px] md:text-[16px] font-manrope font-black uppercase tracking-widest">Get Design Guidance</span>
+                    <span className="text-[18px] md:text-[22px] font-canale uppercase tracking-tight">Get Design Guidance</span>
                     <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </div>
                   <span className="text-[8px] md:text-[9px] font-manrope font-bold uppercase tracking-widest text-[#6B5D52] mt-1 whitespace-nowrap">Book a showroom or in-home consultation</span>
