@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, ArrowRight, ChevronLeft, ChevronRight, Clock, CheckCircle2 } from 'lucide-react';
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -16,6 +16,18 @@ export const ContactForm: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [bookingStep, setBookingStep] = useState<'date' | 'details' | 'success'>('date');
+
+  useEffect(() => {
+    const handleModeChange = (e: any) => {
+      if (e.detail) {
+        setMode(e.detail);
+        const contactSection = document.getElementById('contact');
+        if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+    window.addEventListener('setContactMode', handleModeChange);
+    return () => window.removeEventListener('setContactMode', handleModeChange);
+  }, []);
 
   const changeMonth = (offset: number) => {
     const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + offset, 1);
@@ -84,7 +96,7 @@ export const ContactForm: React.FC = () => {
           </div>
         </div>
         <button onClick={() => setBookingStep('details')} disabled={!selectedDate || !selectedTime}
-          className={`w-full py-3.5 mt-8 text-xs font-manrope font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${selectedDate && selectedTime ? 'bg-wood-900 text-wood-50 hover:bg-wood-800' : 'bg-wood-200 text-wood-400 cursor-not-allowed'}`}>
+          className={`w-full py-3.5 mt-8 text-xs font-manrope font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${selectedDate && selectedTime ? 'bg-wood-900 text-wood-50' : 'bg-wood-200 text-wood-400 cursor-not-allowed'}`}>
           Continue <ArrowRight size={14} />
         </button>
       </div>
@@ -92,47 +104,38 @@ export const ContactForm: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="bg-wood-900 text-wood-50 py-10 md:py-16 border-t border-wood-800 scroll-mt-32">
+    <section id="contact" className="bg-wood-900 text-wood-50 pt-16 md:pt-24 pb-16 md:pb-32 scroll-mt-32 border-none">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="flex flex-col justify-center pr-0 lg:pr-12">
-            <h2 className="text-5xl md:text-7xl font-canale leading-[0.9] mb-6 text-wood-100 uppercase tracking-tighter">
-              Ready to <br /> <span className="font-canale text-wood-400 opacity-60">start?</span>
-            </h2>
-            <p className="text-wood-400 mb-10 max-w-md text-lg leading-relaxed font-manrope font-medium opacity-80">
-              Visit the showroom, send us your project details, or book an in-home visit. We can provide pricing remotely or schedule a visit to measure your space.
-            </p>
-            <div className="space-y-10">
-              {[ {icon: MapPin, title: 'Workshop Address', desc: '8074 Shoal Creek Blvd, Suite 204\nAustin, TX 78757'},
-                 {icon: Phone, title: 'Phone', desc: '+1 (512) 555-0198\nMon-Fri: 8:00 - 17:00'},
-                 {icon: Mail, title: 'Email', desc: 'hello@raval-design.com\ndesign@raval-design.com'} ].map((item, i) => (
-                <div key={i} className="flex items-start gap-6 group">
-                  <div className="w-12 h-12 flex items-center justify-center border border-wood-700 bg-wood-800/50 text-wood-300 rounded-sm group-hover:border-wood-500 group-hover:text-wood-100">
-                    <item.icon size={20} strokeWidth={1.5} />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-canale text-wood-100 mb-1 uppercase tracking-tight">{item.title}</h4>
-                    <p className="text-wood-400 font-manrope text-sm font-medium leading-relaxed whitespace-pre-line opacity-80">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative bg-wood-100 p-8 md:p-12 shadow-2xl overflow-hidden rounded-sm min-h-[600px] flex flex-col font-manrope">
-            <div className="relative z-10 flex border-b border-wood-300 mb-8">
+        
+        {/* 1. TEXTO INTRODUCTORIO - SIEMPRE PRIMERO */}
+        <div className="max-w-4xl mb-12 md:mb-20">
+          <h2 className="text-6xl md:text-8xl font-canale leading-[0.85] mb-6 text-wood-100 uppercase tracking-tighter">
+            Ready to <br /> <span className="font-canale text-wood-400 opacity-60">start?</span>
+          </h2>
+          <p className="text-wood-400 text-lg md:text-xl leading-relaxed font-manrope font-medium opacity-80 max-w-2xl">
+            Visit the showroom, send us your project details, or book an in-home visit. We can provide pricing remotely or schedule a visit to measure your space.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
+          
+          {/* 2. FORMULARIO - POSICIÓN PRINCIPAL */}
+          <div className="lg:col-span-7 relative bg-wood-100 p-8 md:p-12 shadow-2xl overflow-hidden rounded-sm min-h-[620px] flex flex-col font-manrope order-1">
+            <div className="relative z-10 flex border-b border-wood-300 mb-8 overflow-x-auto scrollbar-hide">
               {['message', 'booking'].map(m => (
                 <button key={m} onClick={() => setMode(m as any)}
-                  className={`pb-4 text-[10px] font-manrope font-black uppercase tracking-widest px-4 transition-all relative ${mode === m ? 'text-wood-900' : 'text-wood-400'}`}>
+                  className={`pb-4 text-[10px] font-manrope font-black uppercase tracking-widest px-4 transition-all relative whitespace-nowrap ${mode === m ? 'text-wood-900' : 'text-wood-400'}`}>
                   {m === 'message' ? 'Write Message' : 'Book Appointment'}
                   {mode === m && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-wood-900"></div>}
                 </button>
               ))}
             </div>
+            
             {mode === 'message' ? (
               <div className="animate-fade-in-up">
                 <h3 className="text-4xl font-canale text-wood-900 mb-6 uppercase tracking-tight">Send inquiry</h3>
                 <form className="space-y-6" onSubmit={e => e.preventDefault()}>
-                  <div className="grid grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {['Name', 'Phone'].map(l => (
                       <div key={l} className="space-y-2">
                         <label className="text-[10px] font-manrope font-black uppercase tracking-widest text-wood-500">{l}</label>
@@ -184,6 +187,28 @@ export const ContactForm: React.FC = () => {
               </div>
             )}
           </div>
+
+          {/* 3. INFORMACIÓN DE CONTACTO - REFERENCIA AL FINAL */}
+          <div className="lg:col-span-5 flex flex-col gap-12 order-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-y-12 gap-x-8">
+              {[ 
+                {icon: MapPin, title: 'Workshop Address', desc: '8074 Shoal Creek Blvd, Suite 204\nAustin, TX 78757'},
+                {icon: Phone, title: 'Phone', desc: '+1 (512) 555-0198\nMon-Fri: 8:00 - 17:00'},
+                {icon: Mail, title: 'Email', desc: 'hello@raval-design.com\ndesign@raval-design.com'} 
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-6 group">
+                  <div className="w-12 h-12 flex items-center justify-center border border-wood-700 bg-wood-800/50 text-wood-300 rounded-sm group-hover:border-wood-500 group-hover:text-wood-100 transition-colors shrink-0">
+                    <item.icon size={20} strokeWidth={1.5} />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-xl font-canale text-wood-100 mb-2 uppercase tracking-tight">{item.title}</h4>
+                    <p className="text-wood-400 font-manrope text-sm font-medium leading-relaxed whitespace-pre-line opacity-80">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

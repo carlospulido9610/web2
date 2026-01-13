@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowLeft } from 'lucide-react';
+import { Menu, X, Calendar } from 'lucide-react';
 
 interface NavigationProps {
   isHome?: boolean;
@@ -21,15 +21,19 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
     e.preventDefault();
     setIsOpen(false);
-    const targetId = href.replace('#', '');
+    const targetId = href.split('?')[0].replace('#', '');
     
     if (isHome) {
         const element = document.getElementById(targetId);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
+            // If it's the booking button, trigger the mode switch in ContactForm
+            if (href.includes('booking=true')) {
+              window.dispatchEvent(new CustomEvent('setContactMode', { detail: 'booking' }));
+            }
         }
     } else {
         if (onNavigateSection) {
@@ -47,12 +51,10 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
     { name: 'Reviews', href: '#reviews' },
   ];
 
-  // Logic: Always white text when transparent (top), dark text when scrolled (white bg).
-  // This works for Home (Dark Hero) and Subpages (Dark Headers).
   const textColorClass = !scrolled ? 'text-wood-50' : 'text-wood-900';
 
   return (
-    <nav className={`fixed top-0 w-full z-[100] transition-all duration-500 ${scrolled ? 'bg-wood-50 border-b border-wood-200 py-3 shadow-sm' : 'bg-transparent py-6 md:py-8'}`}>
+    <nav className={`fixed top-0 w-full z-[100] transition-all duration-500 ${scrolled ? 'bg-wood-50 border-b border-wood-200 py-3 shadow-sm' : 'bg-transparent py-4 md:py-6'}`}>
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex items-center justify-between">
         
         <button onClick={onNavigateHome} className="relative z-[110]">
@@ -62,7 +64,6 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
         </button>
 
         <div className="hidden md:flex items-center gap-10">
-          {/* Always render links, even on subpages */}
           {navLinks.map((link) => (
             <a key={link.name} href={link.href} onClick={(e) => handleNavClick(e, link.href)}
               className={`text-[10px] font-black uppercase tracking-[0.2em] font-manrope transition-all opacity-80 hover:opacity-100 ${textColorClass}`}>
@@ -95,15 +96,27 @@ export const Navigation: React.FC<NavigationProps> = ({ isHome = true, onNavigat
         </button>
       </div>
 
-      <div className={`fixed inset-0 z-[100] bg-wood-50 flex flex-col justify-center items-center gap-10 transition-transform duration-500 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ height: '100dvh' }}>
+      <div className={`fixed inset-0 z-[100] bg-wood-50 flex flex-col justify-center items-center gap-6 transition-transform duration-500 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ height: '100dvh' }}>
         {navLinks.map((link) => (
-          <a key={link.name} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className="text-5xl font-manrope font-black text-wood-900 uppercase">
+          <a key={link.name} href={link.href} onClick={(e) => handleNavClick(e, link.href)} 
+            className="text-[32px] font-manrope font-black text-wood-900 uppercase tracking-tight hover:opacity-70 transition-opacity">
             {link.name}
           </a>
         ))}
-        <button onClick={() => { setIsOpen(false); if (onNavigateFAQ) onNavigateFAQ(); }} className="text-5xl font-manrope font-black text-wood-900 uppercase">
+        <button onClick={() => { setIsOpen(false); if (onNavigateFAQ) onNavigateFAQ(); }} 
+          className="text-[32px] font-manrope font-black text-wood-900 uppercase tracking-tight hover:opacity-70 transition-opacity">
             FAQ
         </button>
+        
+        <div className="mt-6 px-6 w-full max-w-xs">
+          <button 
+            onClick={(e) => handleNavClick(e, '#contact?booking=true')}
+            className="w-full bg-[#1F1915] text-wood-50 py-5 rounded-sm flex items-center justify-center gap-3 text-[10px] font-manrope font-black uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-transform"
+          >
+            <Calendar size={16} />
+            Book Appointment
+          </button>
+        </div>
       </div>
     </nav>
   );

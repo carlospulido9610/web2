@@ -77,13 +77,18 @@ const ModelCarousel: React.FC<{ models: ModelItem[] }> = ({ models }) => {
         className={`flex overflow-x-auto gap-0 md:gap-8 pb-0 px-0 md:px-0 scrollbar-hide cursor-grab active:cursor-grabbing ${isDown ? '' : 'snap-x snap-mandatory'}`}>
         {models.map((model) => (
           <div key={model.id} className="snap-center shrink-0 w-[100vw] md:w-[600px] select-none">
-            <div className="group relative h-[65vh] md:h-[600px] w-full bg-wood-200 md:rounded-sm overflow-hidden">
+            <div className="group relative h-[65vh] md:h-[600px] w-full bg-wood-200 md:rounded-sm overflow-hidden border-none">
               <img src={model.image} alt={model.name} className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/10 to-transparent"></div>
-              <div className="absolute top-6 right-6 bg-white px-5 py-4 text-center min-w-[140px] z-20 shadow-xl">
-                <span className="block text-[9px] font-manrope font-black uppercase tracking-[0.2em] text-wood-400 mb-1">Starting at</span>
-                <span className="block text-3xl font-manrope font-extrabold text-wood-900">${model.price}</span>
+              
+              {/* PRICE BOX - UPDATED TO CANALE */}
+              <div className="absolute top-6 right-6 bg-white px-5 py-4 text-center min-w-[140px] z-20 shadow-xl border-none">
+                <span className="block text-[9px] font-manrope font-black uppercase tracking-[0.2em] text-wood-400 mb-0.5">Starting at</span>
+                <span className="block text-4xl font-canale text-wood-900 leading-none tracking-tight">
+                  ${model.price}
+                </span>
               </div>
+
               <div className="absolute bottom-0 left-0 w-full p-8 md:p-10 z-10">
                 <h3 className="text-3xl md:text-5xl font-canale text-white mb-2 leading-[0.9] tracking-tight uppercase">{model.name}</h3>
                 <p className="text-wood-100 text-xs md:text-sm font-manrope font-medium mb-6 opacity-80 max-w-xs">{model.description}</p>
@@ -102,30 +107,11 @@ const ModelCarousel: React.FC<{ models: ModelItem[] }> = ({ models }) => {
 export const ServicesConfigurator: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryId>('media-wall');
   return (
-    <section id="models" className="pt-10 md:pt-16 pb-10 md:pb-16 bg-wood-50 scroll-mt-32">
+    <section id="models" className="pt-8 md:pt-14 pb-1 md:pb-2 bg-wood-50 scroll-mt-32">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-        <h2 className="text-5xl md:text-7xl font-canale text-wood-900 leading-[0.9] mb-8 uppercase tracking-tighter">
+        <h2 className="text-5xl md:text-7xl font-canale text-wood-900 leading-[0.9] mb-7 uppercase tracking-tighter">
           Models
         </h2>
         
         <div className="flex border border-wood-200 bg-white -mx-6 md:mx-0 mb-0 overflow-x-auto scrollbar-hide">
-          {SECTIONS.map((s) => (
-            <button 
-              key={s.id} 
-              onClick={() => setActiveCategory(s.id)}
-              className={`flex-1 min-w-0 py-5 px-1 md:py-6 md:px-4 text-[8px] sm:text-[9px] md:text-[10px] font-manrope font-black uppercase tracking-[0.1em] md:tracking-[0.15em] border-r border-wood-200 last:border-r-0 transition-all ${
-                activeCategory === s.id 
-                ? 'bg-wood-900 text-white' 
-                : 'text-wood-400 hover:text-wood-600 hover:bg-wood-50'
-              }`}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-
-        <ModelCarousel models={MODELS_DATA[activeCategory]} />
-      </div>
-    </section>
-  );
-};
+          {SECTIONS.

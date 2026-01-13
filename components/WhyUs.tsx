@@ -46,9 +46,9 @@ export const WhyUs: React.FC = () => {
   ];
 
   return (
-    <section id="why-us" className="pt-2 md:pt-3 pb-12 md:pb-20 bg-wood-50 scroll-mt-32">
+    <section id="why-us" className="pt-8 md:pt-14 pb-12 md:pb-20 bg-wood-50 scroll-mt-32">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-        <h2 className="text-5xl md:text-7xl font-canale text-wood-900 mb-6 md:mb-8 leading-[0.9] tracking-tighter uppercase">
+        <h2 className="text-5xl md:text-7xl font-canale text-wood-900 mb-6 md:mb-10 leading-[0.9] tracking-tighter uppercase">
           Why <span className="font-canale text-wood-400 opacity-60">Us</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3">

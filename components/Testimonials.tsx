@@ -63,8 +63,8 @@ export const Testimonials: React.FC = () => {
   };
 
   return (
-    <section id="reviews" className="py-10 md:py-16 bg-wood-50 relative overflow-hidden border-t border-wood-200 scroll-mt-32">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 mb-8 md:mb-12">
+    <section id="reviews" className="pt-8 md:pt-14 pb-0 bg-wood-50 relative overflow-hidden border-t border-wood-200 scroll-mt-32">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 mb-7 md:mb-11">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
             <h2 className="text-5xl md:text-7xl font-canale text-wood-900 uppercase leading-[0.9] tracking-tighter">
@@ -91,11 +91,11 @@ export const Testimonials: React.FC = () => {
           onMouseUp={() => setIsDown(false)}
           onMouseMove={handleMouseMove}
           onScroll={handleScroll}
-          className={`flex overflow-x-auto gap-0 md:gap-8 px-0 md:px-12 pb-0 md:pb-12 scrollbar-hide cursor-grab active:cursor-grabbing ${isDown ? '' : 'snap-x snap-mandatory'}`}
+          className={`flex overflow-x-auto gap-0 md:gap-8 px-0 md:px-0 pb-0 scrollbar-hide cursor-grab active:cursor-grabbing ${isDown ? '' : 'snap-x snap-mandatory'}`}
         >
           {REVIEWS.map((review) => (
             <div key={review.id} className="snap-center shrink-0 w-[100vw] md:w-[700px] select-none">
-              <div className="group relative h-[80vh] md:h-[600px] w-full md:rounded-sm overflow-hidden bg-wood-200 shadow-none md:shadow-lg transition-all duration-500">
+              <div className="group relative h-[80vh] md:h-[600px] w-full overflow-hidden bg-wood-200 shadow-none transition-all duration-500">
                 <img src={review.videoThumbnail} alt={review.name} className="absolute inset-0 w-full h-full object-cover animate-ken-burns pointer-events-none" />
                 <div className="absolute inset-0 bg-gradient-to-t from-wood-900 via-wood-900/20 to-transparent opacity-90 md:opacity-70"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -106,7 +106,6 @@ export const Testimonials: React.FC = () => {
               </div>
             </div>
           ))}
-          <div className="hidden md:block w-12 shrink-0"></div>
         </div>
       </div>
     </section>
