@@ -67,7 +67,8 @@ export const Testimonials: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12 mb-7 md:mb-11">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
-            <h2 className="text-5xl md:text-7xl font-canale text-wood-900 uppercase leading-[0.9] tracking-tighter">
+            {/* TITULO REDUCIDO UN 30% PARA COHERENCIA VISUAL */}
+            <h2 className="text-4xl md:text-6xl font-canale text-wood-900 uppercase leading-[0.9] tracking-tighter">
               Reviews
             </h2>
           </div>

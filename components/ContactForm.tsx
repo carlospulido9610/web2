@@ -107,9 +107,9 @@ export const ContactForm: React.FC = () => {
     <section id="contact" className="bg-wood-900 text-wood-50 pt-16 md:pt-24 pb-16 md:pb-32 scroll-mt-32 border-none">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
         
-        {/* 1. TEXTO INTRODUCTORIO - SIEMPRE PRIMERO */}
+        {/* 1. TEXTO INTRODUCTORIO - REDUCIDO 30% */}
         <div className="max-w-4xl mb-12 md:mb-20">
-          <h2 className="text-6xl md:text-8xl font-canale leading-[0.85] mb-6 text-wood-100 uppercase tracking-tighter">
+          <h2 className="text-5xl md:text-7xl font-canale leading-[0.85] mb-6 text-wood-100 uppercase tracking-tighter">
             Ready to <br /> <span className="font-canale text-wood-400 opacity-60">start?</span>
           </h2>
           <p className="text-wood-400 text-lg md:text-xl leading-relaxed font-manrope font-medium opacity-80 max-w-2xl">
