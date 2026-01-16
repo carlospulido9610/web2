@@ -36,7 +36,7 @@ const SECTIONS = [
   { id: 'high-ceiling' as CategoryId, label: 'High Ceiling' }
 ];
 
-const ModelCarousel: React.FC<{ models: ModelItem[] }> = ({ models }) => {
+const ModelCarousel: React.FC<{ models: ModelItem[], onConfigure: () => void }> = ({ models, onConfigure }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDown, setIsDown] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -81,7 +81,6 @@ const ModelCarousel: React.FC<{ models: ModelItem[] }> = ({ models }) => {
               <img src={model.image} alt={model.name} className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/10 to-transparent"></div>
               
-              {/* PRICE BOX - REDUCED SIZE BY ~20% */}
               <div className="absolute top-5 right-5 bg-white px-4 py-3 text-center min-w-[115px] z-20 shadow-xl border-none">
                 <span className="block text-[8px] font-manrope font-black uppercase tracking-[0.2em] text-wood-400 mb-0.5">Starting at</span>
                 <span className="block text-3xl font-canale text-wood-900 leading-none tracking-tight">
@@ -92,7 +91,10 @@ const ModelCarousel: React.FC<{ models: ModelItem[] }> = ({ models }) => {
               <div className="absolute bottom-0 left-0 w-full p-8 md:p-10 z-10">
                 <h3 className="text-3xl md:text-5xl font-canale text-white mb-2 leading-[0.9] tracking-tight uppercase">{model.name}</h3>
                 <p className="text-wood-100 text-xs md:text-sm font-manrope font-medium mb-6 opacity-80 max-w-xs">{model.description}</p>
-                <button className="bg-white text-wood-900 px-6 py-3 text-[10px] font-manrope font-black uppercase tracking-widest flex items-center gap-2 hover:bg-wood-100 transition-colors">
+                <button 
+                  onClick={onConfigure}
+                  className="bg-white text-wood-900 px-6 py-3 text-[10px] font-manrope font-black uppercase tracking-widest flex items-center gap-2 hover:bg-wood-100 transition-colors"
+                >
                    Configure now <ArrowUpRight size={14} />
                 </button>
               </div>
@@ -104,7 +106,7 @@ const ModelCarousel: React.FC<{ models: ModelItem[] }> = ({ models }) => {
   );
 };
 
-export const ServicesConfigurator: React.FC = () => {
+export const ServicesConfigurator: React.FC<{ onOpenConfigurator: () => void }> = ({ onOpenConfigurator }) => {
   const [activeCategory, setActiveCategory] = useState<CategoryId>('media-wall');
   return (
     <section id="models" className="pt-8 md:pt-14 pb-1 md:pb-2 bg-wood-50 scroll-mt-32">
@@ -129,7 +131,7 @@ export const ServicesConfigurator: React.FC = () => {
           ))}
         </div>
 
-        <ModelCarousel models={MODELS_DATA[activeCategory]} />
+        <ModelCarousel models={MODELS_DATA[activeCategory]} onConfigure={onOpenConfigurator} />
       </div>
     </section>
   );
