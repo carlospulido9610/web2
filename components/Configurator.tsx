@@ -9,12 +9,13 @@ interface Option {
   label: string;
   price: number;
   enabled: boolean;
-  tooltip?: string;
 }
 
 interface ConfigGroup {
   label: string;
   description: string;
+  tooltipTitle: string;
+  tooltipContent: string; // Explicación detallada de la categoría
   options: Option[];
 }
 
@@ -35,7 +36,9 @@ const CONFIG_DATA: ConfigData = {
   groups: {
     wallHeight: {
       label: 'Wall Height',
-      description: 'Defines total floor-to-ceiling height. Use the number closest to your home height.',
+      description: 'Defines the total height from floor to ceiling.',
+      tooltipTitle: 'About Wall Height',
+      tooltipContent: 'Exact measurements will be verified by our team. This is a quoting mechanism; use the number closest to what you have at home or what accommodates your budget.',
       options: [
         { id: 'h8', label: '8 ft', price: 0, enabled: true },
         { id: 'h9', label: '9 ft', price: 200, enabled: true },
@@ -49,72 +52,84 @@ const CONFIG_DATA: ConfigData = {
     },
     tvSize: {
       label: 'TV Size',
-      description: 'Affects the overall width and internal reinforcement of the structure.',
+      description: 'Affects the width and internal structure.',
+      tooltipTitle: 'TV Size & Structure',
+      tooltipContent: '100" and above requires a fully customized design to accommodate oversized TVs which needs 3 installers regularly.',
       options: [
         { id: 'tv77', label: 'Up to 77"', price: 0, enabled: true },
-        { id: 'tv85', label: '85"-87"', price: 450, enabled: true, tooltip: 'Requires a wider structure and additional internal reinforcement.' },
-        { id: 'tv100', label: '100" and above', price: 1200, enabled: true, tooltip: 'Fully customized design for oversized TVs. Requires 3 professional installers.' },
+        { id: 'tv85', label: '85"-87"', price: 450, enabled: true },
+        { id: 'tv100', label: '100" and above', price: 1200, enabled: true },
       ]
     },
     tvPlacement: {
       label: 'TV Placement',
-      description: 'How the TV is visually integrated into the media wall.',
+      description: 'How the TV is visually integrated.',
+      tooltipTitle: 'Placement Guidance',
+      tooltipContent: 'Outside (Surface) allows you to replace the TV with a bigger model in the future. Recessed (Flush) requires higher precision and custom fabrication for a seamless look.',
       options: [
-        { id: 'surface', label: 'Outside (Surface mounted)', price: 0, enabled: true, tooltip: 'Lighter look and simpler installation. Allows for bigger TV upgrades in the future.' },
-        { id: 'recessed', label: 'Recessed (Flush / Integrated)', price: 950, enabled: true, tooltip: 'TV is built into the wall for a seamless look. Requires higher precision and custom fabrication.' },
+        { id: 'surface', label: 'Outside (Surface mounted)', price: 0, enabled: true },
+        { id: 'recessed', label: 'Recessed (Flush / Integrated)', price: 950, enabled: true },
       ]
     },
     mantel: {
       label: 'Mantel',
-      description: 'Decorative and functional shelf above the fireplace.',
+      description: 'Decorative and functional shelf.',
+      tooltipTitle: 'Mantel Options',
+      tooltipContent: 'Storage mantel includes hidden compartments inside and requires additional fabrication and hardware.',
       options: [
-        { id: 'no-mantel', label: 'No mantel', price: 0, enabled: true, tooltip: 'Clean, minimalist design for a modern look.' },
-        { id: 'regular', label: 'Regular mantel', price: 450, enabled: true, tooltip: 'Standard floating mantel with a clean profile.' },
-        { id: 'storage', label: 'Storage mantel', price: 850, enabled: true, tooltip: 'Mantel with hidden storage integrated inside. Requires additional fabrication and hardware.' },
+        { id: 'no-mantel', label: 'No mantel', price: 0, enabled: true },
+        { id: 'regular', label: 'Regular mantel', price: 450, enabled: true },
+        { id: 'storage', label: 'Storage mantel', price: 850, enabled: true },
       ]
     },
     soundbar: {
       label: 'Soundbar',
-      description: 'How the sound system is incorporated into the design.',
+      description: 'How the audio system is incorporated.',
+      tooltipTitle: 'Audio Integration',
+      tooltipContent: 'Inserted (Built-in) requires precise sizing and ventilation considerations. Floating is mounted independently for a modern look.',
       options: [
         { id: 'no-sb', label: 'No soundbar', price: 0, enabled: true },
-        { id: 'on-mantel', label: 'On the mantel', price: 150, enabled: true, tooltip: 'Placed directly on top of the mantel with wires hidden behind the wall.' },
-        { id: 'floating', label: 'Floating', price: 300, enabled: true, tooltip: 'Soundbar mounted independently for a clean, modern look.' },
-        { id: 'built-in', label: 'Inserted (Built-in)', price: 600, enabled: true, tooltip: 'Fully integrated into the wall. Requires precise sizing and ventilation considerations.' },
+        { id: 'on-mantel', label: 'On the mantel', price: 150, enabled: true },
+        { id: 'floating', label: 'Floating', price: 300, enabled: true },
+        { id: 'built-in', label: 'Inserted (Built-in)', price: 600, enabled: true },
       ]
     },
     fireplaceType: {
       label: 'Fireplace Type',
-      description: 'Defines the style and visual depth of the fireplace.',
+      description: 'Style and visual depth of the fireplace.',
+      tooltipTitle: '3-Sided Fireplaces',
+      tooltipContent: '3-sided fireplaces provide more visual depth and have a higher installation complexity compared to standard front-facing models.',
       options: [
         { id: 'front', label: 'Regular (Front-facing)', price: 0, enabled: true },
-        { id: '3sided', label: '3-sided', price: 850, enabled: true, tooltip: 'Visible from front and both sides. More visual depth and higher installation complexity.' },
+        { id: '3sided', label: '3-sided', price: 850, enabled: true },
       ]
     },
     lighting: {
       label: 'Lighting',
-      description: 'Integrated lighting to enhance depth and materials.',
+      description: 'Integrated lighting to enhance depth.',
+      tooltipTitle: 'Lighting Placement',
+      tooltipContent: 'Vertical accent lighting on the sides or ambient glow under shelves to highlight materials.',
       options: [
-        { id: 'above', label: 'Above', price: 250, enabled: true, tooltip: 'LED lighting installed above the TV or fireplace area.' },
-        { id: 'under', label: 'Under', price: 250, enabled: true, tooltip: 'Lighting installed below shelves or mantel for ambient glow.' },
-        { id: 'sides', label: 'Sides', price: 450, enabled: true, tooltip: 'Vertical accent lighting on the sides of the wall structure.' },
+        { id: 'above', label: 'Above', price: 250, enabled: true },
+        { id: 'under', label: 'Under', price: 250, enabled: true },
+        { id: 'sides', label: 'Sides', price: 450, enabled: true },
       ]
     }
   }
 };
 
-const Tooltip: React.FC<{ text: string; onClose: () => void }> = ({ text, onClose }) => (
-  <div className="absolute z-[100] bottom-full left-0 mb-3 w-72 bg-wood-900 text-white p-5 rounded-lg shadow-[0_20px_60px_rgba(0,0,0,0.4)] animate-fade-in-up border border-wood-800">
+const Tooltip: React.FC<{ title: string; text: string; onClose: () => void }> = ({ title, text, onClose }) => (
+  <div className="absolute z-[100] top-0 right-0 mt-8 w-72 bg-wood-900 text-white p-5 rounded-lg shadow-[0_20px_60px_rgba(0,0,0,0.4)] animate-fade-in-up border border-wood-800">
     <div className="flex justify-between items-start mb-3 border-b border-wood-800 pb-2">
-      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-wood-400">Technical Details</span>
-      <button onClick={(e) => { e.stopPropagation(); onClose(); }} className="text-wood-500 hover:text-white transition-colors">
+      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-wood-400">{title}</span>
+      <button onClick={onClose} className="text-wood-500 hover:text-white transition-colors">
         <X size={16} />
       </button>
     </div>
     <p className="text-[11px] font-medium leading-relaxed text-wood-100 italic">
       {text}
     </p>
-    <div className="absolute top-full left-6 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px] border-t-wood-900"></div>
+    <div className="absolute bottom-full right-4 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[10px] border-b-wood-900"></div>
   </div>
 );
 
@@ -189,53 +204,55 @@ export const Configurator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           {/* Config Groups */}
           {Object.entries(CONFIG_DATA.groups).map(([key, group]) => (
             <div key={key} className="mb-12 animate-fade-in-up">
-              {/* Nivel 1: Visible */}
-              <div className="mb-6">
-                <h4 className="text-[12px] font-black uppercase tracking-[0.15em] text-wood-900 mb-2">
-                  {group.label}
-                </h4>
-                <p className="text-[11px] font-semibold text-wood-400 leading-relaxed uppercase tracking-wide opacity-70">
+              {/* Nivel 1: Cabecera de Categoría con ⓘ */}
+              <div className="mb-6 relative">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-[12px] font-black uppercase tracking-[0.15em] text-wood-900">
+                    {group.label}
+                  </h4>
+                  <button 
+                    onClick={() => setActiveTooltip(activeTooltip === key ? null : key)}
+                    className={`p-1.5 rounded-full transition-all ${activeTooltip === key ? 'bg-wood-900 text-white scale-110 shadow-lg' : 'text-wood-300 hover:text-wood-900 hover:bg-wood-100'}`}
+                  >
+                    <Info size={18} />
+                  </button>
+                </div>
+                <p className="text-[11px] font-semibold text-wood-400 leading-relaxed uppercase tracking-wide opacity-70 mt-1 pr-10">
                   {group.description}
                 </p>
+
+                {/* Tooltip flotante en el título */}
+                {activeTooltip === key && (
+                  <Tooltip 
+                    title={group.tooltipTitle} 
+                    text={group.tooltipContent} 
+                    onClose={() => setActiveTooltip(null)} 
+                  />
+                )}
               </div>
 
+              {/* Opciones individuales limpias */}
               <div className="grid grid-cols-1 gap-2.5">
                 {group.options.map(opt => {
                   const isSelected = selections[key] === opt.id;
-                  const hasTooltipActive = activeTooltip === opt.id;
                   return (
-                    <div key={opt.id} className="relative">
-                      <button 
-                        onClick={() => setSelections(s => ({...s, [key]: opt.id}))}
-                        className={`w-full p-5 border rounded-lg flex justify-between items-center transition-all ${isSelected ? 'border-wood-900 bg-wood-50 shadow-sm' : 'border-wood-100 hover:border-wood-200 text-wood-400'}`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${isSelected ? 'border-wood-900 bg-wood-900' : 'border-wood-200'}`}>
-                            {isSelected && <Check size={10} className="text-white" />}
-                          </div>
-                          <span className={`text-[11px] font-black uppercase tracking-tight transition-colors ${isSelected ? 'text-wood-900' : ''}`}>
-                            {opt.label}
-                          </span>
-                          
-                          {/* Nivel 2: Bajo demanda */}
-                          {opt.tooltip && (
-                            <button 
-                              onClick={(e) => { e.stopPropagation(); setActiveTooltip(hasTooltipActive ? null : opt.id); }}
-                              className={`p-1.5 rounded-full transition-all ${hasTooltipActive ? 'text-wood-900 bg-wood-200 scale-110' : 'text-wood-300 hover:text-wood-900 hover:bg-wood-100'}`}
-                            >
-                              <Info size={16} />
-                            </button>
-                          )}
+                    <button 
+                      key={opt.id}
+                      onClick={() => setSelections(s => ({...s, [key]: opt.id}))}
+                      className={`w-full p-5 border rounded-lg flex justify-between items-center transition-all ${isSelected ? 'border-wood-900 bg-wood-50 shadow-sm' : 'border-wood-100 hover:border-wood-200 text-wood-400'}`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${isSelected ? 'border-wood-900 bg-wood-900' : 'border-wood-200'}`}>
+                          {isSelected && <Check size={10} className="text-white" />}
                         </div>
-                        <span className={`text-xs font-canale transition-colors ${isSelected ? 'text-wood-900' : 'text-wood-300'}`}>
-                          {opt.price > 0 ? `+$${opt.price}` : 'Incl.'}
+                        <span className={`text-[11px] font-black uppercase tracking-tight transition-colors ${isSelected ? 'text-wood-900' : ''}`}>
+                          {opt.label}
                         </span>
-                      </button>
-                      
-                      {hasTooltipActive && opt.tooltip && (
-                        <Tooltip text={opt.tooltip} onClose={() => setActiveTooltip(null)} />
-                      )}
-                    </div>
+                      </div>
+                      <span className={`text-xs font-canale transition-colors ${isSelected ? 'text-wood-900' : 'text-wood-300'}`}>
+                        {opt.price > 0 ? `+$${opt.price}` : 'Incl.'}
+                      </span>
+                    </button>
                   );
                 })}
               </div>
