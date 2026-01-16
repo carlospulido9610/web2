@@ -17,15 +17,32 @@ type ViewState = 'home' | 'process' | 'faq' | 'configurator' | 'admin';
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewState>('home');
+  const [siteData, setSiteData] = useState<any>(null);
 
   useEffect(() => {
+    const saved = localStorage.getItem('raval_site_data');
+    if (saved) {
+      setSiteData(JSON.parse(saved));
+    }
+    
     window.scrollTo(0, 0);
-    // Shortcut para admin: Alt + A
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.altKey && e.key === 'a') setCurrentView('admin');
+      // Desactivamos el shortcut si estamos en el configurador
+      if (e.altKey && e.key === 'a' && currentView !== 'configurator') {
+        setCurrentView('admin');
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentView]); // Agregamos currentView como dependencia
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      const saved = localStorage.getItem('raval_site_data');
+      if (saved) setSiteData(JSON.parse(saved));
+    };
+    window.addEventListener('site-data-updated', handleUpdate);
+    return () => window.removeEventListener('site-data-updated', handleUpdate);
   }, []);
 
   const handleNavigateToSection = (sectionId: string) => {
@@ -52,11 +69,11 @@ function App() {
       <div className="relative z-10">
         {currentView === 'home' && (
           <>
-            <Hero />
+            <Hero data={siteData?.hero} />
             <ServicesConfigurator onOpenConfigurator={() => setCurrentView('configurator')} />
             <WhyUs />
             <Process onOpenProcess={() => setCurrentView('process')} />
-            <Testimonials />
+            <Testimonials reviews={siteData?.reviews} />
             <ContactForm />
           </>
         )}
@@ -78,7 +95,7 @@ function App() {
         )}
         
         {currentView !== 'configurator' && currentView !== 'admin' && (
-          <Footer onNavigateFAQ={() => setCurrentView('faq')} />
+          <Footer onNavigateFAQ={() => setCurrentView('faq')} onNavigateAdmin={() => setCurrentView('admin')} />
         )}
       </div>
     </main>

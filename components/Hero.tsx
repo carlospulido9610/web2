@@ -2,22 +2,35 @@
 import React from 'react';
 import { ArrowRight, ArrowDown } from 'lucide-react';
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+  data?: {
+    title: string;
+    subtitle: string;
+    bgImage: string;
+  };
+}
+
+export const Hero: React.FC<HeroProps> = ({ data }) => {
+  const content = data || {
+    title: "Custom Media Walls & built-in rooms",
+    subtitle: "Designed to move beyond builder-grade",
+    bgImage: "https://images.unsplash.com/photo-1615529182904-14819c35db37?q=80&w=2560&auto=format&fit=crop"
+  };
+
   return (
     <header className="relative w-full h-[100dvh] min-h-[700px] overflow-hidden bg-wood-900 text-wood-50">
       <div className="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?q=80&w=2560&auto=format&fit=crop" alt="Luxury Media Wall" className="w-full h-full object-cover" />
+        <img src={content.bgImage} alt="Luxury Media Wall" className="w-full h-full object-cover transition-all duration-1000" />
         <div className="absolute inset-0 bg-black/45"></div>
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-full flex flex-col pt-12 pb-10 items-center justify-between">
         <div className="flex flex-col items-center text-center animate-fade-in-up mt-10 md:mt-14">
-            <h1 className="text-[34px] md:text-6xl lg:text-[74px] font-canale text-white leading-[1.1] mb-6 tracking-tight uppercase">
-              Custom Media Walls <br className="hidden md:block" />
-              <span className="font-canale text-white uppercase"> & built-in rooms</span>
+            <h1 className="text-[34px] md:text-6xl lg:text-[74px] font-canale text-white leading-[1.1] mb-6 tracking-tight uppercase whitespace-pre-line">
+              {content.title}
             </h1>
             <p className="text-[15px] md:text-xl font-manrope font-medium text-wood-100 tracking-wide opacity-90 max-w-lg leading-snug">
-              Designed to move beyond builder-grade
+              {content.subtitle}
             </p>
         </div>
 

@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import { Play, ArrowRight, Hand } from 'lucide-react';
 import { Review } from '../types';
 
-const REVIEWS: Review[] = [
+const DEFAULT_REVIEWS: Review[] = [
   {
     id: 1,
     name: 'Sarah Jenkins',
@@ -17,24 +17,11 @@ const REVIEWS: Review[] = [
     role: 'Condo Renovation',
     quote: "We were worried about the mess, but they installed everything in one day. Super clean.",
     videoThumbnail: 'https://images.unsplash.com/photo-1512918760532-3ed64bc8066e?auto=format&fit=crop&q=80&w=1200'
-  },
-  {
-    id: 3,
-    name: 'Elena R.',
-    role: 'Interior Designer',
-    quote: "As a designer, I appreciate their precision. The joinery is flawless.",
-    videoThumbnail: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=1200'
-  },
-  {
-    id: 4,
-    name: 'James H.',
-    role: 'Architect',
-    quote: "The ability to customize the dimensions online before meeting saved us weeks of back and forth.",
-    videoThumbnail: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&q=80&w=1200'
   }
 ];
 
-export const Testimonials: React.FC = () => {
+export const Testimonials: React.FC<{ reviews?: Review[] }> = ({ reviews }) => {
+  const list = reviews && reviews.length > 0 ? reviews : DEFAULT_REVIEWS;
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDown, setIsDown] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -56,18 +43,11 @@ export const Testimonials: React.FC = () => {
     sliderRef.current.scrollLeft = scrollLeft - walk;
   };
 
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    if (!hasInteracted && e.currentTarget.scrollLeft > 20) {
-      setHasInteracted(true);
-    }
-  };
-
   return (
     <section id="reviews" className="pt-8 md:pt-14 pb-0 bg-wood-50 relative overflow-hidden border-t border-wood-200 scroll-mt-32">
       <div className="max-w-7xl mx-auto px-6 md:px-12 mb-7 md:mb-11">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
-            {/* TITULO REDUCIDO UN 30% PARA COHERENCIA VISUAL */}
             <h2 className="text-4xl md:text-6xl font-canale text-wood-900 uppercase leading-[0.9] tracking-tighter">
               Reviews
             </h2>
@@ -91,14 +71,17 @@ export const Testimonials: React.FC = () => {
           onMouseLeave={() => setIsDown(false)}
           onMouseUp={() => setIsDown(false)}
           onMouseMove={handleMouseMove}
-          onScroll={handleScroll}
           className={`flex overflow-x-auto gap-0 md:gap-8 px-0 md:px-0 pb-0 scrollbar-hide cursor-grab active:cursor-grabbing ${isDown ? '' : 'snap-x snap-mandatory'}`}
         >
-          {REVIEWS.map((review) => (
+          {list.map((review) => (
             <div key={review.id} className="snap-center shrink-0 w-[100vw] md:w-[700px] select-none">
-              <div className="group relative h-[80vh] md:h-[600px] w-full overflow-hidden bg-wood-200 shadow-none transition-all duration-500">
-                <img src={review.videoThumbnail} alt={review.name} className="absolute inset-0 w-full h-full object-cover animate-ken-burns pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-t from-wood-900 via-wood-900/20 to-transparent opacity-90 md:opacity-70"></div>
+              <div className="group relative h-[80vh] md:h-[600px] w-full overflow-hidden bg-wood-200">
+                <img src={review.videoThumbnail} alt={review.name} className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-wood-900 via-wood-900/20 to-transparent opacity-90"></div>
+                <div className="absolute bottom-10 left-10 right-10 z-10">
+                   <p className="text-white text-xl md:text-3xl font-canale uppercase mb-4 tracking-tight">"{review.quote}"</p>
+                   <p className="text-wood-300 text-[10px] font-black uppercase tracking-widest">{review.name} — {review.role}</p>
+                </div>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-20 h-20 rounded-full bg-wood-50/10 backdrop-blur-md border border-wood-50/20 flex items-center justify-center text-wood-50 transition-all scale-90 md:scale-100 group-hover:scale-110">
                     <Play fill="currentColor" size={28} className="ml-1 opacity-90" />
