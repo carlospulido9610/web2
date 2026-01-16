@@ -12,9 +12,9 @@ const Tooltip: React.FC<{ title: string; text: string; onClose: () => void }> = 
         <X size={16} />
       </button>
     </div>
-    <p className="text-[11px] font-medium leading-relaxed text-wood-100 italic">
+    <div className="text-[11px] font-medium leading-relaxed text-wood-100 italic whitespace-pre-line">
       {text}
-    </p>
+    </div>
     <div className="absolute bottom-full right-4 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[10px] border-b-wood-900"></div>
   </div>
 );
@@ -28,9 +28,81 @@ export const Configurator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     return null;
   });
 
+  // Default detailed info based on user request
+  const defaultGroups = {
+    wallHeight: {
+      label: 'Wall Height',
+      description: "Defines the total height of the media wall from floor to ceiling. Exact measurements will be verified by our team.\n\nNote: This is just a quoting mechanism; use the number that is closer to what you have at home or what accommodates your budget.",
+      options: [
+        { id: 'h8', label: '8 ft', price: 0 },
+        { id: 'h9', label: '9 ft', price: 200 },
+        { id: 'h10', label: '10 ft', price: 500 },
+        { id: 'h10p', label: '10 ft+', price: 800 },
+        { id: 'h12p', label: '12 ft+', price: 1200 },
+        { id: 'h14p', label: '14 ft+', price: 1800 },
+        { id: 'h16p', label: '16 ft+', price: 2500 },
+        { id: 'h20p', label: '20 ft+', price: 3500 }
+      ]
+    },
+    tvSize: {
+      label: 'TV Size',
+      description: "Affects the overall width and internal structure of the media wall.\n\n• Up to 77\": Standard fit.\n• 85\"-87\": Requires a wider structure and additional reinforcement.\n• 100\"+: Fully customized design for oversized TVs; typically requires 3 installers.",
+      options: [
+        { id: 'tv77', label: 'Up to 77"', price: 0 },
+        { id: 'tv85', label: '85"–87"', price: 450 },
+        { id: 'tv100', label: '100" and above', price: 1200 }
+      ]
+    },
+    tvPlacement: {
+      label: 'TV Placement',
+      description: "How the TV is visually integrated.\n\n• Surface mounted: TV is on the surface. Lighter look, simpler install, and easier to upgrade to a bigger TV later.\n• Recessed: TV is built into the wall for a seamless look. Requires higher precision and custom fabrication.",
+      options: [
+        { id: 'surface', label: 'Surface mounted', price: 0 },
+        { id: 'recessed', label: 'Recessed (Flush)', price: 650 }
+      ]
+    },
+    mantel: {
+      label: 'Mantel',
+      description: "Decorative and functional shelf.\n\n• No mantel: Clean, minimalist.\n• Regular: Standard floating mantel.\n• Storage mantel: Includes hidden storage inside. Requires additional fabrication and hardware.",
+      options: [
+        { id: 'no-mantel', label: 'No mantel', price: 0 },
+        { id: 'regular-mantel', label: 'Regular mantel', price: 350 },
+        { id: 'storage-mantel', label: 'Storage mantel', price: 750 }
+      ]
+    },
+    soundbar: {
+      label: 'Soundbar',
+      description: "Integration style for your sound system.\n\n• On the mantel: Placed on top with hidden wires.\n• Floating: Mounted independently for a modern look.\n• Inserted: Fully integrated (Built-in). Requires precise sizing and ventilation.",
+      options: [
+        { id: 'no-soundbar', label: 'No soundbar', price: 0 },
+        { id: 'on-mantel', label: 'On the mantel', price: 150 },
+        { id: 'floating', label: 'Floating', price: 250 },
+        { id: 'inserted', label: 'Inserted (Built-in)', price: 450 }
+      ]
+    },
+    fireplaceType: {
+      label: 'Fireplace Type',
+      description: "Visual depth of the unit.\n\n• Regular: Standard single-sided fireplace.\n• 3-sided: Visible from front and sides. More depth and higher complexity.",
+      options: [
+        { id: 'front', label: 'Front-facing', price: 0 },
+        { id: '3sided', label: '3-sided', price: 850 }
+      ]
+    },
+    lighting: {
+      label: 'Lighting',
+      description: "Integrated accent lighting.\n\n• Above: Installed above TV/Fireplace.\n• Under: Below shelves/mantel.\n• Sides: Vertical accent lighting on the sides.",
+      options: [
+        { id: 'no-lighting', label: 'None', price: 0 },
+        { id: 'above', label: 'Above', price: 250 },
+        { id: 'under', label: 'Under', price: 250 },
+        { id: 'sides', label: 'Sides', price: 450 }
+      ]
+    }
+  };
+
   const config = siteData?.configurator || {
     basePrices: { 'media-wall': 4500, 'fireplaces': 3200, 'consoles': 2400, 'high-ceiling': 6500 },
-    groups: {}
+    groups: defaultGroups
   };
 
   const baseImages: Record<string, string> = {
@@ -104,7 +176,6 @@ export const Configurator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <div className="space-y-14 pb-10">
             {Object.entries(config.groups).map(([key, group]: [any, any]) => (
               <div key={key} className="animate-fade-in-up">
-                {/* Unified Group Header - Description removed from here, now ONLY in Tooltip */}
                 <div className="mb-6 relative">
                   <div className="flex items-center justify-between gap-4">
                     <h4 className="text-[14px] font-canale uppercase tracking-tight text-wood-900 leading-none">
