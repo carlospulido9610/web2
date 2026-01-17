@@ -1,22 +1,19 @@
 
 import React, { useState, useEffect } from 'react';
-import { Save, ChevronLeft, ShieldCheck, Layout, Settings, MessageSquare, Plus, Trash2, Globe, Edit3, CheckCircle2 } from 'lucide-react';
+import { Save, ChevronLeft, ShieldCheck, Layout, Settings, MessageSquare, Plus, Trash2, Globe, Edit3, CheckCircle2, Grid } from 'lucide-react';
+import { ConfiguratorData, Model } from '../types';
 
-type Tab = 'configurator' | 'hero' | 'reviews' | 'general';
+type Tab = 'models' | 'configurator' | 'hero' | 'reviews' | 'general';
 
-const INITIAL_DATA = {
-  hero: {
-    title: "Custom Media Walls & built-in rooms",
-    subtitle: "Designed to move beyond builder-grade",
-    bgImage: "https://images.unsplash.com/photo-1615529182904-14819c35db37?q=80&w=2560&auto=format&fit=crop"
-  },
-  reviews: [
-    { id: 1, name: 'Sarah Jenkins', role: 'Homeowner', quote: "It completely changed the vibe of our living room.", videoThumbnail: 'https://images.unsplash.com/photo-1542202229-7d93c33f5d07?auto=format&fit=crop&q=80&w=1200' },
-    { id: 2, name: 'Mark & David', role: 'Condo Renovation', quote: "We were worried about the mess, but they installed everything in one day.", videoThumbnail: 'https://images.unsplash.com/photo-1512918760532-3ed64bc8066e?auto=format&fit=crop&q=80&w=1200' }
-  ],
-  configurator: {
-    basePrices: { 'media-wall': 4500, 'fireplaces': 3200, 'consoles': 2400, 'high-ceiling': 6500 },
-    groups: {
+const INITIAL_MODELS: Model[] = [
+    { id: 'mw-1', name: 'The Floating Oak', category: 'media-wall', basePrice: 4500, description: 'Minimalist floating console with integrated LED lighting and acoustic slat backing.', image: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?auto=format&fit=crop&q=80&w=1200' },
+    { id: 'mw-2', name: 'Cinema Suite', category: 'media-wall', basePrice: 6200, description: 'Full wall integration with hidden storage, soundbar niche, and ambient backlighting.', image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1200' },
+    { id: 'fp-1', name: 'Modern Linear', category: 'fireplaces', basePrice: 3800, description: 'Sleek panoramic electric fireplace insert with micro-cement finish surround.', image: 'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&q=80&w=1200' },
+    { id: 'cn-1', name: 'Minimalist Entry', category: 'consoles', basePrice: 2400, description: 'Slim profile entry console with premium wood finish and cable management.', image: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=1200' },
+    { id: 'hc-1', name: 'The Cathedral', category: 'high-ceiling', basePrice: 8500, description: 'Grand scale joinery designed specifically for double-height voids.', image: 'https://images.unsplash.com/photo-1600210491369-e753d80a41f3?auto=format&fit=crop&q=80&w=1200' }
+];
+
+const INITIAL_GROUPS = {
       wallHeight: {
         label: 'Wall Height',
         description: 'Defines the total height of the media wall from floor to ceiling. Exact measurements will be verified by our team.',
@@ -85,15 +82,42 @@ const INITIAL_DATA = {
           { id: 'sides', label: 'Sides', price: 450 }
         ]
       }
-    }
+};
+
+const INITIAL_DATA = {
+  hero: {
+    title: "Custom Media Walls & built-in rooms",
+    subtitle: "Designed to move beyond builder-grade",
+    bgImage: "https://images.unsplash.com/photo-1615529182904-14819c35db37?q=80&w=2560&auto=format&fit=crop"
+  },
+  reviews: [
+    { id: 1, name: 'Sarah Jenkins', role: 'Homeowner', quote: "It completely changed the vibe of our living room.", videoThumbnail: 'https://images.unsplash.com/photo-1542202229-7d93c33f5d07?auto=format&fit=crop&q=80&w=1200' },
+    { id: 2, name: 'Mark & David', role: 'Condo Renovation', quote: "We were worried about the mess, but they installed everything in one day.", videoThumbnail: 'https://images.unsplash.com/photo-1512918760532-3ed64bc8066e?auto=format&fit=crop&q=80&w=1200' }
+  ],
+  configurator: {
+    models: INITIAL_MODELS,
+    basePrices: { 'media-wall': 4500, 'fireplaces': 3200, 'consoles': 2400, 'high-ceiling': 6500 },
+    groups: INITIAL_GROUPS
   }
 };
 
 export const AdminPanel: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-  const [activeTab, setActiveTab] = useState<Tab>('configurator');
+  const [activeTab, setActiveTab] = useState<Tab>('models');
   const [data, setData] = useState<any>(() => {
     const saved = localStorage.getItem('raval_site_data');
-    return saved ? JSON.parse(saved) : INITIAL_DATA;
+    const parsed = saved ? JSON.parse(saved) : null;
+    // Merge new initial structure if old data exists
+    if (parsed && !parsed.configurator.models) {
+        return { 
+            ...parsed, 
+            configurator: { 
+                ...parsed.configurator, 
+                models: INITIAL_MODELS, 
+                groups: parsed.configurator.groups || INITIAL_GROUPS 
+            } 
+        };
+    }
+    return parsed || INITIAL_DATA;
   });
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -121,16 +145,48 @@ export const AdminPanel: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     setData(newData);
   };
 
+  const addModel = () => {
+    const newModel: Model = {
+        id: `m-${Date.now()}`,
+        name: 'New Model',
+        category: 'media-wall',
+        basePrice: 5000,
+        description: 'Description here...',
+        image: 'https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&q=80&w=600'
+    };
+    const newData = { ...data };
+    newData.configurator.models.push(newModel);
+    setData(newData);
+  };
+
+  const removeModel = (index: number) => {
+    const newData = { ...data };
+    newData.configurator.models.splice(index, 1);
+    setData(newData);
+  };
+
+  const updateModel = (index: number, field: keyof Model, value: any) => {
+    const newData = { ...data };
+    newData.configurator.models[index][field] = value;
+    setData(newData);
+  };
+
   return (
     <div className="min-h-screen bg-[#F8F7F4] flex flex-col font-manrope">
       <div className="flex flex-1">
-        <aside className="w-64 bg-wood-900 text-white flex flex-col p-6 sticky top-0 h-screen">
-          <div className="flex items-center gap-3 mb-12">
+        <aside className="w-64 bg-wood-900 text-white flex flex-col p-6 sticky top-0 h-screen overflow-y-auto z-40">
+          <div className="flex items-center gap-3 mb-12 shrink-0">
             <ShieldCheck className="text-wood-400" />
             <h1 className="font-canale text-2xl uppercase tracking-tight">Raval Admin</h1>
           </div>
           <nav className="flex flex-col gap-2">
-            {[{ id: 'configurator', label: 'Configurator', icon: Settings }, { id: 'hero', label: 'Hero Content', icon: Layout }, { id: 'reviews', label: 'Reviews', icon: MessageSquare }, { id: 'general', label: 'Settings', icon: Globe }].map(tab => (
+            {[
+                { id: 'models', label: 'Models Gallery', icon: Grid },
+                { id: 'configurator', label: 'Options Logic', icon: Settings }, 
+                { id: 'hero', label: 'Hero Content', icon: Layout }, 
+                { id: 'reviews', label: 'Reviews', icon: MessageSquare }, 
+                { id: 'general', label: 'Settings', icon: Globe }
+            ].map(tab => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id as Tab)} className={`flex items-center gap-3 px-4 py-3 rounded-md text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === tab.id ? 'bg-white/10 text-white shadow-inner' : 'text-wood-500 hover:text-white'}`}>
                 <tab.icon size={16} />
                 {tab.label}
@@ -144,8 +200,8 @@ export const AdminPanel: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           </div>
         </aside>
 
-        <main className="flex-1 p-8 md:p-16 max-w-5xl overflow-y-auto">
-          <header className="flex justify-between items-center mb-12 sticky top-0 bg-[#F8F7F4]/80 backdrop-blur-md z-20 py-4">
+        <main className="flex-1 p-8 md:p-16 max-w-5xl overflow-y-auto relative">
+          <header className="flex justify-between items-center mb-12 sticky top-0 bg-[#F8F7F4]/90 backdrop-blur-md z-30 py-4 border-b border-wood-200/50">
             <div>
               <h2 className="text-4xl font-canale uppercase text-wood-900 leading-none">{activeTab}</h2>
               <p className="text-wood-400 text-[10px] font-black uppercase tracking-widest mt-1">Full Content Management</p>
@@ -158,27 +214,65 @@ export const AdminPanel: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             </div>
           </header>
 
-          <div className="space-y-12">
+          <div className="space-y-12 pb-20">
+            
+            {activeTab === 'models' && (
+                <section className="space-y-8">
+                    <div className="flex justify-between items-center">
+                        <h3 className="text-[12px] font-black uppercase tracking-widest text-wood-900">Manage Models</h3>
+                        <button onClick={addModel} className="flex items-center gap-2 bg-wood-200 hover:bg-wood-300 text-wood-900 px-4 py-2 rounded-sm text-[10px] font-black uppercase tracking-widest transition-colors">
+                            <Plus size={14} /> Add New Model
+                        </button>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-6">
+                        {data.configurator.models.map((model: Model, index: number) => (
+                            <div key={model.id} className="bg-white border border-wood-100 rounded-sm p-6 shadow-sm flex flex-col md:flex-row gap-6 items-start">
+                                <div className="w-full md:w-32 aspect-square bg-wood-100 shrink-0 rounded-sm overflow-hidden border border-wood-200">
+                                    <img src={model.image} alt={model.name} className="w-full h-full object-cover" />
+                                </div>
+                                <div className="flex-1 space-y-4 w-full">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-[9px] font-bold uppercase text-wood-400 mb-1">Model Name</label>
+                                            <input className="w-full border border-wood-200 p-2 text-sm font-bold" value={model.name} onChange={e => updateModel(index, 'name', e.target.value)} />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[9px] font-bold uppercase text-wood-400 mb-1">Category</label>
+                                            <select className="w-full border border-wood-200 p-2 text-sm" value={model.category} onChange={e => updateModel(index, 'category', e.target.value)}>
+                                                <option value="media-wall">Media Wall</option>
+                                                <option value="fireplaces">Fireplaces</option>
+                                                <option value="consoles">Consoles</option>
+                                                <option value="high-ceiling">High Ceiling</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-[9px] font-bold uppercase text-wood-400 mb-1">Base Price ($)</label>
+                                            <input type="number" className="w-full border border-wood-200 p-2 text-sm font-bold" value={model.basePrice} onChange={e => updateModel(index, 'basePrice', parseInt(e.target.value) || 0)} />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[9px] font-bold uppercase text-wood-400 mb-1">Image URL</label>
+                                            <input className="w-full border border-wood-200 p-2 text-xs" value={model.image} onChange={e => updateModel(index, 'image', e.target.value)} />
+                                        </div>
+                                    </div>
+                                    <div>
+                                         <label className="block text-[9px] font-bold uppercase text-wood-400 mb-1">Description</label>
+                                         <textarea className="w-full border border-wood-200 p-2 text-xs" rows={2} value={model.description} onChange={e => updateModel(index, 'description', e.target.value)} />
+                                    </div>
+                                </div>
+                                <button onClick={() => removeModel(index)} className="p-2 text-red-300 hover:text-red-500 transition-colors">
+                                    <Trash2 size={16} />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
             {activeTab === 'configurator' && (
               <div className="space-y-10">
-                <section className="bg-white p-8 border border-wood-100 rounded-sm shadow-sm">
-                  <h3 className="text-[12px] font-black uppercase tracking-widest text-wood-900 mb-6 border-b pb-4">Base Category Pricing</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {Object.entries(data.configurator.basePrices).map(([cat, price]: [any, any]) => (
-                      <div key={cat}>
-                        <label className="block text-[10px] font-bold uppercase text-wood-400 mb-1">{cat.replace('-', ' ')}</label>
-                        <div className="flex">
-                          <span className="bg-wood-50 border border-r-0 border-wood-200 px-4 py-3 font-bold text-wood-400">$</span>
-                          <input type="number" className="w-full border border-wood-200 p-3 font-black" value={price} onChange={e => {
-                            const newPrices = {...data.configurator.basePrices, [cat]: parseInt(e.target.value) || 0};
-                            setData({...data, configurator: {...data.configurator, basePrices: newPrices}});
-                          }} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
                 <section className="space-y-6">
                   {Object.entries(data.configurator.groups).map(([groupId, group]: [string, any]) => (
                     <div key={groupId} className="bg-white border border-wood-100 rounded-sm shadow-sm">
@@ -218,7 +312,12 @@ export const AdminPanel: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 </section>
               </div>
             )}
-            {/* Omitidas otras tabs para brevedad, se mantienen igual */}
+            
+            {(activeTab === 'hero' || activeTab === 'reviews' || activeTab === 'general') && (
+                <div className="flex items-center justify-center h-64 text-wood-400 font-canale text-2xl uppercase">
+                    Settings for {activeTab}
+                </div>
+            )}
           </div>
         </main>
       </div>

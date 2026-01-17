@@ -1,3 +1,4 @@
+
 export interface ServiceCategory {
   id: string;
   name: string;
@@ -31,4 +32,31 @@ export interface ProcessStep {
   title: string;
   content: string;
   details?: string;
+}
+
+export interface Model {
+  id: string;
+  name: string;
+  category: string; // 'media-wall' | 'fireplaces' | 'consoles' | 'high-ceiling'
+  basePrice: number;
+  image: string;
+  description: string;
+}
+
+export interface Option {
+  id: string;
+  label: string;
+  price: number;
+}
+
+export interface OptionGroup {
+  label: string;
+  description: string;
+  options: Option[];
+}
+
+export interface ConfiguratorData {
+  models: Model[];
+  basePrices: Record<string, number>; // Legacy support
+  groups: Record<string, OptionGroup>;
 }
