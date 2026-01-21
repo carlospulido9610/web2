@@ -10,7 +10,7 @@ const getFirstDayOfMonth = (year: number, month: number) => new Date(year, month
 
 const TIME_SLOTS = ['10:00 AM', '11:00 AM', '1:00 PM', '2:30 PM', '4:00 PM'];
 
-export const ContactForm: React.FC = () => {
+export const ContactForm: React.FC<{ onNavigatePrivacy?: () => void }> = ({ onNavigatePrivacy }) => {
   const [mode, setMode] = useState<'message' | 'booking'>('message');
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -152,18 +152,46 @@ export const ContactForm: React.FC = () => {
                     <label className="text-[10px] font-manrope font-black uppercase tracking-widest text-wood-500">Your Vision</label>
                     <textarea rows={4} className="w-full bg-white border border-wood-300 p-4 font-manrope font-bold text-wood-900 focus:border-wood-500 outline-none resize-none" placeholder="Describe your project..."></textarea>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <input
-                      type="checkbox"
-                      id="sms-agreement-msg"
-                      required
-                      checked={agreed}
-                      onChange={(e) => setAgreed(e.target.checked)}
-                      className="mt-1 w-4 h-4 rounded border-wood-300 text-wood-900 focus:ring-wood-500"
-                    />
-                    <label htmlFor="sms-agreement-msg" className="text-[11px] leading-relaxed text-wood-600 font-medium">
-                      By submitting this form, you agree to receive text messages from Raval Carpentry regarding quotes, appointments, and services. Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe.
-                    </label>
+                  <div className="space-y-4 mb-6">
+                    <p className="text-[11px] leading-relaxed text-wood-600 font-medium">
+                      Do you agree to receive text messages from Raval Carpentry sent from +1 (512) 555-0198? Message frequency varies and may include appointment reminders, service updates, quotes, and promotional messages. Message and data rates may apply.
+                    </p>
+                    <p className="text-[11px] leading-relaxed text-wood-600 font-medium">
+                      <strong>Reply STOP at any time to unsubscribe. For assistance, reply HELP or contact support.</strong>
+                    </p>
+
+                    <div className="space-y-3">
+                      <div className="flex items-start gap-3">
+                        <input
+                          type="checkbox"
+                          id="sms-agreement-yes"
+                          required
+                          checked={agreed}
+                          onChange={(e) => setAgreed(e.target.checked)}
+                          className="mt-1 w-4 h-4 rounded border-wood-300 text-wood-900 focus:ring-wood-500"
+                        />
+                        <label htmlFor="sms-agreement-yes" className="text-[11px] leading-relaxed text-wood-600 font-medium pt-0.5">
+                          Yes, I agree to receive text messages from Raval Carpentry sent from +1 (512) 555-0198. (required)
+                        </label>
+                      </div>
+
+                      <div className="flex items-start gap-3">
+                        <input
+                          type="checkbox"
+                          id="sms-agreement-no"
+                          checked={!agreed}
+                          onChange={(e) => setAgreed(!e.target.checked)}
+                          className="mt-1 w-4 h-4 rounded border-wood-300 text-wood-900 focus:ring-wood-500"
+                        />
+                        <label htmlFor="sms-agreement-no" className="text-[11px] leading-relaxed text-wood-600 font-medium pt-0.5">
+                          No, I do not want to receive text messages from Raval Carpentry.
+                        </label>
+                      </div>
+                    </div>
+
+                    <p className="text-[11px] text-wood-500 italic">
+                      See our <button type="button" onClick={onNavigatePrivacy} className="underline hover:text-wood-800 transition-colors">Privacy Policy</button> for details on how we handle your information.
+                    </p>
                   </div>
                   <button
                     type="submit"
