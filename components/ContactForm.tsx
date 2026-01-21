@@ -16,6 +16,7 @@ export const ContactForm: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [bookingStep, setBookingStep] = useState<'date' | 'details' | 'success'>('date');
+  const [agreed, setAgreed] = useState(false);
 
   useEffect(() => {
     const handleModeChange = (e: any) => {
@@ -42,7 +43,7 @@ export const ContactForm: React.FC = () => {
     const daysInMonth = getDaysInMonth(year, month);
     const firstDay = getFirstDayOfMonth(year, month);
     const today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
     const blanks = Array(firstDay).fill(null);
     const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
@@ -106,7 +107,7 @@ export const ContactForm: React.FC = () => {
   return (
     <section id="contact" className="bg-wood-900 text-wood-50 pt-16 md:pt-24 pb-16 md:pb-32 scroll-mt-32 border-none">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-        
+
         {/* 1. TEXTO INTRODUCTORIO - REDUCIDO 30% */}
         <div className="max-w-4xl mb-12 md:mb-20">
           <h2 className="text-5xl md:text-7xl font-canale leading-[0.85] mb-6 text-wood-100 uppercase tracking-tighter">
@@ -118,7 +119,7 @@ export const ContactForm: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
-          
+
           {/* 2. FORMULARIO - POSICIÓN PRINCIPAL */}
           <div className="lg:col-span-7 relative bg-wood-100 p-8 md:p-12 shadow-2xl overflow-hidden rounded-sm min-h-[620px] flex flex-col font-manrope order-1">
             <div className="relative z-10 flex border-b border-wood-300 mb-8 overflow-x-auto scrollbar-hide">
@@ -130,7 +131,7 @@ export const ContactForm: React.FC = () => {
                 </button>
               ))}
             </div>
-            
+
             {mode === 'message' ? (
               <div className="animate-fade-in-up">
                 <h3 className="text-4xl font-canale text-wood-900 mb-6 uppercase tracking-tight">Send inquiry</h3>
@@ -151,7 +152,24 @@ export const ContactForm: React.FC = () => {
                     <label className="text-[10px] font-manrope font-black uppercase tracking-widest text-wood-500">Your Vision</label>
                     <textarea rows={4} className="w-full bg-white border border-wood-300 p-4 font-manrope font-bold text-wood-900 focus:border-wood-500 outline-none resize-none" placeholder="Describe your project..."></textarea>
                   </div>
-                  <button type="submit" className="w-full py-4 bg-wood-900 text-wood-50 text-[10px] font-manrope font-black uppercase tracking-[0.2em] hover:bg-wood-800 transition-all flex items-center justify-center gap-4">
+                  <div className="flex items-start gap-3">
+                    <input
+                      type="checkbox"
+                      id="sms-agreement-msg"
+                      required
+                      checked={agreed}
+                      onChange={(e) => setAgreed(e.target.checked)}
+                      className="mt-1 w-4 h-4 rounded border-wood-300 text-wood-900 focus:ring-wood-500"
+                    />
+                    <label htmlFor="sms-agreement-msg" className="text-[11px] leading-relaxed text-wood-600 font-medium">
+                      By submitting this form, you agree to receive text messages from Raval Carpentry regarding quotes, appointments, and services. Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe.
+                    </label>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={!agreed}
+                    className={`w-full py-4 text-wood-50 text-[10px] font-manrope font-black uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-4 ${agreed ? 'bg-wood-900 hover:bg-wood-800' : 'bg-wood-300 cursor-not-allowed'}`}
+                  >
                     Send Request <ArrowRight size={16} className="text-wood-400" />
                   </button>
                 </form>
@@ -172,7 +190,26 @@ export const ContactForm: React.FC = () => {
                           <input required className="w-full bg-white border border-wood-300 p-3 font-manrope font-bold text-wood-900" />
                         </div>
                       ))}
-                      <button type="submit" className="w-full py-4 bg-wood-900 text-wood-50 text-[10px] font-manrope font-black uppercase tracking-widest mt-6">Confirm Appointment</button>
+                      <div className="flex items-start gap-3 pt-2">
+                        <input
+                          type="checkbox"
+                          id="sms-agreement-book"
+                          required
+                          checked={agreed}
+                          onChange={(e) => setAgreed(e.target.checked)}
+                          className="mt-1 w-4 h-4 rounded border-wood-300 text-wood-900 focus:ring-wood-500"
+                        />
+                        <label htmlFor="sms-agreement-book" className="text-[11px] leading-relaxed text-wood-600 font-medium">
+                          By submitting this form, you agree to receive text messages from Raval Carpentry regarding quotes, appointments, and services. Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe.
+                        </label>
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={!agreed}
+                        className={`w-full py-4 text-wood-50 text-[10px] font-manrope font-black uppercase tracking-widest mt-6 transition-all ${agreed ? 'bg-wood-900 hover:bg-wood-800' : 'bg-wood-300 cursor-not-allowed'}`}
+                      >
+                        Confirm Appointment
+                      </button>
                     </form>
                   </div>
                 )}
@@ -181,7 +218,7 @@ export const ContactForm: React.FC = () => {
                     <CheckCircle2 size={60} className="text-wood-900 mb-6" />
                     <h3 className="text-4xl font-canale text-wood-900 mb-4 uppercase">Confirmed!</h3>
                     <p className="text-wood-600 font-manrope font-bold mb-8">We've sent a confirmation email.</p>
-                    <button onClick={() => {setMode('message'); setBookingStep('date');}} className="text-[10px] font-manrope font-black uppercase tracking-widest border-b-2 border-wood-900 pb-1">Close</button>
+                    <button onClick={() => { setMode('message'); setBookingStep('date'); }} className="text-[10px] font-manrope font-black uppercase tracking-widest border-b-2 border-wood-900 pb-1">Close</button>
                   </div>
                 )}
               </div>
@@ -191,10 +228,10 @@ export const ContactForm: React.FC = () => {
           {/* 3. INFORMACIÓN DE CONTACTO - REFERENCIA AL FINAL */}
           <div className="lg:col-span-5 flex flex-col gap-12 order-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-y-12 gap-x-8">
-              {[ 
-                {icon: MapPin, title: 'Workshop Address', desc: '8074 Shoal Creek Blvd, Suite 204\nAustin, TX 78757'},
-                {icon: Phone, title: 'Phone', desc: '+1 (512) 555-0198\nMon-Fri: 8:00 - 17:00'},
-                {icon: Mail, title: 'Email', desc: 'hello@raval-design.com\ndesign@raval-design.com'} 
+              {[
+                { icon: MapPin, title: 'Workshop Address', desc: '8074 Shoal Creek Blvd, Suite 204\nAustin, TX 78757' },
+                { icon: Phone, title: 'Phone', desc: '+1 (512) 555-0198\nMon-Fri: 8:00 - 17:00' },
+                { icon: Mail, title: 'Email', desc: 'hello@raval-design.com\ndesign@raval-design.com' }
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-6 group">
                   <div className="w-12 h-12 flex items-center justify-center border border-wood-700 bg-wood-800/50 text-wood-300 rounded-sm group-hover:border-wood-500 group-hover:text-wood-100 transition-colors shrink-0">
