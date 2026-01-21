@@ -35,7 +35,7 @@ export const PrivacyPolicyPage: React.FC<{ onBack: () => void }> = ({ onBack }) 
 
                     <div className="prose prose-wood max-w-none">
                         <p className="text-lg leading-relaxed text-wood-600 mb-8">
-                            Raval Carpentry ("we," "our," or "us") respects your privacy and is committed to protecting the personal information you share with us. This Privacy Policy outlines how we collect, use, disclose, and safeguard your data when you visit our website or engage our carpentry services in Texas, USA.
+                            Raval Remodeling LLC ("we," "our," or "us") respects your privacy and is committed to protecting the personal information you share with us. This Privacy Policy outlines how we collect, use, disclose, and safeguard your data when you visit our website or engage our remodeling services in Texas, USA.
                         </p>
 
                         <section className="mb-10">
@@ -70,7 +70,7 @@ export const PrivacyPolicyPage: React.FC<{ onBack: () => void }> = ({ onBack }) 
                                 3. SMS & Text Message Policy
                             </h2>
                             <p className="text-wood-600 mb-4 text-sm leading-relaxed">
-                                We comply with the Telephone Consumer Protection Act (TCPA). By providing your phone number and checking the consent box, you agree to receive messages from Raval Carpentry.
+                                We comply with the Telephone Consumer Protection Act (TCPA). By providing your phone number and checking the consent box, you agree to receive messages from Raval Remodeling LLC.
                             </p>
                             <div className="grid md:grid-cols-2 gap-6 text-sm">
                                 <div>
@@ -158,7 +158,7 @@ export const PrivacyPolicyPage: React.FC<{ onBack: () => void }> = ({ onBack }) 
                                     </div>
                                     <div>
                                         <h5 className="font-bold text-wood-900 text-xs uppercase tracking-widest mb-1">Phone</h5>
-                                        <p className="text-wood-600 text-sm">+1 (512) 555-0198</p>
+                                        <p className="text-wood-600 text-sm">+1 (737) 530-9265</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4 md:col-span-2">
@@ -174,7 +174,7 @@ export const PrivacyPolicyPage: React.FC<{ onBack: () => void }> = ({ onBack }) 
                         </section>
 
                         <p className="text-xs text-wood-400 border-t border-wood-200 pt-8 mt-8">
-                            © {new Date().getFullYear()} Raval Carpentry. All rights reserved.
+                            © {new Date().getFullYear()} Raval Remodeling LLC. All rights reserved.
                         </p>
 
                     </div>

@@ -154,7 +154,7 @@ export const ContactForm: React.FC<{ onNavigatePrivacy?: () => void }> = ({ onNa
                   </div>
                   <div className="space-y-4 mb-6">
                     <p className="text-[11px] leading-relaxed text-wood-600 font-medium">
-                      Do you agree to receive text messages from Raval Carpentry sent from +1 (512) 555-0198? Message frequency varies and may include appointment reminders, service updates, quotes, and promotional messages. Message and data rates may apply.
+                      Do you agree to receive text messages from Raval Remodeling LLC sent from +1 (737) 530-9265? Message frequency varies and may include appointment reminders, service updates, quotes, and promotional messages. Message and data rates may apply.
                     </p>
                     <p className="text-[11px] leading-relaxed text-wood-600 font-medium">
                       <strong>Reply STOP at any time to unsubscribe. For assistance, reply HELP or contact support.</strong>
@@ -171,7 +171,7 @@ export const ContactForm: React.FC<{ onNavigatePrivacy?: () => void }> = ({ onNa
                           className="mt-1 w-4 h-4 rounded border-wood-300 text-wood-900 focus:ring-wood-500"
                         />
                         <label htmlFor="sms-agreement-yes" className="text-[11px] leading-relaxed text-wood-600 font-medium pt-0.5">
-                          Yes, I agree to receive text messages from Raval Carpentry sent from +1 (512) 555-0198. (required)
+                          Yes, I agree to receive text messages from Raval Remodeling LLC sent from +1 (737) 530-9265. (required)
                         </label>
                       </div>
 
@@ -184,7 +184,7 @@ export const ContactForm: React.FC<{ onNavigatePrivacy?: () => void }> = ({ onNa
                           className="mt-1 w-4 h-4 rounded border-wood-300 text-wood-900 focus:ring-wood-500"
                         />
                         <label htmlFor="sms-agreement-no" className="text-[11px] leading-relaxed text-wood-600 font-medium pt-0.5">
-                          No, I do not want to receive text messages from Raval Carpentry.
+                          No, I do not want to receive text messages from Raval Remodeling LLC.
                         </label>
                       </div>
                     </div>
@@ -228,7 +228,7 @@ export const ContactForm: React.FC<{ onNavigatePrivacy?: () => void }> = ({ onNa
                           className="mt-1 w-4 h-4 rounded border-wood-300 text-wood-900 focus:ring-wood-500"
                         />
                         <label htmlFor="sms-agreement-book" className="text-[11px] leading-relaxed text-wood-600 font-medium">
-                          By submitting this form, you agree to receive text messages from Raval Carpentry regarding quotes, appointments, and services. Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe.
+                          By submitting this form, you agree to receive text messages from Raval Remodeling LLC regarding quotes, appointments, and services. Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe.
                         </label>
                       </div>
                       <button
@@ -258,7 +258,7 @@ export const ContactForm: React.FC<{ onNavigatePrivacy?: () => void }> = ({ onNa
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-y-12 gap-x-8">
               {[
                 { icon: MapPin, title: 'Workshop Address', desc: '8074 Shoal Creek Blvd, Suite 204\nAustin, TX 78757' },
-                { icon: Phone, title: 'Phone', desc: '+1 (512) 555-0198\nMon-Fri: 8:00 - 17:00' },
+                { icon: Phone, title: 'Phone', desc: '+1 (737) 530-9265\nMon-Fri: 8:00 - 17:00' },
                 { icon: Mail, title: 'Email', desc: 'hello@raval-design.com\ndesign@raval-design.com' }
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-6 group">

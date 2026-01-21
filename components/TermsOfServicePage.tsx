@@ -35,13 +35,13 @@ export const TermsOfServicePage: React.FC<{ onBack: () => void }> = ({ onBack })
 
                     <div className="prose prose-wood max-w-none">
                         <p className="text-lg leading-relaxed text-wood-600 mb-8">
-                            Welcome to Raval Carpentry. By accessing our website, requesting a quote, or engaging our services, you agree to comply with and be bound by the following Terms of Service ("Terms"). Please read them carefully.
+                            Welcome to Raval Remodeling LLC. By accessing our website, requesting a quote, or engaging our services, you agree to comply with and be bound by the following Terms of Service ("Terms"). Please read them carefully.
                         </p>
 
                         <section className="mb-10">
                             <h2 className="text-2xl font-canale uppercase text-wood-900 mb-4 tracking-tight">1. Acceptance of Terms</h2>
                             <p className="text-wood-600 mb-4 text-sm leading-relaxed">
-                                These Terms constitute a legally binding agreement between you ("Client") and Raval Carpentry ("Company," "we," "us"). If you do not agree to these Terms, you may not use our services.
+                                These Terms constitute a legally binding agreement between you ("Client") and Raval Remodeling LLC ("Company," "we," "us"). If you do not agree to these Terms, you may not use our services.
                             </p>
                         </section>
 
@@ -73,7 +73,7 @@ export const TermsOfServicePage: React.FC<{ onBack: () => void }> = ({ onBack })
                                 4. SMS Mobile Message Management Program
                             </h2>
                             <p className="text-wood-600 mb-4 text-sm leading-relaxed">
-                                By providing your mobile phone number, you consent to receive text messages from Raval Carpentry regarding your project, quotes, and occasional promotions.
+                                By providing your mobile phone number, you consent to receive text messages from Raval Remodeling LLC regarding your project, quotes, and occasional promotions.
                             </p>
                             <div className="grid md:grid-cols-2 gap-6 text-sm">
                                 <div>
@@ -112,7 +112,7 @@ export const TermsOfServicePage: React.FC<{ onBack: () => void }> = ({ onBack })
                                 To the fullest extent permitted by Texas law:
                             </p>
                             <ul className="list-disc pl-5 space-y-2 text-wood-600 text-sm">
-                                <li>Raval Carpentry shall not be liable for any indirect, incidental, or consequential damages arising from the use of our services.</li>
+                                <li>Raval Remodeling LLC shall not be liable for any indirect, incidental, or consequential damages arising from the use of our services.</li>
                                 <li>Our total liability for any claim shall not exceed the total amount paid by the Client for the specific project giving rise to the claim.</li>
                             </ul>
                         </section>
@@ -147,7 +147,7 @@ export const TermsOfServicePage: React.FC<{ onBack: () => void }> = ({ onBack })
                                 Questions about the Terms of Service should be sent to us at:
                             </p>
                             <p className="text-wood-900 font-bold text-sm">
-                                Raval Carpentry <br />
+                                Raval Remodeling LLC <br />
                                 8074 Shoal Creek Blvd, Suite 204 <br />
                                 Austin, TX 78757 <br />
                                 <a href="mailto:hello@raval-design.com" className="underline hover:text-wood-600">hello@raval-design.com</a>
@@ -155,7 +155,7 @@ export const TermsOfServicePage: React.FC<{ onBack: () => void }> = ({ onBack })
                         </section>
 
                         <p className="text-xs text-wood-400 border-t border-wood-200 pt-8 mt-8">
-                            © {new Date().getFullYear()} Raval Carpentry. All rights reserved.
+                            © {new Date().getFullYear()} Raval Remodeling LLC. All rights reserved.
                         </p>
 
                     </div>
