@@ -11,20 +11,94 @@ import { Footer } from './components/Footer';
 import { ProcessPage } from './components/ProcessPage';
 import { FAQPage } from './components/FAQPage';
 import { Configurator } from './components/Configurator';
+import { QuoteSummary } from './components/QuoteSummary';
 import { AdminPanel } from './components/AdminPanel';
 import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
 import { TermsOfServicePage } from './components/TermsOfServicePage';
 import { ModelsGallery } from './components/ModelsGallery';
 import { Model } from './types';
 
-type ViewState = 'home' | 'process' | 'faq' | 'gallery' | 'configurator' | 'admin' | 'privacy' | 'terms';
+type ViewState = 'home' | 'process' | 'faq' | 'gallery' | 'configurator' | 'quote-summary' | 'admin' | 'privacy' | 'terms';
 
 const INITIAL_MODELS_DEFAULT: Model[] = [
-  { id: 'mw-1', name: 'The Floating Oak', category: 'media-wall', basePrice: 4500, description: 'Minimalist floating console with integrated LED lighting and acoustic slat backing.', image: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?auto=format&fit=crop&q=80&w=1200' },
-  { id: 'mw-2', name: 'Cinema Suite', category: 'media-wall', basePrice: 6200, description: 'Full wall integration with hidden storage, soundbar niche, and ambient backlighting.', image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1200' },
-  { id: 'fp-1', name: 'Modern Linear', category: 'fireplaces', basePrice: 3800, description: 'Sleek panoramic electric fireplace insert with micro-cement finish surround.', image: 'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&q=80&w=1200' },
-  { id: 'cn-1', name: 'Minimalist Entry', category: 'consoles', basePrice: 2400, description: 'Slim profile entry console with premium wood finish and cable management.', image: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=1200' },
-  { id: 'hc-1', name: 'The Cathedral', category: 'high-ceiling', basePrice: 8500, description: 'Grand scale joinery designed specifically for double-height voids.', image: 'https://images.unsplash.com/photo-1600210491369-e753d80a41f3?auto=format&fit=crop&q=80&w=1200' }
+  {
+    id: 'mw-1',
+    name: 'The Floating Oak',
+    category: 'media-wall',
+    basePrice: 4500,
+    description: 'Minimalist floating console with integrated LED lighting and acoustic slat backing.',
+    image: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?auto=format&fit=crop&q=80&w=1200',
+    gallery: [
+      'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200'
+    ]
+  },
+  {
+    id: 'mw-2',
+    name: 'Cinema Suite',
+    category: 'media-wall',
+    basePrice: 6200,
+    description: 'Full wall integration with hidden storage, soundbar niche, and ambient backlighting.',
+    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1200',
+    gallery: [
+      'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1600210491892-03d54cc8d27e?auto=format&fit=crop&q=80&w=1200'
+    ]
+  },
+  {
+    id: 'fp-1',
+    name: 'Modern Linear',
+    category: 'fireplaces',
+    basePrice: 3800,
+    description: 'Sleek panoramic electric fireplace insert with micro-cement finish surround.',
+    image: 'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&q=80&w=1200',
+    gallery: [
+      'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?auto=format&fit=crop&q=80&w=1200'
+    ]
+  },
+  {
+    id: 'cn-1',
+    name: 'Minimalist Entry',
+    category: 'consoles',
+    basePrice: 2400,
+    description: 'Slim profile entry console with premium wood finish and cable management.',
+    image: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=1200',
+    gallery: [
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1600566753376-12c8ab78f754?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&q=80&w=1200'
+    ]
+  },
+  {
+    id: 'hc-1',
+    name: 'The Cathedral',
+    category: 'high-ceiling',
+    basePrice: 8500,
+    description: 'Grand scale joinery designed specifically for double-height voids.',
+    image: 'https://images.unsplash.com/photo-1600210491369-e753d80a41f3?auto=format&fit=crop&q=80&w=1200',
+    gallery: [
+      'https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1600585153223-dac327bfe178?auto=format&fit=crop&q=80&w=1200'
+    ]
+  },
+  {
+    id: 'hc-2',
+    name: 'Vertical Slat',
+    category: 'high-ceiling',
+    basePrice: 7900,
+    description: 'Elongated vertical lines to accentuate height, featuring hidden storage.',
+    image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=1200',
+    gallery: [
+      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&q=80&w=1200'
+    ]
+  }
 ];
 
 const INITIAL_GROUPS_DEFAULT = {
@@ -119,6 +193,8 @@ function App() {
   const [currentView, setCurrentView] = useState<ViewState>('home');
   const [siteData, setSiteData] = useState<any>(DEFAULT_SITE_DATA);
   const [selectedModel, setSelectedModel] = useState<Model | null>(null);
+  const [quoteSelections, setQuoteSelections] = useState<Record<string, string | string[]>>({});
+  const [quoteTotal, setQuoteTotal] = useState(0);
 
   useEffect(() => {
     const saved = localStorage.getItem('raval_site_data');
@@ -158,14 +234,31 @@ function App() {
     setCurrentView('configurator');
   };
 
-  const handleOpenGallery = () => {
+  const handleOpenGallery = (modelId?: string) => {
+    if (modelId && typeof modelId === 'string') {
+      const model = models.find(m => m.id === modelId) || INITIAL_MODELS_DEFAULT.find(m => m.id === modelId);
+      if (model) {
+        setSelectedModel(model);
+        setCurrentView('configurator');
+        window.scrollTo(0, 0);
+        return;
+      }
+    }
     setCurrentView('gallery');
     window.scrollTo(0, 0);
   };
 
+  const handleRequestQuote = (selections: Record<string, string | string[]>, total: number) => {
+    setQuoteSelections(selections);
+    setQuoteTotal(total);
+    setCurrentView('quote-summary');
+    window.scrollTo(0, 0);
+  };
+  //...
   // Safe accessors for data
   const models = siteData?.configurator?.models || [];
   const optionsData = siteData?.configurator || { groups: {} };
+
 
   return (
     <main className="w-full min-h-screen relative">
@@ -212,7 +305,19 @@ function App() {
           <Configurator
             model={selectedModel}
             optionsData={optionsData}
-            onBack={() => setCurrentView('gallery')}
+            onBack={() => handleNavigateToSection('models')}
+            onRequestQuote={handleRequestQuote}
+          />
+        )}
+
+        {currentView === 'quote-summary' && selectedModel && (
+          <QuoteSummary
+            model={selectedModel}
+            optionsData={optionsData}
+            selections={quoteSelections}
+            total={quoteTotal}
+            onBack={() => setCurrentView('configurator')}
+            onBackToHome={() => setCurrentView('gallery')}
           />
         )}
 
@@ -228,7 +333,7 @@ function App() {
           <AdminPanel onBack={() => setCurrentView('home')} />
         )}
 
-        {currentView !== 'configurator' && currentView !== 'admin' && (
+        {currentView !== 'configurator' && currentView !== 'quote-summary' && currentView !== 'admin' && (
           <Footer
             onNavigateFAQ={() => setCurrentView('faq')}
             onNavigateAdmin={() => setCurrentView('admin')}

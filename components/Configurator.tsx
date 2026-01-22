@@ -1,462 +1,556 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { ChevronLeft, Info, X, ArrowRight, ArrowLeft, Check, Ruler, Monitor, Layers, Minus, Speaker, Flame, Lightbulb, CheckCircle2, Circle, Square, CheckSquare, Edit2 } from 'lucide-react';
+import { ChevronDown, ChevronLeft, Minus, Plus } from 'lucide-react';
 import { Model, ConfiguratorData, OptionGroup } from '../types';
 
 interface ConfiguratorProps {
-  model: Model;
-  optionsData: ConfiguratorData;
-  onBack: () => void;
+    model: Model;
+    optionsData: ConfiguratorData;
+    onBack: () => void;
+    onRequestQuote: (selections: Record<string, string | string[]>, total: number) => void;
 }
 
-// Fixed step order as per requirements
-const STEP_DEFINTIONS = [
-  { key: 'wallHeight', title: 'Wall Height', icon: Ruler },
-  { key: 'tvSize', title: 'TV Size', icon: Monitor },
-  { key: 'tvPlacement', title: 'TV Placement', icon: Layers },
-  { key: 'mantel', title: 'Mantel', icon: Minus },
-  { key: 'soundbar', title: 'Soundbar', icon: Speaker },
-  { key: 'fireplaceType', title: 'Fireplace Type', icon: Flame },
-  { key: 'lighting', title: 'Lighting', icon: Lightbulb, multi: true },
+// Step definitions with Apple-style questions and help content
+const STEP_DEFINITIONS = [
+    {
+        key: 'wallHeight',
+        title: 'WALL HEIGHT',
+        question: 'What height works for your space?',
+        description: 'Defines the total height from floor to ceiling. Exact measurements will be verified by our team.',
+        help: {
+            title: 'Not sure what height to choose?',
+            videoPlaceholder: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=600',
+            content: (
+                <div className="space-y-4">
+                    <p>Measure your ceiling height with a tape measure or estimate based on number of floors.</p>
+                    <ul className="list-disc pl-5 space-y-1 text-wood-600">
+                        <li><strong>Standard:</strong> Most ceilings are 8-9ft.</li>
+                        <li><strong>High Ceilings:</strong> Newer homes often have 10-12ft ceilings.</li>
+                        <li><strong>Double Height:</strong> Foyers or great rooms can be 18-20ft+.</li>
+                    </ul>
+                    <p className="text-xs text-wood-400">Our team will verify exact measurements during installation.</p>
+                </div>
+            )
+        }
+    },
+    {
+        key: 'tvSize',
+        title: 'TV SIZE',
+        question: 'What size TV will you mount?',
+        description: 'Select the screen size of your television to ensure the perfect cutout dimensions.',
+        help: {
+            title: 'How to measure your TV?',
+            videoPlaceholder: 'https://images.unsplash.com/photo-1593784653277-ca5241487503?auto=format&fit=crop&q=80&w=600',
+            content: (
+                <div className="space-y-4">
+                    <p>TV sizes are measured diagonally from corner to corner of the screen, not including the bezel.</p>
+                    <ul className="list-disc pl-5 space-y-1 text-wood-600">
+                        <li><strong>Check Model #</strong>: It usually contains the size (e.g., XR-<strong>65</strong>X90J is 65").</li>
+                        <li><strong>Future Proofing</strong>: Consider if you might upgrade to a larger size soon.</li>
+                    </ul>
+                </div>
+            )
+        }
+    },
+    {
+        key: 'tvPlacement',
+        title: 'TV PLACEMENT',
+        question: 'How should your TV be integrated?',
+        description: 'Choose between a seamless recessed look or a simplified surface mount.',
+        help: {
+            title: 'Recessed vs. Surface Mount?',
+            videoPlaceholder: 'https://images.unsplash.com/photo-1558882224-dda166733046?auto=format&fit=crop&q=80&w=600',
+            content: (
+                <div className="space-y-4">
+                    <p>Both options provide a clean look, but the installation requirements differ.</p>
+                    <ul className="list-disc pl-5 space-y-1 text-wood-600">
+                        <li><strong>Recessed:</strong> The TV sits flush with the media wall face. Requires precise depth.</li>
+                        <li><strong>Surface Mount:</strong> The TV is mounted on top of the panel capabilities. Easier to change TVs later.</li>
+                    </ul>
+                </div>
+            )
+        }
+    },
+    {
+        key: 'mantel',
+        title: 'MANTEL',
+        question: 'Add a shelf above your fireplace?',
+        description: 'A floating shelf acts as a heat deflector and aesthetic divider.',
+        help: {
+            title: 'Do I need a mantel?',
+            videoPlaceholder: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=600',
+            content: (
+                <div className="space-y-4">
+                    <p>Mantels serve both functional and aesthetic purposes.</p>
+                    <ul className="list-disc pl-5 space-y-1 text-wood-600">
+                        <li><strong>Heat Protection:</strong> Protects your TV from fireplace heat rising up.</li>
+                        <li><strong>Decor:</strong> A perfect spot for photos, candles, or seasonal decorations.</li>
+                    </ul>
+                </div>
+            )
+        }
+    },
+    {
+        key: 'soundbar',
+        title: 'SOUNDBAR',
+        question: 'How will your sound system be positioned?',
+        description: 'Designate a specific niche for your soundbar or keep it simple.',
+        help: {
+            title: 'Soundbar integration options',
+            videoPlaceholder: 'https://images.unsplash.com/photo-1544652478-6653e09f1826?auto=format&fit=crop&q=80&w=600',
+            content: (
+                <div className="space-y-4">
+                    <p>We can build a custom cutout for your specific soundbar model.</p>
+                    <ul className="list-disc pl-5 space-y-1 text-wood-600">
+                        <li><strong>Open Niche:</strong> Exposed soundbar for best audio quality.</li>
+                        <li><strong>Acoustic Fabric:</strong> Hidden soundbar behind transparent fabric for a cleaner look.</li>
+                    </ul>
+                </div>
+            )
+        }
+    },
+    {
+        key: 'fireplaceType',
+        title: 'FIREPLACE TYPE',
+        question: 'Choose your fireplace style',
+        description: 'Select the electric fireplace unit that fits your design vision.',
+        help: {
+            title: 'Comparing fireplace styles',
+            videoPlaceholder: 'https://images.unsplash.com/photo-1600585154526-996dcb19366e?auto=format&fit=crop&q=80&w=600',
+            content: (
+                <div className="space-y-4">
+                    <p>Electric fireplaces offer ambiance without the maintenance of gas or wood.</p>
+                    <ul className="list-disc pl-5 space-y-1 text-wood-600">
+                        <li><strong>Linear:</strong> Modern, wide look. perfect for contemporary spaces.</li>
+                        <li><strong>Traditional:</strong> Taller, square aspect ratio resembling a classic hearth.</li>
+                    </ul>
+                </div>
+            )
+        }
+    },
+    {
+        key: 'lighting',
+        title: 'LIGHTING',
+        question: 'Add accent lighting? (Select all that apply)',
+        description: 'Enhance the mood with integrated LED strips.',
+        multi: true,
+        help: {
+            title: 'Lighting ideas',
+            videoPlaceholder: 'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&q=80&w=600',
+            content: (
+                <div className="space-y-4">
+                    <p>Dimmable warm white LEDs are installed in routed channels with diffusers.</p>
+                    <ul className="list-disc pl-5 space-y-1 text-wood-600">
+                        <li><strong>Shelving:</strong> Under-shelf lighting highlights decor objects.</li>
+                        <li><strong>Perimeter:</strong> Backlighting behind the main panel creates a floating effect.</li>
+                    </ul>
+                </div>
+            )
+        }
+    },
 ];
 
-export const Configurator: React.FC<ConfiguratorProps> = ({ model, optionsData, onBack }) => {
-  // --- State ---
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [selections, setSelections] = useState<Record<string, string | string[]>>({});
-  const [isSummary, setIsSummary] = useState(false);
-  const [activeInfo, setActiveInfo] = useState<string | null>(null);
-  
-  // Quote Form State
-  const [quoteForm, setQuoteForm] = useState({ name: '', email: '', phone: '' });
-  const [quoteSubmitted, setQuoteSubmitted] = useState(false);
-  const [quoteRefId, setQuoteRefId] = useState('');
 
-  // Scroll to top on step change
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  
-  // Calculate dynamic steps based on available data
-  const steps = useMemo(() => {
-    // Filter definitions to only include groups that exist in optionsData
-    const ordered = STEP_DEFINTIONS.filter(def => optionsData.groups[def.key]);
-    
-    // Add any extra groups from optionsData that aren't in the fixed list (fallback)
-    const extraKeys = Object.keys(optionsData.groups).filter(k => !STEP_DEFINTIONS.find(d => d.key === k));
-    const extras = extraKeys.map(key => ({ key, title: optionsData.groups[key].label, icon: Check, multi: false }));
-    
-    return [...ordered, ...extras];
-  }, [optionsData]);
 
-  const currentStep = steps[currentStepIndex];
-  const currentGroup = currentStep ? (optionsData.groups[currentStep.key] as OptionGroup) : null;
+export const Configurator: React.FC<ConfiguratorProps> = ({ model, optionsData, onBack, onRequestQuote }) => {
+    // --- State ---
+    const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
+    const [expandedHelp, setExpandedHelp] = useState<Set<string>>(new Set());
+    const [selections, setSelections] = useState<Record<string, string | string[]>>({});
+    const [quantity, setQuantity] = useState(1);
 
-  // Initialize defaults (only for single-select steps)
-  useEffect(() => {
-    const initial: Record<string, string | string[]> = {};
-    steps.forEach(step => {
-      if (!step.multi) {
-        // Default to first option for single select if exists
-        const group = optionsData.groups[step.key];
-        if (group && group.options.length > 0) {
-           initial[step.key] = group.options[0].id;
-        }
-      } else {
-        // Default to empty array for multi select
-        initial[step.key] = [];
-      }
-    });
-    // Only set defaults if selections are empty to prevent overwriting during navigation
-    setSelections(prev => Object.keys(prev).length === 0 ? initial : prev);
-  }, [optionsData, steps]);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (scrollContainerRef.current) {
-        scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [currentStepIndex, isSummary]);
+    // Calculate dynamic steps based on available data
+    const steps = useMemo(() => {
+        const ordered = STEP_DEFINITIONS.filter(def => optionsData.groups[def.key]);
+        const extraKeys = Object.keys(optionsData.groups).filter(k => !STEP_DEFINITIONS.find(d => d.key === k));
+        const extras = extraKeys.map(key => ({
+            key,
+            title: optionsData.groups[key].label.toUpperCase(),
+            question: `Select your ${optionsData.groups[key].label.toLowerCase()} preference`,
+            description: '',
+            multi: false,
+            help: undefined
+        }));
+        return [...ordered, ...extras];
+    }, [optionsData]);
 
-  // --- Calculations ---
-  const { total, breakdown } = useMemo(() => {
-    let total = model.basePrice;
-    const items: { label: string; price: number; group: string; stepIndex: number }[] = [];
-    
-    Object.entries(selections).forEach(([key, value]) => {
-      const group = optionsData.groups[key];
-      const stepIdx = steps.findIndex(s => s.key === key);
-      if (!group) return;
-
-      if (Array.isArray(value)) {
-        // Multi-select
-        value.forEach(optId => {
-            const opt = group.options.find(o => o.id === optId);
-            if (opt) {
-                total += opt.price;
-                if (opt.price > 0) items.push({ label: opt.label, price: opt.price, group: group.label, stepIndex: stepIdx });
+    // Initialize defaults
+    useEffect(() => {
+        const initial: Record<string, string | string[]> = {};
+        steps.forEach(step => {
+            if (!step.multi) {
+                const group = optionsData.groups[step.key];
+                if (group && group.options.length > 0) {
+                    initial[step.key] = group.options[0].id;
+                }
+            } else {
+                initial[step.key] = [];
             }
         });
-      } else {
-        // Single-select
-        const opt = group.options.find(o => o.id === value);
-        if (opt) {
-            total += opt.price;
-            if (opt.price > 0) items.push({ label: opt.label, price: opt.price, group: group.label, stepIndex: stepIdx });
-        }
-      }
-    });
-    return { total, breakdown: items };
-  }, [selections, model, optionsData, steps]);
+        setSelections(prev => Object.keys(prev).length === 0 ? initial : prev);
+    }, [optionsData, steps]);
 
-  // --- Handlers ---
-  const handleOptionSelect = (optionId: string) => {
-    if (!currentStep) return;
+    // --- Calculations ---
+    const total = useMemo(() => {
+        let total = model.basePrice;
 
-    if (currentStep.multi) {
-      setSelections(prev => {
-        const current = (prev[currentStep.key] as string[]) || [];
-        if (current.includes(optionId)) {
-          return { ...prev, [currentStep.key]: current.filter(id => id !== optionId) };
+        Object.entries(selections).forEach(([key, value]) => {
+            const group = optionsData.groups[key];
+            if (!group) return;
+
+            if (Array.isArray(value)) {
+                value.forEach(optId => {
+                    const opt = group.options.find(o => o.id === optId);
+                    if (opt) total += opt.price;
+                });
+            } else {
+                const opt = group.options.find(o => o.id === value);
+                if (opt) total += opt.price;
+            }
+        });
+        return total;
+    }, [selections, model, optionsData]);
+
+    // --- Handlers ---
+    const toggleSection = (key: string) => {
+        setExpandedSections(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(key)) {
+                newSet.delete(key);
+            } else {
+                newSet.add(key);
+            }
+            return newSet;
+        });
+    };
+
+    const toggleHelp = (key: string) => {
+        setExpandedHelp(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(key)) {
+                newSet.delete(key);
+            } else {
+                newSet.add(key);
+            }
+            return newSet;
+        });
+    };
+
+    const handleOptionSelect = (stepKey: string, optionId: string, isMulti: boolean) => {
+        if (isMulti) {
+            setSelections(prev => {
+                const current = (prev[stepKey] as string[]) || [];
+                if (current.includes(optionId)) {
+                    return { ...prev, [stepKey]: current.filter(id => id !== optionId) };
+                } else {
+                    return { ...prev, [stepKey]: [...current, optionId] };
+                }
+            });
         } else {
-          return { ...prev, [currentStep.key]: [...current, optionId] };
+            setSelections(prev => ({ ...prev, [stepKey]: optionId }));
         }
-      });
-    } else {
-      setSelections(prev => ({ ...prev, [currentStep.key]: optionId }));
-    }
-  };
+    };
 
-  const handleNext = () => {
-    if (currentStepIndex < steps.length - 1) {
-      setCurrentStepIndex(prev => prev + 1);
-    } else {
-      setIsSummary(true);
-    }
-  };
+    const handleQuantityChange = (delta: number) => {
+        setQuantity(prev => Math.max(1, prev + delta));
+    };
 
-  // Navigates backwards within the configurator steps
-  const handleStepBack = () => {
-    if (isSummary) {
-      setIsSummary(false);
-    } else if (currentStepIndex > 0) {
-      setCurrentStepIndex(prev => prev - 1);
-    }
-  };
+    const handleRequestQuote = () => {
+        onRequestQuote(selections, total * quantity);
+    };
 
-  const handleEditStep = (index: number) => {
-    setCurrentStepIndex(index);
-    setIsSummary(false);
-  };
+    // --- Render Compact Accordion Section ---
+    const renderAccordionSection = (step: typeof steps[0]) => {
+        const isExpanded = expandedSections.has(step.key);
+        const isHelpOpen = expandedHelp.has(step.key);
+        const group = optionsData.groups[step.key] as OptionGroup;
+        if (!group) return null;
 
-  const handleRequestQuote = (e: React.FormEvent) => {
-    e.preventDefault();
-    const refId = `RVL-${Math.floor(1000 + Math.random() * 9000)}`;
-    setQuoteRefId(refId);
-    // Simulate API call
-    setTimeout(() => {
-        setQuoteSubmitted(true);
-        if (scrollContainerRef.current) scrollContainerRef.current.scrollTop = 0;
-    }, 1500);
-  };
+        return (
+            <div key={step.key} className="border-b border-wood-200">
+                {/* Accordion Header - Compact */}
+                <button
+                    onClick={() => toggleSection(step.key)}
+                    className="w-full flex items-center justify-between py-4 text-left hover:bg-wood-50 transition-colors"
+                >
+                    <span className="text-[13px] font-bold tracking-wide text-wood-900 uppercase font-manrope">
+                        {step.title}
+                    </span>
+                    <ChevronDown
+                        size={18}
+                        className={`text-wood-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                    />
+                </button>
 
-  // --- Render Helpers ---
-  const renderOptionCard = (option: any, isSelected: boolean, isMulti: boolean) => (
-    <button
-        key={option.id}
-        onClick={() => handleOptionSelect(option.id)}
-        className={`w-full flex items-center justify-between px-4 py-3 md:py-4 mb-2 rounded-lg border-2 transition-all duration-200 group text-left relative overflow-hidden ${
-            isSelected 
-            ? 'border-wood-900 bg-wood-50' 
-            : 'border-wood-100 bg-white hover:border-wood-300'
-        }`}
-    >
-        <div className="flex-1 flex flex-col items-start justify-center pr-4">
-            <span className={`block text-sm md:text-base font-bold font-manrope uppercase tracking-wide leading-tight ${isSelected ? 'text-wood-900' : 'text-wood-700'}`}>
-                {option.label}
-            </span>
-            <span className={`text-[10px] md:text-xs font-medium mt-0.5 ${isSelected ? 'text-wood-500' : 'text-wood-400'}`}>
-                {option.price === 0 ? 'Included' : `+$${option.price.toLocaleString()}`}
-            </span>
-        </div>
+                {/* Accordion Content - Compact */}
+                {isExpanded && (
+                    <div className="pb-5 animate-fade-in-up">
+                        {/* Question */}
+                        <p className="text-sm text-wood-500 mb-2">
+                            {step.question}
+                        </p>
 
-        <div className={`transition-all duration-200 shrink-0 ${isSelected ? 'text-wood-900' : 'text-wood-200 group-hover:text-wood-300'}`}>
-            {isMulti ? (
-                isSelected ? <CheckSquare size={22} strokeWidth={2} /> : <Square size={22} strokeWidth={1.5} />
-            ) : (
-                // Using a more minimal radio circle for the "Tesla/Apple" feel
-                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${isSelected ? 'border-wood-900' : 'border-current'}`}>
-                    {isSelected && <div className="w-2.5 h-2.5 rounded-full bg-wood-900" />}
+                        {/* Static Description (if available) - New style */}
+                        {step.description && (
+                            <p className="text-sm text-wood-600 mb-4 leading-relaxed">
+                                {step.description}
+                            </p>
+                        )}
+
+                        {/* Help Toggle - Apple Style */}
+                        {step.help && (
+                            <div className="mb-6">
+                                <button
+                                    onClick={() => toggleHelp(step.key)}
+                                    className="flex items-center gap-2 text-xs font-semibold text-wood-900 hover:text-wood-700 transition-colors group"
+                                >
+                                    {isHelpOpen ? (
+                                        <Plus size={14} className="rotate-45 transition-transform duration-200" />
+                                    ) : (
+                                        <Plus size={14} className="transition-transform duration-200" />
+                                    )}
+                                    <span className="border-b border-wood-900/30 group-hover:border-wood-900 pb-0.5 transition-colors">
+                                        {step.help.title}
+                                    </span>
+                                </button>
+
+                                {isHelpOpen && (
+                                    <div className="mt-4 bg-wood-50 rounded-xl overflow-hidden animate-fade-in-up border border-wood-100">
+                                        <div className="p-5">
+                                            {/* Video Placeholder */}
+                                            <div className="relative aspect-video w-full bg-wood-200 rounded-lg overflow-hidden mb-4 group cursor-pointer">
+                                                <img
+                                                    src={step.help.videoPlaceholder}
+                                                    alt="Guide thumbnail"
+                                                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                                                />
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center pl-1 shadow-lg backdrop-blur-sm group-hover:scale-110 transition-transform">
+                                                        <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M1 1L11 7L1 13V1Z" fill="#1F1915" stroke="#1F1915" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur px-2 py-1 rounded text-[10px] text-white font-medium uppercase tracking-wider">
+                                                    Watch Guide
+                                                </div>
+                                            </div>
+
+                                            {/* Content */}
+                                            <div className="text-sm text-wood-700 leading-relaxed">
+                                                {step.help.content}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* Options - Compact Grid (Restored Style) */}
+                        <div className="grid grid-cols-2 gap-2">
+                            {group.options.map((option) => {
+                                const isSelected = step.multi
+                                    ? (selections[step.key] as string[])?.includes(option.id)
+                                    : selections[step.key] === option.id;
+
+                                return (
+                                    <button
+                                        key={option.id}
+                                        onClick={() => handleOptionSelect(step.key, option.id, !!step.multi)}
+                                        className={`text-left px-3 py-2.5 rounded border transition-all duration-150 ${isSelected
+                                            ? 'border-wood-900 bg-wood-50'
+                                            : 'border-wood-200 hover:border-wood-400'
+                                            }`}
+                                    >
+                                        <span className={`block text-sm font-medium ${isSelected ? 'text-wood-900' : 'text-wood-600'}`}>
+                                            {option.label}
+                                        </span>
+                                        <span className="block text-[11px] text-wood-400 mt-0.5">
+                                            {option.price === 0 ? 'Included' : `+$${option.price.toLocaleString()}`}
+                                        </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    // Product Content (shared between mobile and desktop)
+    const ProductContent = () => (
+        <>
+            {/* Product Name */}
+            <h1 className="text-3xl md:text-4xl font-canale uppercase tracking-tight text-wood-900 leading-[0.95] mb-6">
+                {model.name}
+            </h1>
+
+            {/* Product Description */}
+            <div className="mb-8 text-sm text-wood-600 leading-relaxed space-y-3">
+                <p>
+                    Transform your living room with this contemporary media wall featuring integrated lighting, floating shelves, and custom fireplace surround. Built using cabinet-grade wood construction—not drywall—for superior durability and finish quality.
+                </p>
+
+                <div>
+                    <span className="font-semibold text-wood-900 block mb-2">This design includes:</span>
+                    <ul className="space-y-1 text-wood-600">
+                        <li className="flex items-center gap-2">
+                            <span className="text-wood-400">✓</span> Electric fireplace insert (60")
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <span className="text-wood-400">✓</span> TV mounting up to 77"
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <span className="text-wood-400">✓</span> Hidden cable management
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <span className="text-wood-400">✓</span> Professional installation
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <span className="text-wood-400">✓</span> 1-year warranty
+                        </li>
+                    </ul>
                 </div>
-            )}
-        </div>
-    </button>
-  );
+            </div>
 
-  return (
-    <div className="fixed inset-0 z-[60] bg-wood-50 flex flex-col font-manrope">
-      
-      {/* --- DESKTOP HEADER (Hidden on Mobile) --- */}
-      <div className="hidden md:flex shrink-0 h-16 bg-white/90 backdrop-blur-md border-b border-wood-100 items-center justify-between px-8 z-50">
-        <button onClick={onBack} className="p-2 -ml-2 text-wood-500 hover:text-wood-900 transition-colors">
-            <ChevronLeft size={24} />
-        </button>
-        <span className="text-xs font-black uppercase tracking-widest text-wood-900">{model.name}</span>
-        <span className="text-[9px] font-bold text-wood-400">Step {currentStepIndex + 1} of {steps.length}</span>
-      </div>
+            {/* ACCORDION SECTIONS - Compact Style */}
+            <div className="border-t border-wood-200">
+                {steps.map(step => renderAccordionSection(step))}
+            </div>
 
-      {/* --- MAIN CONTENT SPLIT --- */}
-      <div className="flex-1 overflow-hidden flex flex-col md:flex-row">
-        
-        {/* LEFT/TOP: HERO IMAGE */}
-        {/* Mobile: Immersive top area. Desktop: Left split. */}
-        <div className={`relative bg-wood-100 overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${isSummary ? 'hidden md:block md:w-1/3' : 'h-[40vh] md:h-full md:w-1/2'}`}>
-             
-             {/* Mobile EXIT Button (Floating) - Now calls onBack (Exit) */}
-             <button 
-                onClick={onBack} 
-                className="md:hidden absolute top-4 left-4 z-20 w-10 h-10 rounded-full bg-white/30 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg active:scale-95 transition-transform"
-             >
-                <ChevronLeft size={24} />
-             </button>
+            {/* PRICE */}
+            <div className="py-6 border-b border-wood-200">
+                <div className="text-3xl md:text-4xl font-bold text-wood-900">
+                    ${(total * quantity).toLocaleString()}.00
+                </div>
+                <span className="text-xs text-wood-400 mt-1 block">
+                    Final price calculated upon request.
+                </span>
+            </div>
 
-             <img 
-                src={model.image} 
-                alt={model.name} 
-                className="w-full h-full object-cover"
-             />
-             <div className="absolute inset-0 bg-gradient-to-t from-wood-50 via-transparent to-black/20 opacity-80 md:opacity-10"></div>
-             
-             {/* Mobile Step Dots - Floating */}
-             {!isSummary && (
-                <div className="absolute bottom-6 left-0 right-0 flex justify-center md:hidden z-10">
-                    <div className="flex gap-1.5 bg-black/20 backdrop-blur-lg px-3 py-1.5 rounded-full shadow-sm border border-white/10">
-                        {steps.map((_, idx) => (
-                            <div key={idx} className={`h-1 rounded-full transition-all duration-300 ${idx === currentStepIndex ? 'w-4 bg-white' : 'w-1 bg-white/40'}`} />
+            {/* REQUEST QUOTE BUTTON */}
+            <div className="py-6 flex items-center gap-3">
+                <div className="flex items-center border border-wood-300 rounded">
+                    <button
+                        onClick={() => handleQuantityChange(-1)}
+                        className="w-10 h-10 flex items-center justify-center text-wood-500 hover:text-wood-900"
+                    >
+                        <Minus size={16} />
+                    </button>
+                    <span className="w-8 text-center text-sm font-medium text-wood-900">{quantity}</span>
+                    <button
+                        onClick={() => handleQuantityChange(1)}
+                        className="w-10 h-10 flex items-center justify-center text-wood-500 hover:text-wood-900"
+                    >
+                        <Plus size={16} />
+                    </button>
+                </div>
+                <button
+                    onClick={handleRequestQuote}
+                    className="flex-1 bg-wood-900 text-white py-3 px-6 text-sm font-bold uppercase tracking-wider hover:bg-black transition-colors"
+                >
+                    Request Quote
+                </button>
+            </div>
+        </>
+    );
+
+    return (
+        <div className="min-h-screen bg-white font-manrope">
+
+            {/* ===== MOBILE LAYOUT ===== */}
+            <div className="md:hidden">
+                <div ref={scrollContainerRef}>
+                    {/* Initial Image Stack (Excluding Last) */}
+                    {model.gallery && model.gallery.length > 0 && [model.image, ...model.gallery.slice(0, -1)].map((img, idx) => (
+                        <div key={idx} className="w-full aspect-[4/3] bg-wood-100 border-b border-white/20 relative z-0">
+                            {/* Back Button - Only on first image */}
+                            {idx === 0 && (
+                                <button
+                                    onClick={onBack}
+                                    className="absolute top-4 left-4 z-40 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors"
+                                >
+                                    <ChevronLeft size={20} className="text-wood-900" />
+                                </button>
+                            )}
+                            <img
+                                src={img}
+                                alt={`${model.name} view ${idx + 1}`}
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                    ))}
+
+                    {/* STICKY PREVIEW HEADER (Last Image) */}
+                    <div className="sticky top-0 z-30 w-full h-[35vh] bg-wood-100 shadow-md">
+                        {/* Back Button (Fallback if gallery is short) */}
+                        {(!model.gallery || model.gallery.length === 0) && (
+                            <button
+                                onClick={onBack}
+                                className="absolute top-4 left-4 z-40 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors"
+                            >
+                                <ChevronLeft size={20} className="text-wood-900" />
+                            </button>
+                        )}
+                        <img
+                            src={model.gallery && model.gallery.length > 0 ? model.gallery[model.gallery.length - 1] : model.image}
+                            alt={`${model.name} Final Preview`}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+
+                    {/* PRODUCT INFO SECTION - Mobile (Scrolls Under) */}
+                    <div className="px-5 py-6 relative z-10 bg-white min-h-screen">
+                        <ProductContent />
+                    </div>
+                </div>
+            </div>
+
+            {/* ===== DESKTOP LAYOUT ===== */}
+            <div className="hidden md:flex h-screen">
+                {/* LEFT SIDE - Sticky Image Gallery with Scroll */}
+                <div className="w-1/2 h-screen sticky top-0 overflow-y-auto bg-wood-100 scrollbar-hide">
+                    {/* Back Button - Desktop */}
+                    <button
+                        onClick={onBack}
+                        className="fixed top-6 left-6 z-20 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors"
+                    >
+                        <ChevronLeft size={20} className="text-wood-900" />
+                    </button>
+
+                    {/* Image Gallery - Scrollable */}
+                    <div className="flex flex-col">
+                        {/* Main Image */}
+                        <div className="w-full aspect-[4/3] bg-wood-100">
+                            <img
+                                src={model.image}
+                                alt={model.name}
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                        {/* Additional Gallery Images */}
+                        {model.gallery?.map((img, idx) => (
+                            <div key={idx} className="w-full aspect-[4/3] bg-wood-100 border-t border-white/20">
+                                <img
+                                    src={img}
+                                    alt={`${model.name} view ${idx + 2}`}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
                         ))}
                     </div>
                 </div>
-             )}
-        </div>
 
-        {/* RIGHT/BOTTOM: STEPS */}
-        <div ref={scrollContainerRef} className="flex-1 overflow-y-auto bg-wood-50 relative w-full scroll-smooth rounded-t-3xl md:rounded-none -mt-4 md:mt-0 z-10 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] md:shadow-none">
-            
-            {/* CONFIGURATION STEPS */}
-            {!isSummary && currentGroup && (
-                <div className="p-6 md:p-12 pb-32 max-w-xl mx-auto min-h-full flex flex-col pt-8 md:pt-12">
-                    
-                    {/* Desktop Progress Bar */}
-                    <div className="hidden md:flex items-center gap-4 mb-10 text-[10px] font-black uppercase tracking-widest text-wood-300">
-                        <span>Configuration</span>
-                        <div className="flex-1 h-px bg-wood-200 rounded-full overflow-hidden">
-                            <div className="h-full bg-wood-900 transition-all duration-500 ease-out" style={{ width: `${((currentStepIndex + 1) / steps.length) * 100}%` }}></div>
-                        </div>
-                    </div>
-
-                    {/* Step Header */}
-                    <div className="mb-6 animate-fade-in-up">
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-3 text-wood-900">
-                                {currentStep.icon && <currentStep.icon size={20} strokeWidth={1.5} className="md:w-6 md:h-6" />}
-                                <h2 className="text-2xl md:text-3xl font-canale uppercase tracking-tight">{currentGroup.label}</h2>
-                            </div>
-                            <button 
-                                onClick={() => setActiveInfo(currentGroup.description)}
-                                className="text-wood-300 hover:text-wood-600 transition-colors p-2 -mr-2"
-                            >
-                                <Info size={18} />
-                            </button>
-                        </div>
-                        <p className="text-xs md:text-sm text-wood-500 font-medium leading-relaxed line-clamp-2 md:line-clamp-none">
-                            {currentGroup.description}
-                        </p>
-                    </div>
-
-                    {/* Options Grid */}
-                    <div className="space-y-0 animate-fade-in-up" style={{ animationDelay: '0.05s' }}>
-                        {currentGroup.options.map((option) => {
-                            const isSelected = currentStep.multi 
-                                ? (selections[currentStep.key] as string[]).includes(option.id)
-                                : selections[currentStep.key] === option.id;
-                            
-                            return renderOptionCard(option, isSelected, !!currentStep.multi);
-                        })}
+                {/* RIGHT SIDE - Scrollable Content */}
+                <div className="w-1/2 h-screen overflow-y-auto">
+                    <div className="px-12 py-12 max-w-xl mx-auto">
+                        <ProductContent />
                     </div>
                 </div>
-            )}
-
-            {/* SUMMARY SCREEN */}
-            {isSummary && (
-                <div className="p-6 md:p-12 pb-40 max-w-2xl mx-auto animate-fade-in-up pt-12">
-                    {!quoteSubmitted ? (
-                        <>
-                            <div className="mb-8 text-center md:text-left">
-                                <h2 className="text-3xl md:text-4xl font-canale uppercase tracking-tight text-wood-900 mb-2">Review</h2>
-                                <p className="text-wood-500 text-xs md:text-sm">Please verify your selections.</p>
-                            </div>
-
-                            {/* Manifest Card */}
-                            <div className="bg-white rounded-lg shadow-sm border border-wood-100 overflow-hidden mb-8">
-                                <div className="p-6 border-b border-wood-50 bg-wood-50/30 flex justify-between items-center">
-                                    <div>
-                                        <h3 className="text-lg font-canale uppercase text-wood-900">{model.name}</h3>
-                                        <span className="text-[10px] font-black uppercase text-wood-400 tracking-widest">Base Model</span>
-                                    </div>
-                                    <span className="text-sm font-bold text-wood-900">${model.basePrice.toLocaleString()}</span>
-                                </div>
-                                
-                                <div className="divide-y divide-wood-50">
-                                     {steps.map((step, idx) => {
-                                         const val = selections[step.key];
-                                         const group = optionsData.groups[step.key];
-                                         if (!group) return null;
-
-                                         let label = 'Default';
-                                         let price = 0;
-                                         
-                                         if (Array.isArray(val)) {
-                                             const selectedOpts = group.options.filter(o => val.includes(o.id));
-                                             if (selectedOpts.length > 0) {
-                                                 label = selectedOpts.map(o => o.label).join(', ');
-                                                 price = selectedOpts.reduce((sum, o) => sum + o.price, 0);
-                                             } else {
-                                                 label = 'None';
-                                             }
-                                         } else {
-                                             const opt = group.options.find(o => o.id === val);
-                                             if (opt) {
-                                                 label = opt.label;
-                                                 price = opt.price;
-                                             }
-                                         }
-                                         
-                                         return (
-                                             <button 
-                                                key={step.key} 
-                                                onClick={() => handleEditStep(idx)}
-                                                className="w-full flex justify-between items-center text-left group hover:bg-wood-50 p-4 transition-colors"
-                                             >
-                                                 <div className="flex-1 pr-4">
-                                                     <div className="flex items-center gap-2">
-                                                         <span className="text-[9px] font-black uppercase text-wood-400 w-24 shrink-0">{group.label}</span>
-                                                         <span className="text-xs font-bold text-wood-900 truncate">{label}</span>
-                                                     </div>
-                                                 </div>
-                                                 <div className="flex items-center gap-2">
-                                                    <span className="text-xs font-medium text-wood-600">
-                                                        {price > 0 ? `+$${price.toLocaleString()}` : '—'}
-                                                    </span>
-                                                    <Edit2 size={10} className="text-wood-300 opacity-0 group-hover:opacity-100" />
-                                                 </div>
-                                             </button>
-                                         );
-                                     })}
-                                </div>
-                            </div>
-
-                            {/* Quote Form */}
-                            <div className="space-y-4">
-                                <h3 className="text-sm font-bold uppercase text-wood-900 mb-2">Finalize Request</h3>
-                                <form onSubmit={handleRequestQuote} className="space-y-3">
-                                    <input 
-                                        required 
-                                        className="w-full bg-white border border-wood-200 rounded-md p-3 text-sm font-manrope font-bold text-wood-900 focus:border-wood-900 outline-none" 
-                                        value={quoteForm.name}
-                                        onChange={e => setQuoteForm({...quoteForm, name: e.target.value})}
-                                        placeholder="Full Name"
-                                    />
-                                    <input 
-                                        required 
-                                        type="email" 
-                                        className="w-full bg-white border border-wood-200 rounded-md p-3 text-sm font-manrope font-bold text-wood-900 focus:border-wood-900 outline-none" 
-                                        value={quoteForm.email}
-                                        onChange={e => setQuoteForm({...quoteForm, email: e.target.value})}
-                                        placeholder="Email Address"
-                                    />
-                                    <input 
-                                        required 
-                                        type="tel"
-                                        className="w-full bg-white border border-wood-200 rounded-md p-3 text-sm font-manrope font-bold text-wood-900 focus:border-wood-900 outline-none" 
-                                        value={quoteForm.phone}
-                                        onChange={e => setQuoteForm({...quoteForm, phone: e.target.value})}
-                                        placeholder="Phone Number"
-                                    />
-                                    <button className="w-full py-4 bg-wood-900 text-wood-50 text-[10px] font-black uppercase tracking-[0.2em] rounded-md hover:bg-black transition-colors shadow-lg mt-2">
-                                        Send Request
-                                    </button>
-                                </form>
-                            </div>
-                        </>
-                    ) : (
-                        <div className="flex flex-col items-center justify-center py-12 animate-fade-in-up">
-                            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-green-700 mb-6">
-                                <CheckCircle2 size={32} />
-                            </div>
-                            <h3 className="text-3xl font-canale uppercase text-wood-900 mb-2 text-center">Received</h3>
-                            <p className="text-wood-500 text-sm text-center mb-8">Ref: <span className="font-mono text-wood-900">{quoteRefId}</span></p>
-                            <button onClick={onBack} className="text-[10px] font-black uppercase tracking-widest text-wood-900 border-b border-wood-900 pb-1">
-                                Return to Gallery
-                            </button>
-                        </div>
-                    )}
-                </div>
-            )}
-        </div>
-      </div>
-
-      {/* --- STICKY FOOTER NAVIGATION --- */}
-      {!quoteSubmitted && (
-          <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-wood-100 p-4 md:p-6 md:pl-[50%] z-50">
-              <div className="max-w-2xl mx-auto flex items-center justify-between gap-4">
-                  {/* Left: Price (Shown in footer now) */}
-                  <div className="flex flex-col">
-                      <span className="text-[8px] font-black uppercase tracking-widest text-wood-400">Total</span>
-                      <span className="text-2xl font-canale text-wood-900 leading-none tracking-tight">${total.toLocaleString()}</span>
-                  </div>
-
-                  {/* Right: Actions */}
-                  <div className="flex items-center gap-2">
-                      {/* Internal Configurator BACK Button - Visible if step > 0 OR isSummary */}
-                      {(currentStepIndex > 0 || isSummary) && (
-                          <button 
-                              onClick={handleStepBack}
-                              className="w-12 h-11 md:h-12 border border-wood-200 text-wood-900 rounded-md hover:bg-wood-50 transition-colors flex items-center justify-center bg-white"
-                          >
-                              <ArrowLeft size={18} />
-                          </button>
-                      )}
-                      
-                      {!isSummary && (
-                          <button 
-                              onClick={handleNext}
-                              className="px-8 h-11 md:h-12 bg-wood-900 text-wood-50 text-[10px] font-black uppercase tracking-[0.2em] rounded-md hover:bg-black transition-colors shadow-lg flex items-center justify-center gap-2 active:scale-[0.98]"
-                          >
-                              {currentStepIndex === steps.length - 1 ? 'Review' : 'Next'} 
-                              <ArrowRight size={14} />
-                          </button>
-                      )}
-                  </div>
-              </div>
-          </div>
-      )}
-
-      {/* --- INFO MODAL --- */}
-      {activeInfo && (
-        <div className="fixed inset-0 z-[80] bg-black/40 backdrop-blur-sm flex items-end md:items-center justify-center p-0 md:p-6 animate-fade-in-up" onClick={() => setActiveInfo(null)}>
-            <div className="bg-white text-wood-900 p-6 md:p-8 rounded-t-xl md:rounded-lg shadow-2xl max-w-sm w-full relative" onClick={e => e.stopPropagation()}>
-                <div className="w-12 h-1 bg-wood-200 rounded-full mx-auto mb-6 md:hidden"></div>
-                <div className="flex items-center gap-3 mb-4 text-wood-900">
-                    <Info size={20} />
-                    <span className="text-xs font-black uppercase tracking-widest">Description</span>
-                </div>
-                <p className="text-sm font-medium text-wood-600 leading-relaxed mb-6">
-                    {activeInfo}
-                </p>
-                <button onClick={() => setActiveInfo(null)} className="w-full py-3 bg-wood-100 text-wood-900 text-[10px] font-black uppercase tracking-widest rounded-md hover:bg-wood-200">
-                    Close
-                </button>
             </div>
         </div>
-      )}
-
-    </div>
-  );
+    );
 };

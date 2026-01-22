@@ -9,7 +9,7 @@ interface ModelItem {
   name: string;
   price: number;
   image: string;
-  description: string; 
+  description: string;
 }
 
 const MODELS_DATA: Record<CategoryId, ModelItem[]> = {
@@ -36,7 +36,7 @@ const SECTIONS = [
   { id: 'high-ceiling' as CategoryId, label: 'High Ceiling' }
 ];
 
-const ModelCarousel: React.FC<{ models: ModelItem[], onConfigure: () => void }> = ({ models, onConfigure }) => {
+const ModelCarousel: React.FC<{ models: ModelItem[], onConfigure: (modelId: string) => void }> = ({ models, onConfigure }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDown, setIsDown] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -67,20 +67,20 @@ const ModelCarousel: React.FC<{ models: ModelItem[], onConfigure: () => void }> 
   return (
     <div className="relative -mx-6 md:mx-0">
       <div className={`md:hidden absolute top-1/2 right-6 -translate-y-1/2 z-20 pointer-events-none flex flex-col items-center gap-2 text-white/90 transition-opacity duration-700 ${hasInteracted ? 'opacity-0' : 'opacity-100'}`}>
-          <Hand className="w-8 h-8 animate-swipe-hand drop-shadow-lg" />
-          <span className="text-[10px] font-manrope font-black uppercase tracking-widest drop-shadow-md">Swipe</span>
+        <Hand className="w-8 h-8 animate-swipe-hand drop-shadow-lg" />
+        <span className="text-[10px] font-manrope font-black uppercase tracking-widest drop-shadow-md">Swipe</span>
       </div>
 
-      <div ref={sliderRef} 
-           onScroll={handleScroll}
-           onMouseDown={handleMouseDown} onMouseLeave={() => setIsDown(false)} onMouseUp={() => setIsDown(false)} onMouseMove={handleMouseMove}
+      <div ref={sliderRef}
+        onScroll={handleScroll}
+        onMouseDown={handleMouseDown} onMouseLeave={() => setIsDown(false)} onMouseUp={() => setIsDown(false)} onMouseMove={handleMouseMove}
         className={`flex overflow-x-auto gap-0 md:gap-8 pb-0 px-0 md:px-0 scrollbar-hide cursor-grab active:cursor-grabbing ${isDown ? '' : 'snap-x snap-mandatory'}`}>
         {models.map((model) => (
           <div key={model.id} className="snap-center shrink-0 w-[100vw] md:w-[600px] select-none">
             <div className="group relative h-[65vh] md:h-[600px] w-full bg-wood-200 md:rounded-sm overflow-hidden border-none">
               <img src={model.image} alt={model.name} className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/10 to-transparent"></div>
-              
+
               <div className="absolute top-5 right-5 bg-white px-4 py-3 text-center min-w-[115px] z-20 shadow-xl border-none">
                 <span className="block text-[8px] font-manrope font-black uppercase tracking-[0.2em] text-wood-400 mb-0.5">Starting at</span>
                 <span className="block text-3xl font-canale text-wood-900 leading-none tracking-tight">
@@ -91,11 +91,11 @@ const ModelCarousel: React.FC<{ models: ModelItem[], onConfigure: () => void }> 
               <div className="absolute bottom-0 left-0 w-full p-8 md:p-10 z-10">
                 <h3 className="text-3xl md:text-5xl font-canale text-white mb-2 leading-[0.9] tracking-tight uppercase">{model.name}</h3>
                 <p className="text-wood-100 text-xs md:text-sm font-manrope font-medium mb-6 opacity-80 max-w-xs">{model.description}</p>
-                <button 
-                  onClick={onConfigure}
+                <button
+                  onClick={() => onConfigure(model.id)}
                   className="bg-white text-wood-900 px-6 py-3 text-[10px] font-manrope font-black uppercase tracking-widest flex items-center gap-2 hover:bg-wood-100 transition-colors"
                 >
-                   Configure now <ArrowUpRight size={14} />
+                  Configure now <ArrowUpRight size={14} />
                 </button>
               </div>
             </div>
@@ -106,7 +106,7 @@ const ModelCarousel: React.FC<{ models: ModelItem[], onConfigure: () => void }> 
   );
 };
 
-export const ServicesConfigurator: React.FC<{ onOpenConfigurator: () => void }> = ({ onOpenConfigurator }) => {
+export const ServicesConfigurator: React.FC<{ onOpenConfigurator: (modelId: string) => void }> = ({ onOpenConfigurator }) => {
   const [activeCategory, setActiveCategory] = useState<CategoryId>('media-wall');
   return (
     <section id="models" className="pt-8 md:pt-14 pb-1 md:pb-2 bg-wood-50 scroll-mt-32">
@@ -114,17 +114,16 @@ export const ServicesConfigurator: React.FC<{ onOpenConfigurator: () => void }> 
         <h2 className="text-5xl md:text-7xl font-canale text-wood-900 leading-[0.9] mb-7 uppercase tracking-tighter">
           Models
         </h2>
-        
+
         <div className="flex border border-wood-200 bg-white -mx-6 md:mx-0 mb-0 overflow-x-auto scrollbar-hide">
           {SECTIONS.map((s) => (
-            <button 
-              key={s.id} 
+            <button
+              key={s.id}
               onClick={() => setActiveCategory(s.id)}
-              className={`flex-1 min-w-0 py-5 px-1 md:py-6 md:px-4 text-[8px] sm:text-[9px] md:text-[10px] font-manrope font-black uppercase tracking-[0.1em] md:tracking-[0.15em] border-r border-wood-200 last:border-r-0 transition-all ${
-                activeCategory === s.id 
-                ? 'bg-wood-900 text-white' 
-                : 'text-wood-400 hover:text-wood-600 hover:bg-wood-50'
-              }`}
+              className={`flex-1 min-w-0 py-5 px-1 md:py-6 md:px-4 text-[8px] sm:text-[9px] md:text-[10px] font-manrope font-black uppercase tracking-[0.1em] md:tracking-[0.15em] border-r border-wood-200 last:border-r-0 transition-all ${activeCategory === s.id
+                  ? 'bg-wood-900 text-white'
+                  : 'text-wood-400 hover:text-wood-600 hover:bg-wood-50'
+                }`}
             >
               {s.label}
             </button>

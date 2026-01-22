@@ -40,6 +40,7 @@ export interface Model {
   category: string; // 'media-wall' | 'fireplaces' | 'consoles' | 'high-ceiling'
   basePrice: number;
   image: string;
+  gallery?: string[];
   description: string;
 }
 
